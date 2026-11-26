@@ -41,14 +41,26 @@ const INDEX=[{"t":"VoxelMon Dedicated Server","u":"index.html","k":"page"},{"t":
   });
 })();
 
-// Rust | Java: every signature follows the language chosen, remembered on this device.
+// Rust | Java: every signature follows the language chosen, remembered on this device. Other
+// open tabs follow a click at once, and a page brought back by Back or Forward reads it again.
 (() => {
+  const KEY = "voxelmon-lang";
+  const show = (lang) => {
+    if (lang === "rs" || lang === "java") document.documentElement.dataset.lang = lang;
+  };
+  const saved = () => {
+    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  };
   for (const button of document.querySelectorAll(".lang button")) {
     button.addEventListener("click", () => {
-      document.documentElement.dataset.lang = button.dataset.set;
-      try { localStorage.setItem("voxelmon-lang", button.dataset.set); } catch (e) { /* private window */ }
+      show(button.dataset.set);
+      try { localStorage.setItem(KEY, button.dataset.set); } catch (e) { /* private window */ }
     });
   }
+  window.addEventListener("storage", (event) => {
+    if (event.key === KEY) show(event.newValue);
+  });
+  window.addEventListener("pageshow", () => show(saved()));
 })();
 
 // Code blocks as small terminal-style windows: a title bar naming what is in them and a Copy

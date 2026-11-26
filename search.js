@@ -85,7 +85,10 @@ const INDEX=[{"t":"VoxelMon Dedicated Server","u":"index.html","k":"page"},{"t":
   // Syntax colours: one pass of a language's token patterns over the block's text, each match
   // wrapped in a span of its kind (style.css `.tk-*`); everything else stays as it was.
   const escape = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const RUST_KEYWORDS = "as|async|await|break|const|continue|crate|dyn|else|enum|extern|false|fn|for|if|impl|in|let|loop|match|mod|move|mut|pub|ref|return|self|Self|static|struct|super|trait|true|type|unsafe|use|where|while";
+  // Rust in VS Code's Dark Modern with rust-analyzer (control flow apart from other keywords);
+  // Java in IntelliJ IDEA's default Dark (method declarations apart from calls).
+  const RUST_CONTROL = "break|continue|else|for|if|in|loop|match|return|while|await";
+  const RUST_KEYWORDS = "as|async|const|crate|dyn|enum|extern|false|fn|impl|let|mod|move|mut|pub|ref|self|Self|static|struct|super|trait|true|type|unsafe|use|where";
   const JAVA_KEYWORDS = "abstract|boolean|break|byte|case|catch|char|class|continue|default|do|double|else|enum|extends|final|finally|float|for|if|implements|import|instanceof|int|interface|long|new|null|package|private|protected|public|record|return|sealed|short|static|super|switch|this|throw|throws|true|false|try|var|void|while|permits";
   const RULES = {
     Rust: [
@@ -93,6 +96,7 @@ const INDEX=[{"t":"VoxelMon Dedicated Server","u":"index.html","k":"page"},{"t":
       ["string", /"(?:[^"\\]|\\.)*"/],
       ["macro", /\b[a-z_][a-z0-9_]*!/],
       ["attr", /#!?\[[^\]\n]*\]/],
+      ["control", new RegExp(`\\b(?:${RUST_CONTROL})\\b`)],
       ["keyword", new RegExp(`\\b(?:${RUST_KEYWORDS})\\b`)],
       ["type", /\b[A-Z][A-Za-z0-9_]*\b/],
       ["number", /\b\d[\d_.]*(?:[iuf](?:8|16|32|64|size))?\b/],
@@ -103,6 +107,7 @@ const INDEX=[{"t":"VoxelMon Dedicated Server","u":"index.html","k":"page"},{"t":
       ["string", /"(?:[^"\\]|\\.)*"/],
       ["attr", /@[A-Za-z]+/],
       ["keyword", new RegExp(`\\b(?:${JAVA_KEYWORDS})\\b`)],
+      ["decl", /(?<=\b(?:void|int|long|boolean|double|float|byte|short|char|[A-Z][\w<>,]*)\s+)[a-z]\w*(?=\()/],
       ["type", /\b[A-Z][A-Za-z0-9_]*\b/],
       ["number", /\b\d[\d_.]*[LlFfDd]?\b/],
       ["call", /\b[a-z_][A-Za-z0-9_]*(?=\()/],
@@ -144,6 +149,7 @@ const INDEX=[{"t":"VoxelMon Dedicated Server","u":"index.html","k":"page"},{"t":
     const name = kind(pre);
     const box = document.createElement("div");
     box.className = "codebox";
+    box.dataset.kind = name;
     for (const lang of ["rs", "java"]) {
       if (pre.classList.contains(lang)) {
         pre.classList.remove(lang);

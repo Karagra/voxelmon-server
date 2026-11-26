@@ -298,10 +298,10 @@ html[data-lang="java"] .rs, html:not([data-lang="java"]) .java { display: none; 
 /* Code blocks as small terminal-style windows (search.js wraps each one): dark in both modes. */
 .codebox {
   margin: 14px 0;
-  border: 1px solid #222832;
+  border: 1px solid #2b2d30;
   border-radius: var(--radius);
   overflow: hidden;
-  background: #0e1116;
+  background: #1f1f1f;
   box-shadow: var(--shadow);
 }
 .codebar {
@@ -310,8 +310,8 @@ html[data-lang="java"] .rs, html:not([data-lang="java"]) .java { display: none; 
   justify-content: space-between;
   gap: 10px;
   padding: 6px 8px 6px 16px;
-  background: #161b22;
-  border-bottom: 1px solid #222832;
+  background: #181818;
+  border-bottom: 1px solid #2b2d30;
   font-size: 0.76em;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -340,15 +340,40 @@ html[data-lang="java"] .rs, html:not([data-lang="java"]) .java { display: none; 
   padding: 14px 18px 16px;
 }
 
-/* Syntax colours inside the code windows (search.js `paint`): blues and greys, a warm number. */
-.codebox .tk-keyword { color: #7ea6ff; font-weight: 600; }
-.codebox .tk-type { color: #b9cdf7; }
-.codebox .tk-string { color: #94d3c9; }
-.codebox .tk-number { color: #e2bf7f; }
-.codebox .tk-comment { color: #6c7583; font-style: italic; }
-.codebox .tk-macro, .codebox .tk-attr { color: #9fb3d9; }
-.codebox .tk-call { color: #dfe6f2; }
-.codebox .tk-section { color: #b9cdf7; font-weight: 600; }
-.codebox .tk-key { color: #7ea6ff; }
-.codebox .tk-command { color: #7ea6ff; font-weight: 600; }
-.codebox .tk-flag { color: #9fb0c7; }
+/* Syntax colours (search.js `paint`) as each language's most used editor shows them by default:
+   Rust in VS Code's Dark Modern with rust-analyzer, Java in IntelliJ IDEA's Dark, TOML as VS
+   Code shows it, the terminal as VS Code's own. Each window takes its editor's background. */
+.codebox[data-kind="Rust"], .codebox[data-kind="TOML"], .codebox[data-kind="Terminal"],
+.codebox[data-kind="Files"], .codebox[data-kind="Code"] { background: #1f1f1f; }
+.codebox[data-kind="Rust"] pre, .codebox[data-kind="TOML"] pre, .codebox[data-kind="Terminal"] pre,
+.codebox[data-kind="Files"] pre, .codebox[data-kind="Code"] pre { color: #cccccc; }
+.codebox[data-kind="Java"] { background: #1e1f22; }
+.codebox[data-kind="Java"] pre { color: #bcbec4; }
+
+.codebox[data-kind="Rust"] .tk-keyword { color: #569cd6; }
+.codebox[data-kind="Rust"] .tk-control { color: #c586c0; }
+.codebox[data-kind="Rust"] .tk-type { color: #4ec9b0; }
+.codebox[data-kind="Rust"] .tk-call, .codebox[data-kind="Rust"] .tk-macro { color: #dcdcaa; }
+.codebox[data-kind="Rust"] .tk-string { color: #ce9178; }
+.codebox[data-kind="Rust"] .tk-number { color: #b5cea8; }
+.codebox[data-kind="Rust"] .tk-comment { color: #6a9955; }
+.codebox[data-kind="Rust"] .tk-attr { color: #9cdcfe; }
+
+.codebox[data-kind="Java"] .tk-keyword { color: #cf8e6d; }
+.codebox[data-kind="Java"] .tk-decl { color: #56a8f5; }
+.codebox[data-kind="Java"] .tk-string { color: #6aab73; }
+.codebox[data-kind="Java"] .tk-number { color: #2aacb8; }
+.codebox[data-kind="Java"] .tk-comment { color: #7a7e85; }
+.codebox[data-kind="Java"] .tk-attr { color: #b3ae60; }
+
+.codebox[data-kind="TOML"] .tk-section { color: #4ec9b0; }
+.codebox[data-kind="TOML"] .tk-key { color: #9cdcfe; }
+.codebox[data-kind="TOML"] .tk-string { color: #ce9178; }
+.codebox[data-kind="TOML"] .tk-number { color: #b5cea8; }
+.codebox[data-kind="TOML"] .tk-keyword { color: #569cd6; }
+.codebox[data-kind="TOML"] .tk-comment { color: #6a9955; }
+
+.codebox[data-kind="Terminal"] .tk-command { color: #dcdcaa; }
+.codebox[data-kind="Terminal"] .tk-flag { color: #9cdcfe; }
+.codebox[data-kind="Terminal"] .tk-string { color: #ce9178; }
+.codebox[data-kind="Terminal"] .tk-comment { color: #6a9955; }

@@ -1,24 +1,24 @@
 /* The VoxelMon server docs: a floating sidebar with search and captioned sections, the page
-   beside it with breadcrumbs and previous/next. Warm paper and the game's teal; soft corners. */
+   beside it with breadcrumbs and previous/next. Cool greys, near-black and cobalt; soft corners. */
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&display=swap");
 
 :root {
-  --text: #1e2326;
-  --muted: #5d6670;
-  --bg: #f7f5f0;
+  --text: #16191d;
+  --muted: #5b6370;
+  --bg: #f3f4f6;
   --surface: #ffffff;
-  --sunk: #efece5;
-  --rule: #e3dfd6;
-  --accent: #0e7a6e;
-  --accent-soft: #dcefeb;
-  --accent-ink: #0a5c53;
-  --type: #2f7d4a;
-  --need-bg: #fbe9c4;
-  --need-ink: #6b4800;
-  --soon-bg: #ebe8e1;
-  --soon-ink: #625d54;
-  --ok: #2f7d4a;
-  --shadow: 0 1px 2px rgba(40, 33, 20, 0.05), 0 6px 20px rgba(40, 33, 20, 0.05);
+  --sunk: #eaecf0;
+  --rule: #dcdfe5;
+  --accent: #2456c9;
+  --accent-soft: #e2e9f8;
+  --accent-ink: #1a3f96;
+  --type: #3a63a8;
+  --need-bg: #dbe4f5;
+  --need-ink: #23417e;
+  --soon-bg: #e6e8ec;
+  --soon-ink: #5b6370;
+  --ok: #2456c9;
+  --shadow: 0 1px 2px rgba(15, 20, 30, 0.05), 0 6px 20px rgba(15, 20, 30, 0.06);
   --side: 296px;
   --gap: 14px;
   --radius: 14px;
@@ -28,22 +28,22 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #e7ebe9;
-    --muted: #9ba6a3;
-    --bg: #121716;
-    --surface: #1a201f;
-    --sunk: #222a28;
-    --rule: #2c3533;
-    --accent: #4cc4b2;
-    --accent-soft: #1d3a36;
-    --accent-ink: #8fe0d3;
-    --type: #7fd39b;
-    --need-bg: #3d3220;
-    --need-ink: #f1cf8b;
-    --soon-bg: #2c3331;
-    --soon-ink: #b4bdba;
-    --ok: #7fd39b;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+    --text: #e5e8ec;
+    --muted: #949ba6;
+    --bg: #0b0d10;
+    --surface: #13161b;
+    --sunk: #1b1f26;
+    --rule: #262b33;
+    --accent: #6f9ffa;
+    --accent-soft: #172338;
+    --accent-ink: #a8c4ff;
+    --type: #8fb0e8;
+    --need-bg: #1c2a44;
+    --need-ink: #a8c4ff;
+    --soon-bg: #22262d;
+    --soon-ink: #a3aab4;
+    --ok: #6f9ffa;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
   }
 }
 

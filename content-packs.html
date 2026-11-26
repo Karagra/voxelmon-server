@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Content packs · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=7978b8f65a">
+<link rel="stylesheet" href="style.css?v=19c5770bc3">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -300,7 +300,7 @@ worth = 140</code></pre>
 <tr><td><code>worth</code></td><td>Its worth in coins, what a shop asks where its rule names no price (0, the default: never sold but where a rule names a price)</td></tr>
 <tr><td><code>size</code></td><td>Its longest side in metres, 0.03 to 3; left out, its model's own (a block is a metre)</td></tr>
 </table>
-<p>Worn armour of a pack protects as the game's does and is drawn on the body, its model stretched over the body part as the game's own armour is fitted, its front (Blockbench's north, -Z, as an object's) the way the wearer faces: a <code>helmet</code> over the head, a <code>chestplate</code> over the torso, <code>leggings</code> one leg's piece from hip to knee drawn on each thigh, <code>boots</code> one foot's with its ankle drawn on each foot, each moving with its bone. Every other player sees it, and the wearer in a mirror; the wearer's own first-person body leaves off the helmet and the chestplate, which would stand at the eyes looking down. A Voxelmon may hold a pack's item as it holds the game's. A server has at most 512 items of its own. Each player's bag, the world's chests, stations and the ground keep them by key: if a pack is taken away, its items stay where they were, as grey boxes nobody can use, and are themselves again when it returns. Plugins find them as any other (<a href="api-itemstack.html">ItemType.named</a> by name or key, <code>ItemType.key</code>, <code>ItemType.all</code>), put them in bags (<a href="api-bag.html">Bag.add</a>) and loot, and loot rules name them by key or name.</p>
+<p>Worn armour of a pack protects as the game's does and is drawn on the body, its model stretched over the body part as the game's own armour is fitted, its front (Blockbench's north, -Z, as an object's) the way the wearer faces: a <code>helmet</code> over the head, a <code>chestplate</code> over the torso, <code>leggings</code> one leg's piece from hip to knee drawn on each thigh, <code>boots</code> one foot's with its ankle drawn on each foot, each moving with its bone. Every other player sees it, and the wearer in a mirror; the wearer's own first-person body leaves off the helmet and the chestplate, which would stand at the eyes looking down. The player card on the pack door's equipment page and the watch shows the game's own armour only, not yet a pack's. A Voxelmon may hold a pack's item as it holds the game's. A server has at most 512 items of its own. Each player's bag, the world's chests, stations and the ground keep them by key: if a pack is taken away, its items stay where they were, as grey boxes nobody can use, and are themselves again when it returns. Plugins find them as any other (<a href="api-itemstack.html">ItemType.named</a> by name or key, <code>ItemType.key</code>, <code>ItemType.all</code>), put them in bags (<a href="api-bag.html">Bag.add</a>) and loot, and loot rules name them by key or name.</p>
 
 <h2 id="recipes">Recipes</h2>
 <p>Each table in a <code>recipes/*.toml</code> file is a recipe made at one of the game's stations, as players make the game's own there: laid out and struck (the workbench, anvil and fletching bench), fed to a forge's mouth, dropped into a cauldron or pot, set on a campfire's rim. Its items are this pack's by their tables, another pack's as <code>pack:item</code>, or the game's own by their names. The station's browser lists it after the game's own.</p>
@@ -358,6 +358,6 @@ replace = false</code></pre>
 <div class="pager"><a class="prev" href="api-basics.html">← Writing a plugin</a><a class="next" href="api.html">Overview →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=7978b8f65a"></script>
+<script src="search.js?v=19c5770bc3"></script>
 </body>
 </html>

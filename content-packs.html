@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Content packs · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -28,10 +28,10 @@
 <li class="current"><a href="content-packs.html" aria-current="page">Content packs</a>
 <ul>
 <li><a href="#what-a-pack-is">What a pack is</a></li>
-<li><a href="#what-a-pack-can-add">What a pack can add</a></li>
-<li><a href="#names-and-numbers">Names and numbers</a></li>
-<li><a href="#limits">Limits</a></li>
-<li><a href="#on-players-headsets">On players&#x27; headsets</a></li>
+<li><a href="#loot">Loot</a></li>
+<li><a href="#spawns">Spawns</a></li>
+<li><a href="#with-plugins">With plugins</a></li>
+<li><a href="#not-yet">Not yet</a></li>
 </ul>
 </li>
 </ul>
@@ -68,59 +68,74 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » Plugins and packs » Content packs</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Content packs</h1>
-<p class="lead">New things for a server's world, made of data alone: no code. Players' headsets download a server's packs when they join, after asking.</p>
-<div class="note"><strong>Planned.</strong> Nothing here can be used yet; the format may change until the first content pack release.</div>
+<p class="lead">Changes to a server's world made of data alone: no code. A pack adds to the game's loot and to where its Voxelmon appear, using the game's own items and species.</p>
+<div class="note"><strong>Built: loot and spawns.</strong> New items, blocks, models, recipes and shop goods are not yet: each needs players' headsets to be told of them, and comes with a later game update.</div>
 
 <h2 id="what-a-pack-is">What a pack is</h2>
-<p>A pack is a folder (or a <code>.zip</code> of one) in the server's <code>packs/</code> folder, approved by the owner as plugins are. It holds a <code>pack.toml</code> and the files it names:</p>
-<pre><code>my-pack/
-  pack.toml
-  items/ruby.toml
-  blocks/ruby_ore.toml
-  models/ruby.bbmodel        # made in Blockbench
-  textures/ruby_ore.png      # 16 x 16
-  recipes/ruby_sword.toml
-  loot/ruby_mine.toml
-  spawns/desert.toml</code></pre>
+<p>A pack is a folder in the server's <code>packs/</code> folder. It holds a <code>pack.toml</code> and its rule files:</p>
+<pre><code>packs/
+  approved.toml              # written by `pack approve`
+  more-iron/
+    pack.toml
+    loot/dungeons.toml
+    spawns/snow.toml</code></pre>
 <pre><code># pack.toml
-id = "rubies"
-name = "Rubies"
-version = "1.0.0"
-api = "1"
-authors = ["Karagra"]
-description = "Ruby ore, ruby tools and a ruby sword."</code></pre>
+id = "more-iron"             # letters, digits, - and _
+name = "More iron"
+version = "1.0.0"</code></pre>
+<p>Packs run nothing: the server reads them and checks every name. Even so, a pack is used only once the owner approves it, as plugins are:</p>
+<pre><code>&gt; packs
+  more-iron 1.0.0 (More iron)  waiting: `pack approve ID`
+&gt; pack approve more-iron
+Pack more-iron approved and in use.</code></pre>
+<p>The approval is for the pack's files as they are: change any file and the pack waits to be approved again. A pack may hold 4 MB at most.</p>
 
-<h2 id="what-a-pack-can-add">What a pack can add</h2>
+<h2 id="loot">Loot</h2>
+<p>Each table in a <code>loot/*.toml</code> file is one rule: whenever loot of its kind is rolled, there is <code>chance</code> percent that it also holds the item, <code>least</code> to <code>most</code> of it.</p>
+<pre><code># loot/dungeons.toml
+[more_iron]
+source = "dungeon_chest"
+item = "IRON INGOT"
+least = 1
+most = 3
+chance = 25</code></pre>
 <table>
-<tr><th>Kind</th><th>Folder</th><th>What it sets</th></tr>
-<tr><td>Items</td><td><code>items/</code></td><td>Name, model (a Blockbench <code>.bbmodel</code>), stack limit, kind (material, tool, weapon, armour, food), tier, stats, worth in coins, how it is held</td></tr>
-<tr><td>Blocks</td><td><code>blocks/</code></td><td>Name, textures for each face (16 by 16 pixels, in the game's style), hardness, the tool that breaks it best, what it drops, light it gives, its sounds (from the game's own)</td></tr>
-<tr><td>Furniture and objects</td><td><code>objects/</code></td><td>A model placed in the world: its footprint, whether it can be sat on, opened or stored in</td></tr>
-<tr><td>Recipes</td><td><code>recipes/</code></td><td>What is made, from what, and at which station: workbench pattern, anvil pattern, fletching bench, forge smelting, cauldron brew, campfire rim or cooking pot</td></tr>
-<tr><td>Loot</td><td><code>loot/</code></td><td>Additions to the game's loot: chests of towns, dungeons by tier, wrecks, cave finds, fishing, a beaten species</td></tr>
-<tr><td>Spawns</td><td><code>spawns/</code></td><td>Where and how often Voxelmon appear: species, habitats or biomes, levels, time of day</td></tr>
-<tr><td>Shops</td><td><code>shops/</code></td><td>Items townspeople's shops offer, and their prices</td></tr>
-</table>
-<p>Not yet: new Voxelmon species, new sounds and music, and changing the game's own items. Each will be listed here when it comes.</p>
-
-<h2 id="names-and-numbers">Names and numbers</h2>
-<p>Things are named in a pack by the pack's id and their own, such as <code>rubies:ruby</code>. The world gives each pack item and block a number of its own the first time it sees it and keeps it with the world, so packs can be added to a world later and never collide.</p>
-
-<h2 id="limits">Limits</h2>
-<table>
-<tr><th>Limit</th><th>Why</th></tr>
-<tr><td>A server's packs together: at most 64 MB</td><td>Headsets download them on joining.</td></tr>
-<tr><td>A model: at most 4,096 boxes and a 256 by 256 pixel texture</td><td>Drawn on a headset at 72 to 120 frames a second.</td></tr>
-<tr><td>Block textures: 16 by 16 pixels</td><td>The game's own size; they join the game's texture array.</td></tr>
-<tr><td>PNG and Blockbench files only</td><td>The headset checks every file before using it, and refuses anything else.</td></tr>
+<tr><th>Key</th><th>What it is</th></tr>
+<tr><td><code>source</code></td><td><code>chest</code> (towns and the wild), <code>dungeon_chest</code>, <code>supply_cache</code>, <code>creature</code> (a beaten Voxelmon), <code>battle</code> (a won battle), <code>fishing</code> or <code>other</code></td></tr>
+<tr><td><code>item</code></td><td>An item's name as the game shows it, in any case</td></tr>
+<tr><td><code>least</code>, <code>most</code></td><td>How many, 1 up to the item's stack limit</td></tr>
+<tr><td><code>chance</code></td><td>Percent, 1 to 100</td></tr>
 </table>
 
-<h2 id="on-players-headsets">On players' headsets</h2>
-<p>When a player joins a server with packs, their game shows the packs' names and sizes and asks before downloading. Packs are kept on the headset by their exact contents, so joining again, or another server with the same pack, downloads nothing. A headset never runs anything from a pack: it reads data, checked against these limits.</p>
+<h2 id="spawns">Spawns</h2>
+<p>Each table in a <code>spawns/*.toml</code> file is one rule: of the wild Voxelmon appearing in its biomes at its time of day, <code>chance</code> percent are its species instead, at a level from <code>least_level</code> to <code>most_level</code>. The first rule that matches and wins its roll is taken.</p>
+<pre><code># spawns/snow.toml
+[lunapups_at_night]
+species = "LUNAPUP"
+biomes = ["SNOWY TAIGA", "SNOW"]
+least_level = 5
+most_level = 12
+time = "night"
+chance = 10</code></pre>
+<table>
+<tr><th>Key</th><th>What it is</th></tr>
+<tr><td><code>species</code></td><td>A species' name, in any case</td></tr>
+<tr><td><code>biomes</code></td><td>Biome names as a plugin's <code>World.biome</code> gives them; leave it out for anywhere</td></tr>
+<tr><td><code>least_level</code>, <code>most_level</code></td><td>Its level, 1 to 100</td></tr>
+<tr><td><code>time</code></td><td><code>day</code>, <code>night</code> or <code>any</code></td></tr>
+<tr><td><code>chance</code></td><td>Percent of the matching spawns, 1 to 100</td></tr>
+</table>
+<p>A pack's spawns are wild spawns only: dungeons, dens, hives, fishing and guardians keep their own. A wild Voxelmon of any species can appear where a rule sends it, swimmers too, so keep sea species to sea biomes.</p>
+
+<h2 id="with-plugins">With plugins</h2>
+<p>Packs are applied first, then plugins hear of it: a plugin's <code>LootRolled</code> sees a pack's items among the loot, and its <code>CreatureSpawning</code> sees the pack's species, and either may change them again.</p>
+
+<h2 id="not-yet">Not yet</h2>
+<p>New items, blocks, furniture and their models; recipes; shop goods; new Voxelmon species, sounds and music. A recipe or a shop's goods must be known to every player's headset as well as the server, and a model or texture must be downloaded to it; each comes with a later game update, and this page will say when.</p>
 </main>
 <div class="pager"><a class="prev" href="api-basics.html">← Writing a plugin</a><a class="next" href="api.html">Overview →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

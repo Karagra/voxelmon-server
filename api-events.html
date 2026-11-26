@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Events · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -73,7 +73,7 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Events</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Events</h1>
-<div class="note"><strong>Being built.</strong> 17 of 55 events are sent by servers today; the rest are marked <span class="soon">not yet</span>.</div>
+<div class="note"><strong>Being built.</strong> 19 of 55 events are sent by servers today; the rest are marked <span class="soon">not yet</span>.</div>
 <p>Everything a plugin can react to. Some events come before something happens and can stop it; the rest say it has happened.</p>
 <p>A plugin listens by giving a handler for the event, usually in <code>enable</code>: in Rust <code>server.events().on_player_joined(|event| ...)</code>, in Java <code>server.events().onPlayerJoined(event -&gt; ...)</code>. Events come on the server&#x27;s tick, in the order the plugins loaded.</p>
 <p>An event that can be stopped is sent before the thing happens, and its name says so (for example <code>BlockBreaking</code>); calling <code>stop()</code> on it means it does not happen, and the player&#x27;s game puts back what it showed. Fields marked changeable can be changed by a listener before it happens (the damage taken, the loot dropped). The event after it (<code>BlockBroken</code>) says it did happen, and cannot be stopped.</p>
@@ -97,9 +97,9 @@
 <tr><td><a href="#playerfainted"><code>PlayerFainted</code></a></td><td>A player&#x27;s health reached nothing and they fainted.</td><td></td></tr>
 <tr><td><a href="#playerrespawning"><code>PlayerRespawning</code></a></td><td>A fainted player is getting up again.</td><td>Yes</td></tr>
 <tr><td><a href="#playermovedblock"><code>PlayerMovedBlock</code></a></td><td>A player&#x27;s feet moved into another block. Sent once a block, not every tick.</td><td></td></tr>
-<tr><td><a href="#playerenteredregion"><code>PlayerEnteredRegion</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player walked into a <a href="api-region.html">Region</a> a plugin made.</td><td></td></tr>
-<tr><td><a href="#playerleftregion"><code>PlayerLeftRegion</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player walked out of a <a href="api-region.html">Region</a>.</td><td></td></tr>
-<tr><td><a href="#playerenteredtown"><code>PlayerEnteredTown</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player came into a town.</td><td></td></tr>
+<tr><td><a href="#playerenteredregion"><code>PlayerEnteredRegion</code></a></td><td>A player walked into a <a href="api-region.html">Region</a> a plugin made.</td><td></td></tr>
+<tr><td><a href="#playerleftregion"><code>PlayerLeftRegion</code></a></td><td>A player walked out of a <a href="api-region.html">Region</a>.</td><td></td></tr>
+<tr><td><a href="#playerenteredtown"><code>PlayerEnteredTown</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player came into a town (looked at four times a second).</td><td></td></tr>
 <tr><td><a href="#playerentereddungeon"><code>PlayerEnteredDungeon</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player went down into a dungeon (when its banner shows).</td><td></td></tr>
 <tr><td><a href="#playerate"><code>PlayerAte</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player ate or drank something.</td><td>Yes</td></tr>
 <tr><td><a href="#playerrested"><code>PlayerRested</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player sitting by a campfire was healed a step.</td><td></td></tr>
@@ -110,9 +110,9 @@
 <tr><td><a href="#blockbroken"><code>BlockBroken</code></a></td><td>A block was broken by a player.</td><td></td></tr>
 <tr><td><a href="#blockplacing"><code>BlockPlacing</code></a></td><td>A player is about to place a block.</td><td>Yes</td></tr>
 <tr><td><a href="#blockplaced"><code>BlockPlaced</code></a></td><td>A player placed a block.</td><td></td></tr>
-<tr><td><a href="#blockchanged"><code>BlockChanged</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Any block changed, by anyone or anything: a player, water or lava flowing, sand falling, a plugin.</td><td></td></tr>
+<tr><td><a href="#blockchanged"><code>BlockChanged</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Any block changed that the world keeps, by anyone or anything: a player, water or lava flowing, sand falling, a plant growing, a plugin. Changes the world does not keep (a trap&#x27;s spikes, falling snow, a boss room&#x27;s lights) are not told.</td><td></td></tr>
 <tr><td><a href="#objectplacing"><code>ObjectPlacing</code></a></td><td>A player is about to place an object: furniture, a station, a chest, a bed, a door.</td><td>Yes</td></tr>
-<tr><td><a href="#objectremoved"><code>ObjectRemoved</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A placed object was taken down.</td><td></td></tr>
+<tr><td><a href="#objectremoved"><code>ObjectRemoved</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A placed object was taken down whole and dropped as an item: broken by a player, or fallen with what held it up. One a plugin takes away without a drop is not told.</td><td></td></tr>
 <tr><td><a href="#containeropening"><code>ContainerOpening</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player is opening a chest, barrel or other container.</td><td>Yes</td></tr>
 <tr><td><a href="#doorused"><code>DoorUsed</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player opened or shut a door or gate.</td><td>Yes</td></tr>
 </table>
@@ -120,18 +120,18 @@
 <table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
 <tr><td><a href="#itempickingup"><code>ItemPickingUp</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player is taking up a loose item.</td><td>Yes</td></tr>
 <tr><td><a href="#itemdropped"><code>ItemDropped</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player let go of or threw an item.</td><td></td></tr>
-<tr><td><a href="#itemcrafting"><code>ItemCrafting</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A station is about to finish a piece: the last strike at a workbench, anvil or fletching bench, a forge&#x27;s smelting, a brew&#x27;s last stir, food cooked on a campfire.</td><td>Yes</td></tr>
-<tr><td><a href="#itemcrafted"><code>ItemCrafted</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A station finished a piece.</td><td></td></tr>
-<tr><td><a href="#fishcaught"><code>FishCaught</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player landed a catch with a rod or a trident.</td><td></td></tr>
-<tr><td><a href="#lootrolled"><code>LootRolled</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Loot was chosen for a chest, a beaten creature, a fishing catch or a reward.</td><td></td></tr>
+<tr><td><a href="#itemcrafting"><code>ItemCrafting</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A finished piece is about to be taken off its station, the moment the craft is the taker&#x27;s: a workbench&#x27;s output, an anvil&#x27;s or fletching bench&#x27;s piece, a forge&#x27;s ingot (by hand or tongs), food cooked on a campfire&#x27;s rim. A brew bottled from a cauldron or a meal ladled from a pot is not asked yet.</td><td>Yes</td></tr>
+<tr><td><a href="#itemcrafted"><code>ItemCrafted</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A finished piece was taken off its station (after <code>ItemCrafting</code>).</td><td></td></tr>
+<tr><td><a href="#fishcaught"><code>FishCaught</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player landed a catch with a rod (a fish a trident spears is not told yet). A fish is told before it lands, so its item can be changed; a hooked Voxelmon once it has landed.</td><td></td></tr>
+<tr><td><a href="#lootrolled"><code>LootRolled</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Loot was chosen: a supply cache or a dungeon&#x27;s cache broken, a chest filled as its town, dungeon or cave find is furnished, a wild Voxelmon&#x27;s drops beaten in the world or in a battle (at most two stacks a beaten foe in a battle). Content packs&#x27; loot rules are added before plugins see it. A fishing catch is <code>FishCaught</code>&#x27;s.</td><td></td></tr>
 </table>
 <h2 id="voxelmon">Voxelmon</h2>
 <table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
-<tr><td><a href="#creaturespawning"><code>CreatureSpawning</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A wild Voxelmon is about to appear.</td><td>Yes</td></tr>
+<tr><td><a href="#creaturespawning"><code>CreatureSpawning</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A wild Voxelmon is about to appear, from the wild, a dungeon or a hive (asked the tick it is raised, before any player sees it). A den&#x27;s pack, a hooked Voxelmon, a guardian or a plugin&#x27;s own are not asked yet. A content pack&#x27;s spawn rule changes a wild one&#x27;s species and level before plugins see it.</td><td>Yes</td></tr>
 <tr><td><a href="#creaturespawned"><code>CreatureSpawned</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A wild Voxelmon appeared.</td><td></td></tr>
-<tr><td><a href="#creaturedamaging"><code>CreatureDamaging</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A Voxelmon is about to be hurt, in the world or in a battle.</td><td>Yes</td></tr>
-<tr><td><a href="#creaturebeaten"><code>CreatureBeaten</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A wild Voxelmon was beaten.</td><td></td></tr>
-<tr><td><a href="#captureattempt"><code>CaptureAttempt</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A thrown cube is about to try to catch a Voxelmon.</td><td>Yes</td></tr>
+<tr><td><a href="#creaturedamaging"><code>CreatureDamaging</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A wild Voxelmon is about to be hurt in the world: by a player&#x27;s blow, arrow or trident, a burn, a falling spike. Harm in a turn-based battle and a companion&#x27;s blows in an action world are not asked yet.</td><td>Yes</td></tr>
+<tr><td><a href="#creaturebeaten"><code>CreatureBeaten</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A wild Voxelmon was beaten: in a turn-based battle, or in the world by a player&#x27;s blow. One a companion knocks out in an action world is not told yet.</td><td></td></tr>
+<tr><td><a href="#captureattempt"><code>CaptureAttempt</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A cube thrown in the world is about to try to catch a Voxelmon (a cube used in a turn-based battle is not asked yet).</td><td>Yes</td></tr>
 <tr><td><a href="#creaturecaptured"><code>CreatureCaptured</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A Voxelmon was caught.</td><td></td></tr>
 <tr><td><a href="#creaturelevelledup"><code>CreatureLevelledUp</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player&#x27;s Voxelmon reached a new level.</td><td></td></tr>
 <tr><td><a href="#creatureevolving"><code>CreatureEvolving</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player&#x27;s Voxelmon is about to evolve.</td><td>Yes</td></tr>
@@ -145,21 +145,21 @@
 <tr><td><a href="#battlestarting"><code>BattleStarting</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A turn-based battle is about to begin, against a wild Voxelmon or a trainer.</td><td>Yes</td></tr>
 <tr><td><a href="#battlestarted"><code>BattleStarted</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A battle began.</td><td></td></tr>
 <tr><td><a href="#battleturn"><code>BattleTurn</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A battle&#x27;s turn was decided.</td><td></td></tr>
-<tr><td><a href="#battleended"><code>BattleEnded</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A battle ended.</td><td></td></tr>
+<tr><td><a href="#battleended"><code>BattleEnded</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A battle ended: told as its result is decided (before its last turn&#x27;s <code>BattleTurn</code>), or as it is called off.</td><td></td></tr>
 </table>
 <h2 id="progress">Progress</h2>
 <table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
 <tr><td><a href="#professionlevelledup"><code>ProfessionLevelledUp</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player reached a new level in a profession.</td><td></td></tr>
 <tr><td><a href="#coinschanged"><code>CoinsChanged</code></a></td><td>A player&#x27;s coins changed.</td><td></td></tr>
 <tr><td><a href="#townfreed"><code>TownFreed</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A town&#x27;s Voxelord was beaten and the town freed.</td><td></td></tr>
-<tr><td><a href="#dungeonbeaten"><code>DungeonBeaten</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A dungeon&#x27;s guardian was beaten.</td><td></td></tr>
-<tr><td><a href="#dungeonreset"><code>DungeonReset</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A beaten dungeon reset: its chests refilled and its guardian will return.</td><td></td></tr>
+<tr><td><a href="#dungeonbeaten"><code>DungeonBeaten</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A dungeon&#x27;s guardian was beaten (noticed by the server&#x27;s structures pass, which runs round every player); <code>players</code> are those standing over the dungeon then.</td><td></td></tr>
+<tr><td><a href="#dungeonreset"><code>DungeonReset</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A beaten dungeon reset: at the first dawn a full day after its guardian fell, with no player inside, its chests refilled and its guardian will return; or through <code>Dungeon.reset</code>.</td><td></td></tr>
 </table>
 <h2 id="world">World</h2>
 <table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
 <tr><td><a href="#daystarted"><code>DayStarted</code></a></td><td>Dawn: a new day began.</td><td></td></tr>
 <tr><td><a href="#nightstarted"><code>NightStarted</code></a></td><td>Dusk: night began.</td><td></td></tr>
-<tr><td><a href="#weatherchanged"><code>WeatherChanged</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The weather changed.</td><td></td></tr>
+<tr><td><a href="#weatherchanged"><code>WeatherChanged</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What falls changed: its kind or its strength (<code>World.weather</code>), as a spell begins or ends or a plugin holds a weather.</td><td></td></tr>
 <tr><td><a href="#worldsaved"><code>WorldSaved</code></a></td><td>The world was saved.</td><td></td></tr>
 </table>
 <h2 id="menus">Menus</h2>
@@ -198,7 +198,7 @@
 <tr><td class="sig"><code class="rs">event.player: <a href="api-player.html">Player</a></code><code class="java"><a href="api-player.html">Player</a> event.player()</code></td><td>Who is hurt.</td></tr>
 <tr><td class="sig"><code class="rs">event.amount: f64</code><code class="java">double event.amount() / event.setAmount(...)</code> <span class="need">changeable</span></td><td>Health lost.</td></tr>
 <tr><td class="sig"><code class="rs">event.cause: <a href="api-types.html#damagecause">DamageCause</a></code><code class="java"><a href="api-types.html#damagecause">DamageCause</a> event.cause()</code></td><td>A creature, a fall, drowning, hunger, burning, a trap, a falling spike.</td></tr>
-<tr><td class="sig"><code class="rs">event.creature: Option&lt;<a href="api-creature.html">Creature</a>&gt;</code><code class="java">Optional&lt;<a href="api-creature.html">Creature</a>&gt; event.creature()</code></td><td>The creature, if one did it.</td></tr>
+<tr><td class="sig"><code class="rs">event.creature: Option&lt;<a href="api-creature.html">Creature</a>&gt;</code><code class="java">Optional&lt;<a href="api-creature.html">Creature</a>&gt; event.creature()</code></td><td>The creature, if one did it (not yet: always empty; <code>cause</code> says a creature).</td></tr>
 </table>
 <h3 id="playerfainted"><code>PlayerFainted</code></h3>
 <p><code class="rs">server.events().on_player_fainted(|event: &amp;mut <a href="api-events.html#playerfainted">PlayerFainted</a>| ...)</code><code class="java">server.events().onPlayerFainted((<a href="api-events.html#playerfainted">PlayerFainted</a> event) -&gt; ...)</code></p>
@@ -224,14 +224,14 @@
 <tr><td class="sig"><code class="rs">event.from: <a href="api-types.html#blockpos">BlockPos</a></code><code class="java"><a href="api-types.html#blockpos">BlockPos</a> event.from()</code></td><td>The block they left.</td></tr>
 <tr><td class="sig"><code class="rs">event.to: <a href="api-types.html#blockpos">BlockPos</a></code><code class="java"><a href="api-types.html#blockpos">BlockPos</a> event.to()</code></td><td>The block they are in now.</td></tr>
 </table>
-<h3 id="playerenteredregion"><code>PlayerEnteredRegion</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
+<h3 id="playerenteredregion"><code>PlayerEnteredRegion</code></h3>
 <p><code class="rs">server.events().on_player_entered_region(|event: &amp; <a href="api-events.html#playerenteredregion">PlayerEnteredRegion</a>| ...)</code><code class="java">server.events().onPlayerEnteredRegion((<a href="api-events.html#playerenteredregion">PlayerEnteredRegion</a> event) -&gt; ...)</code></p>
 <p>A player walked into a <a href="api-region.html">Region</a> a plugin made.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.player: <a href="api-player.html">Player</a></code><code class="java"><a href="api-player.html">Player</a> event.player()</code></td><td>Who entered.</td></tr>
 <tr><td class="sig"><code class="rs">event.region: <a href="api-region.html">Region</a></code><code class="java"><a href="api-region.html">Region</a> event.region()</code></td><td>The region.</td></tr>
 </table>
-<h3 id="playerleftregion"><code>PlayerLeftRegion</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
+<h3 id="playerleftregion"><code>PlayerLeftRegion</code></h3>
 <p><code class="rs">server.events().on_player_left_region(|event: &amp; <a href="api-events.html#playerleftregion">PlayerLeftRegion</a>| ...)</code><code class="java">server.events().onPlayerLeftRegion((<a href="api-events.html#playerleftregion">PlayerLeftRegion</a> event) -&gt; ...)</code></p>
 <p>A player walked out of a <a href="api-region.html">Region</a>.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
@@ -240,7 +240,7 @@
 </table>
 <h3 id="playerenteredtown"><code>PlayerEnteredTown</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_player_entered_town(|event: &amp; <a href="api-events.html#playerenteredtown">PlayerEnteredTown</a>| ...)</code><code class="java">server.events().onPlayerEnteredTown((<a href="api-events.html#playerenteredtown">PlayerEnteredTown</a> event) -&gt; ...)</code></p>
-<p>A player came into a town.</p>
+<p>A player came into a town (looked at four times a second).</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.player: <a href="api-player.html">Player</a></code><code class="java"><a href="api-player.html">Player</a> event.player()</code></td><td>Who entered.</td></tr>
 <tr><td class="sig"><code class="rs">event.town: <a href="api-town.html">Town</a></code><code class="java"><a href="api-town.html">Town</a> event.town()</code></td><td>The town.</td></tr>
@@ -259,7 +259,7 @@
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.player: <a href="api-player.html">Player</a></code><code class="java"><a href="api-player.html">Player</a> event.player()</code></td><td>Who ate.</td></tr>
 <tr><td class="sig"><code class="rs">event.item: <a href="api-itemstack.html">ItemStack</a></code><code class="java"><a href="api-itemstack.html">ItemStack</a> event.item()</code></td><td>What they ate.</td></tr>
-<tr><td class="sig"><code class="rs">event.hunger: f64</code><code class="java">double event.hunger() / event.setHunger(...)</code> <span class="need">changeable</span></td><td>Hunger it restores.</td></tr>
+<tr><td class="sig"><code class="rs">event.hunger: f64</code><code class="java">double event.hunger() / event.setHunger(...)</code> <span class="need">changeable</span></td><td>Hunger it restores (health, for a healing potion).</td></tr>
 </table>
 <h3 id="playerrested"><code>PlayerRested</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_player_rested(|event: &amp;mut <a href="api-events.html#playerrested">PlayerRested</a>| ...)</code><code class="java">server.events().onPlayerRested((<a href="api-events.html#playerrested">PlayerRested</a> event) -&gt; ...)</code></p>
@@ -302,7 +302,7 @@
 </table>
 <h3 id="blockchanged"><code>BlockChanged</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_block_changed(|event: &amp; <a href="api-events.html#blockchanged">BlockChanged</a>| ...)</code><code class="java">server.events().onBlockChanged((<a href="api-events.html#blockchanged">BlockChanged</a> event) -&gt; ...)</code></p>
-<p>Any block changed, by anyone or anything: a player, water or lava flowing, sand falling, a plugin.</p>
+<p>Any block changed that the world keeps, by anyone or anything: a player, water or lava flowing, sand falling, a plant growing, a plugin. Changes the world does not keep (a trap&#x27;s spikes, falling snow, a boss room&#x27;s lights) are not told.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.at: <a href="api-types.html#blockpos">BlockPos</a></code><code class="java"><a href="api-types.html#blockpos">BlockPos</a> event.at()</code></td><td>Where.</td></tr>
 <tr><td class="sig"><code class="rs">event.before: <a href="api-block.html#blocktype">BlockType</a></code><code class="java"><a href="api-block.html#blocktype">BlockType</a> event.before()</code></td><td>What it was.</td></tr>
@@ -319,10 +319,10 @@
 </table>
 <h3 id="objectremoved"><code>ObjectRemoved</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_object_removed(|event: &amp; <a href="api-events.html#objectremoved">ObjectRemoved</a>| ...)</code><code class="java">server.events().onObjectRemoved((<a href="api-events.html#objectremoved">ObjectRemoved</a> event) -&gt; ...)</code></p>
-<p>A placed object was taken down.</p>
+<p>A placed object was taken down whole and dropped as an item: broken by a player, or fallen with what held it up. One a plugin takes away without a drop is not told.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.player: Option&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; event.player()</code></td><td>Who took it down, if a player did.</td></tr>
-<tr><td class="sig"><code class="rs">event.object: <a href="api-placedobject.html">PlacedObject</a></code><code class="java"><a href="api-placedobject.html">PlacedObject</a> event.object()</code></td><td>What it was.</td></tr>
+<tr><td class="sig"><code class="rs">event.object: <a href="api-placedobject.html">PlacedObject</a></code><code class="java"><a href="api-placedobject.html">PlacedObject</a> event.object()</code></td><td>What it was (gone now: its handle reads nothing).</td></tr>
 </table>
 <h3 id="containeropening"><code>ContainerOpening</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_container_opening(|event: &amp;mut <a href="api-events.html#containeropening">ContainerOpening</a>| ...)</code><code class="java">server.events().onContainerOpening((<a href="api-events.html#containeropening">ContainerOpening</a> event) -&gt; ...)</code></p>
@@ -358,32 +358,32 @@
 </table>
 <h3 id="itemcrafting"><code>ItemCrafting</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_item_crafting(|event: &amp;mut <a href="api-events.html#itemcrafting">ItemCrafting</a>| ...)</code><code class="java">server.events().onItemCrafting((<a href="api-events.html#itemcrafting">ItemCrafting</a> event) -&gt; ...)</code></p>
-<p>A station is about to finish a piece: the last strike at a workbench, anvil or fletching bench, a forge&#x27;s smelting, a brew&#x27;s last stir, food cooked on a campfire.</p>
-<p><strong>Can be stopped:</strong> the work stays unfinished.</p>
+<p>A finished piece is about to be taken off its station, the moment the craft is the taker&#x27;s: a workbench&#x27;s output, an anvil&#x27;s or fletching bench&#x27;s piece, a forge&#x27;s ingot (by hand or tongs), food cooked on a campfire&#x27;s rim. A brew bottled from a cauldron or a meal ladled from a pot is not asked yet.</p>
+<p><strong>Can be stopped:</strong> the piece stays on its station.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
-<tr><td class="sig"><code class="rs">event.player: Option&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; event.player()</code></td><td>Who finished it, if a player did.</td></tr>
+<tr><td class="sig"><code class="rs">event.player: Option&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; event.player()</code></td><td>Who is taking it.</td></tr>
 <tr><td class="sig"><code class="rs">event.station: <a href="api-placedobject.html#station">Station</a></code><code class="java"><a href="api-placedobject.html#station">Station</a> event.station()</code></td><td>Which kind of station.</td></tr>
-<tr><td class="sig"><code class="rs">event.result: <a href="api-itemstack.html">ItemStack</a></code><code class="java"><a href="api-itemstack.html">ItemStack</a> event.result() / event.setResult(...)</code> <span class="need">changeable</span></td><td>What it makes.</td></tr>
+<tr><td class="sig"><code class="rs">event.result: <a href="api-itemstack.html">ItemStack</a></code><code class="java"><a href="api-itemstack.html">ItemStack</a> event.result() / event.setResult(...)</code> <span class="need">changeable</span></td><td>What the taker gets (the station gives up its own piece all the same).</td></tr>
 </table>
 <h3 id="itemcrafted"><code>ItemCrafted</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_item_crafted(|event: &amp; <a href="api-events.html#itemcrafted">ItemCrafted</a>| ...)</code><code class="java">server.events().onItemCrafted((<a href="api-events.html#itemcrafted">ItemCrafted</a> event) -&gt; ...)</code></p>
-<p>A station finished a piece.</p>
+<p>A finished piece was taken off its station (after <code>ItemCrafting</code>).</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
-<tr><td class="sig"><code class="rs">event.player: Option&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; event.player()</code></td><td>Who finished it.</td></tr>
+<tr><td class="sig"><code class="rs">event.player: Option&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; event.player()</code></td><td>Who took it.</td></tr>
 <tr><td class="sig"><code class="rs">event.station: <a href="api-placedobject.html#station">Station</a></code><code class="java"><a href="api-placedobject.html#station">Station</a> event.station()</code></td><td>Which kind of station.</td></tr>
 <tr><td class="sig"><code class="rs">event.result: <a href="api-itemstack.html">ItemStack</a></code><code class="java"><a href="api-itemstack.html">ItemStack</a> event.result()</code></td><td>What it made.</td></tr>
 </table>
 <h3 id="fishcaught"><code>FishCaught</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_fish_caught(|event: &amp;mut <a href="api-events.html#fishcaught">FishCaught</a>| ...)</code><code class="java">server.events().onFishCaught((<a href="api-events.html#fishcaught">FishCaught</a> event) -&gt; ...)</code></p>
-<p>A player landed a catch with a rod or a trident.</p>
+<p>A player landed a catch with a rod (a fish a trident spears is not told yet). A fish is told before it lands, so its item can be changed; a hooked Voxelmon once it has landed.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.player: <a href="api-player.html">Player</a></code><code class="java"><a href="api-player.html">Player</a> event.player()</code></td><td>Who caught it.</td></tr>
-<tr><td class="sig"><code class="rs">event.item: Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; event.item() / event.setItem(...)</code> <span class="need">changeable</span></td><td>The item caught, if not a Voxelmon.</td></tr>
+<tr><td class="sig"><code class="rs">event.item: Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; event.item() / event.setItem(...)</code> <span class="need">changeable</span></td><td>The item caught, if not a Voxelmon (one of it lands; none lands nothing).</td></tr>
 <tr><td class="sig"><code class="rs">event.creature: Option&lt;<a href="api-creature.html">Creature</a>&gt;</code><code class="java">Optional&lt;<a href="api-creature.html">Creature</a>&gt; event.creature()</code></td><td>The Voxelmon hooked, if one was.</td></tr>
 </table>
 <h3 id="lootrolled"><code>LootRolled</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_loot_rolled(|event: &amp;mut <a href="api-events.html#lootrolled">LootRolled</a>| ...)</code><code class="java">server.events().onLootRolled((<a href="api-events.html#lootrolled">LootRolled</a> event) -&gt; ...)</code></p>
-<p>Loot was chosen for a chest, a beaten creature, a fishing catch or a reward.</p>
+<p>Loot was chosen: a supply cache or a dungeon&#x27;s cache broken, a chest filled as its town, dungeon or cave find is furnished, a wild Voxelmon&#x27;s drops beaten in the world or in a battle (at most two stacks a beaten foe in a battle). Content packs&#x27; loot rules are added before plugins see it. A fishing catch is <code>FishCaught</code>&#x27;s.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.source: <a href="api-types.html#lootsource">LootSource</a></code><code class="java"><a href="api-types.html#lootsource">LootSource</a> event.source()</code></td><td>What it is for.</td></tr>
 <tr><td class="sig"><code class="rs">event.player: Option&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; event.player()</code></td><td>Who it is for, if anyone.</td></tr>
@@ -391,13 +391,13 @@
 </table>
 <h3 id="creaturespawning"><code>CreatureSpawning</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_creature_spawning(|event: &amp;mut <a href="api-events.html#creaturespawning">CreatureSpawning</a>| ...)</code><code class="java">server.events().onCreatureSpawning((<a href="api-events.html#creaturespawning">CreatureSpawning</a> event) -&gt; ...)</code></p>
-<p>A wild Voxelmon is about to appear.</p>
+<p>A wild Voxelmon is about to appear, from the wild, a dungeon or a hive (asked the tick it is raised, before any player sees it). A den&#x27;s pack, a hooked Voxelmon, a guardian or a plugin&#x27;s own are not asked yet. A content pack&#x27;s spawn rule changes a wild one&#x27;s species and level before plugins see it.</p>
 <p><strong>Can be stopped:</strong> it does not appear.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.species: <a href="api-species.html">Species</a></code><code class="java"><a href="api-species.html">Species</a> event.species() / event.setSpecies(...)</code> <span class="need">changeable</span></td><td>Its species.</td></tr>
 <tr><td class="sig"><code class="rs">event.level: i64</code><code class="java">long event.level() / event.setLevel(...)</code> <span class="need">changeable</span></td><td>Its level.</td></tr>
 <tr><td class="sig"><code class="rs">event.place: <a href="api-types.html#place">Place</a></code><code class="java"><a href="api-types.html#place">Place</a> event.place()</code></td><td>Where.</td></tr>
-<tr><td class="sig"><code class="rs">event.reason: <a href="api-types.html#spawnreason">SpawnReason</a></code><code class="java"><a href="api-types.html#spawnreason">SpawnReason</a> event.reason()</code></td><td>The wild, a dungeon, a den, a hive, a fishing hook, a plugin.</td></tr>
+<tr><td class="sig"><code class="rs">event.reason: <a href="api-types.html#spawnreason">SpawnReason</a></code><code class="java"><a href="api-types.html#spawnreason">SpawnReason</a> event.reason()</code></td><td>The wild, a dungeon or a hive.</td></tr>
 </table>
 <h3 id="creaturespawned"><code>CreatureSpawned</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_creature_spawned(|event: &amp; <a href="api-events.html#creaturespawned">CreatureSpawned</a>| ...)</code><code class="java">server.events().onCreatureSpawned((<a href="api-events.html#creaturespawned">CreatureSpawned</a> event) -&gt; ...)</code></p>
@@ -407,24 +407,24 @@
 </table>
 <h3 id="creaturedamaging"><code>CreatureDamaging</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_creature_damaging(|event: &amp;mut <a href="api-events.html#creaturedamaging">CreatureDamaging</a>| ...)</code><code class="java">server.events().onCreatureDamaging((<a href="api-events.html#creaturedamaging">CreatureDamaging</a> event) -&gt; ...)</code></p>
-<p>A Voxelmon is about to be hurt, in the world or in a battle.</p>
+<p>A wild Voxelmon is about to be hurt in the world: by a player&#x27;s blow, arrow or trident, a burn, a falling spike. Harm in a turn-based battle and a companion&#x27;s blows in an action world are not asked yet.</p>
 <p><strong>Can be stopped:</strong> it takes no harm.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.creature: <a href="api-creature.html">Creature</a></code><code class="java"><a href="api-creature.html">Creature</a> event.creature()</code></td><td>Who is hurt.</td></tr>
 <tr><td class="sig"><code class="rs">event.amount: f64</code><code class="java">double event.amount() / event.setAmount(...)</code> <span class="need">changeable</span></td><td>Health lost.</td></tr>
-<tr><td class="sig"><code class="rs">event.player: Option&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; event.player()</code></td><td>The player whose blow or creature did it.</td></tr>
+<tr><td class="sig"><code class="rs">event.player: Option&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; event.player()</code></td><td>The player whose blow, arrow or thrust did it.</td></tr>
 </table>
 <h3 id="creaturebeaten"><code>CreatureBeaten</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_creature_beaten(|event: &amp;mut <a href="api-events.html#creaturebeaten">CreatureBeaten</a>| ...)</code><code class="java">server.events().onCreatureBeaten((<a href="api-events.html#creaturebeaten">CreatureBeaten</a> event) -&gt; ...)</code></p>
-<p>A wild Voxelmon was beaten.</p>
+<p>A wild Voxelmon was beaten: in a turn-based battle, or in the world by a player&#x27;s blow. One a companion knocks out in an action world is not told yet.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
-<tr><td class="sig"><code class="rs">event.creature: <a href="api-creature.html">Creature</a></code><code class="java"><a href="api-creature.html">Creature</a> event.creature()</code></td><td>The creature, readable during this event.</td></tr>
+<tr><td class="sig"><code class="rs">event.creature: <a href="api-creature.html">Creature</a></code><code class="java"><a href="api-creature.html">Creature</a> event.creature()</code></td><td>The creature: readable during this event in a battle; one beaten in the world has already left it.</td></tr>
 <tr><td class="sig"><code class="rs">event.player: Option&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; event.player()</code></td><td>Who beat it.</td></tr>
-<tr><td class="sig"><code class="rs">event.experience: i64</code><code class="java">long event.experience() / event.setExperience(...)</code> <span class="need">changeable</span></td><td>Experience given.</td></tr>
+<tr><td class="sig"><code class="rs">event.experience: i64</code><code class="java">long event.experience() / event.setExperience(...)</code> <span class="need">changeable</span></td><td>Experience the beater&#x27;s team shares for it (a blow in the world gives none: 0, and a change there gives none).</td></tr>
 </table>
 <h3 id="captureattempt"><code>CaptureAttempt</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_capture_attempt(|event: &amp;mut <a href="api-events.html#captureattempt">CaptureAttempt</a>| ...)</code><code class="java">server.events().onCaptureAttempt((<a href="api-events.html#captureattempt">CaptureAttempt</a> event) -&gt; ...)</code></p>
-<p>A thrown cube is about to try to catch a Voxelmon.</p>
+<p>A cube thrown in the world is about to try to catch a Voxelmon (a cube used in a turn-based battle is not asked yet).</p>
 <p><strong>Can be stopped:</strong> the cube bounces off.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.player: <a href="api-player.html">Player</a></code><code class="java"><a href="api-player.html">Player</a> event.player()</code></td><td>Who threw it.</td></tr>
@@ -505,10 +505,10 @@
 </table>
 <h3 id="battleended"><code>BattleEnded</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_battle_ended(|event: &amp;mut <a href="api-events.html#battleended">BattleEnded</a>| ...)</code><code class="java">server.events().onBattleEnded((<a href="api-events.html#battleended">BattleEnded</a> event) -&gt; ...)</code></p>
-<p>A battle ended.</p>
+<p>A battle ended: told as its result is decided (before its last turn&#x27;s <code>BattleTurn</code>), or as it is called off.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
-<tr><td class="sig"><code class="rs">event.battle: <a href="api-battle.html">Battle</a></code><code class="java"><a href="api-battle.html">Battle</a> event.battle()</code></td><td>The battle, readable during this event.</td></tr>
-<tr><td class="sig"><code class="rs">event.result: <a href="api-battle.html#battleresult">BattleResult</a></code><code class="java"><a href="api-battle.html#battleresult">BattleResult</a> event.result()</code></td><td>Won, lost, fled or caught.</td></tr>
+<tr><td class="sig"><code class="rs">event.battle: <a href="api-battle.html">Battle</a></code><code class="java"><a href="api-battle.html">Battle</a> event.battle()</code></td><td>The battle (no longer readable: it has ended).</td></tr>
+<tr><td class="sig"><code class="rs">event.result: <a href="api-battle.html#battleresult">BattleResult</a></code><code class="java"><a href="api-battle.html#battleresult">BattleResult</a> event.result()</code></td><td>Won, lost, fled, caught or cancelled.</td></tr>
 <tr><td class="sig"><code class="rs">event.coins: i64</code><code class="java">long event.coins() / event.setCoins(...)</code> <span class="need">changeable</span></td><td>Coins paid by a beaten trainer.</td></tr>
 </table>
 <h3 id="professionlevelledup"><code>ProfessionLevelledUp</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
@@ -536,14 +536,14 @@
 </table>
 <h3 id="dungeonbeaten"><code>DungeonBeaten</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_dungeon_beaten(|event: &amp; <a href="api-events.html#dungeonbeaten">DungeonBeaten</a>| ...)</code><code class="java">server.events().onDungeonBeaten((<a href="api-events.html#dungeonbeaten">DungeonBeaten</a> event) -&gt; ...)</code></p>
-<p>A dungeon&#x27;s guardian was beaten.</p>
+<p>A dungeon&#x27;s guardian was beaten (noticed by the server&#x27;s structures pass, which runs round every player); <code>players</code> are those standing over the dungeon then.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.dungeon: <a href="api-dungeon.html">Dungeon</a></code><code class="java"><a href="api-dungeon.html">Dungeon</a> event.dungeon()</code></td><td>The dungeon.</td></tr>
 <tr><td class="sig"><code class="rs">event.players: Vec&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">List&lt;<a href="api-player.html">Player</a>&gt; event.players()</code></td><td>Who took part.</td></tr>
 </table>
 <h3 id="dungeonreset"><code>DungeonReset</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_dungeon_reset(|event: &amp; <a href="api-events.html#dungeonreset">DungeonReset</a>| ...)</code><code class="java">server.events().onDungeonReset((<a href="api-events.html#dungeonreset">DungeonReset</a> event) -&gt; ...)</code></p>
-<p>A beaten dungeon reset: its chests refilled and its guardian will return.</p>
+<p>A beaten dungeon reset: at the first dawn a full day after its guardian fell, with no player inside, its chests refilled and its guardian will return; or through <code>Dungeon.reset</code>.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.dungeon: <a href="api-dungeon.html">Dungeon</a></code><code class="java"><a href="api-dungeon.html">Dungeon</a> event.dungeon()</code></td><td>The dungeon.</td></tr>
 </table>
@@ -561,7 +561,7 @@
 </table>
 <h3 id="weatherchanged"><code>WeatherChanged</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_weather_changed(|event: &amp; <a href="api-events.html#weatherchanged">WeatherChanged</a>| ...)</code><code class="java">server.events().onWeatherChanged((<a href="api-events.html#weatherchanged">WeatherChanged</a> event) -&gt; ...)</code></p>
-<p>The weather changed.</p>
+<p>What falls changed: its kind or its strength (<code>World.weather</code>), as a spell begins or ends or a plugin holds a weather.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.before: <a href="api-world.html#weather">Weather</a></code><code class="java"><a href="api-world.html#weather">Weather</a> event.before()</code></td><td>What it was.</td></tr>
 <tr><td class="sig"><code class="rs">event.after: <a href="api-world.html#weather">Weather</a></code><code class="java"><a href="api-world.html#weather">Weather</a> event.after()</code></td><td>What it is now.</td></tr>
@@ -592,6 +592,6 @@
 <div class="pager"><a class="prev" href="api.html">← Overview</a><a class="next" href="api-server.html">Server →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

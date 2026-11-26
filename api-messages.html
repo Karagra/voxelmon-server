@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Messages · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -67,7 +67,7 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Messages</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Messages</h1>
-<div class="note"><strong>Being built.</strong> 4 of 10 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
 <p class="kind">Reached from the server: <code>server.messages()</code>.</p>
 <p>Telling players things: notices by the watch, large banners, floating labels in the world and sounds.</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
@@ -75,18 +75,18 @@
 <tr id="messages-notice-all"><td class="sig"><code class="rs">fn notice_all(&amp;self, text: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void noticeAll(String text)</code></td><td>A notice to every player.</td></tr>
 <tr id="messages-banner"><td class="sig"><code class="rs">fn banner(&amp;self, player: <a href="api-player.html">Player</a>, banner: <a href="api-messages.html#banner">Banner</a>) -&gt; Result&lt;()&gt;</code><code class="java">void banner(<a href="api-player.html">Player</a> player, <a href="api-messages.html#banner">Banner</a> banner)</code></td><td>A banner before them.</td></tr>
 <tr id="messages-banner-all"><td class="sig"><code class="rs">fn banner_all(&amp;self, banner: <a href="api-messages.html#banner">Banner</a>) -&gt; Result&lt;()&gt;</code><code class="java">void bannerAll(<a href="api-messages.html#banner">Banner</a> banner)</code></td><td>A banner before every player.</td></tr>
-<tr id="messages-label"><td class="sig"><code class="rs">fn label(&amp;self, place: <a href="api-types.html#place">Place</a>, lines: Vec&lt;String&gt;) -&gt; Result&lt;<a href="api-messages.html#label">Label</a>&gt;</code><code class="java"><a href="api-messages.html#label">Label</a> label(<a href="api-types.html#place">Place</a> place, List&lt;String&gt; lines)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Text floating in the world, turned to each viewer (at most 4 lines of 32 letters).</td></tr>
-<tr id="messages-play-sound"><td class="sig"><code class="rs">fn play_sound(&amp;self, place: <a href="api-types.html#place">Place</a>, sound: <a href="api-messages.html#sound">Sound</a>) -&gt; Result&lt;()&gt;</code><code class="java">void playSound(<a href="api-types.html#place">Place</a> place, <a href="api-messages.html#sound">Sound</a> sound)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A sound heard by players near it, from there.</td></tr>
+<tr id="messages-label"><td class="sig"><code class="rs">fn label(&amp;self, place: <a href="api-types.html#place">Place</a>, lines: Vec&lt;String&gt;) -&gt; Result&lt;<a href="api-messages.html#label">Label</a>&gt;</code><code class="java"><a href="api-messages.html#label">Label</a> label(<a href="api-types.html#place">Place</a> place, List&lt;String&gt; lines)</code></td><td>Text floating in the world, turned to each viewer (at most 4 lines of 32 letters).</td></tr>
+<tr id="messages-play-sound"><td class="sig"><code class="rs">fn play_sound(&amp;self, place: <a href="api-types.html#place">Place</a>, sound: <a href="api-messages.html#sound">Sound</a>) -&gt; Result&lt;()&gt;</code><code class="java">void playSound(<a href="api-types.html#place">Place</a> place, <a href="api-messages.html#sound">Sound</a> sound)</code></td><td>A sound heard by players near it, from there.</td></tr>
 </table>
 <h2 id="description">Description</h2><p>There is no text chat in VoxelMon, so plugins speak through these. Text may use any letters, numbers and common signs of English; others show as <code>?</code>. A notice is short and fades; a banner is large and brief, as a dungeon&#x27;s name is when entered; a label stays where it is put.</p>
 <h2 id="label">Label</h2>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
 <p>Floating text a plugin placed.</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
-<tr id="label-set-lines"><td class="sig"><code class="rs">fn set_lines(&amp;self, lines: Vec&lt;String&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void setLines(List&lt;String&gt; lines)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Changes its text.</td></tr>
-<tr id="label-move-to"><td class="sig"><code class="rs">fn move_to(&amp;self, place: <a href="api-types.html#place">Place</a>) -&gt; Result&lt;()&gt;</code><code class="java">void moveTo(<a href="api-types.html#place">Place</a> place)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Moves it.</td></tr>
-<tr id="label-set-reach"><td class="sig"><code class="rs">fn set_reach(&amp;self, blocks: f64) -&gt; Result&lt;()&gt;</code><code class="java">void setReach(double blocks)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>How far off it can be read (8 to 48; it fades beyond).</td></tr>
-<tr id="label-remove"><td class="sig"><code class="rs">fn remove(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void remove()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Takes it away.</td></tr>
+<tr id="label-set-lines"><td class="sig"><code class="rs">fn set_lines(&amp;self, lines: Vec&lt;String&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void setLines(List&lt;String&gt; lines)</code></td><td>Changes its text.</td></tr>
+<tr id="label-move-to"><td class="sig"><code class="rs">fn move_to(&amp;self, place: <a href="api-types.html#place">Place</a>) -&gt; Result&lt;()&gt;</code><code class="java">void moveTo(<a href="api-types.html#place">Place</a> place)</code></td><td>Moves it.</td></tr>
+<tr id="label-set-reach"><td class="sig"><code class="rs">fn set_reach(&amp;self, blocks: f64) -&gt; Result&lt;()&gt;</code><code class="java">void setReach(double blocks)</code></td><td>How far off it can be read, in blocks (8 to 48, 16 until set; it fades out over 4 blocks beyond).</td></tr>
+<tr id="label-remove"><td class="sig"><code class="rs">fn remove(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void remove()</code></td><td>Takes it away.</td></tr>
 </table>
 <h2 id="banner">Banner</h2>
 <p class="kind">Plain data, copied: fields in both directions.</p>
@@ -109,6 +109,6 @@
 <div class="pager"><a class="prev" href="api-professions.html">← Professions</a><a class="next" href="api-menu.html">Menu →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

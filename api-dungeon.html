@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dungeon · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -65,19 +65,19 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Dungeon</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Dungeon</h1>
-<div class="note"><strong>Being built.</strong> 0 of 9 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
 <p>A dungeon: its tier, its levels, its guardian and its reset.</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
-<tr id="dungeon-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its name, as its banner shows.</td></tr>
-<tr id="dungeon-entrance"><td class="sig"><code class="rs">fn entrance(&amp;self) -&gt; Result&lt;<a href="api-types.html#place">Place</a>&gt;</code><code class="java"><a href="api-types.html#place">Place</a> entrance()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Where its stairs begin.</td></tr>
-<tr id="dungeon-tier"><td class="sig"><code class="rs">fn tier(&amp;self) -&gt; Result&lt;<a href="api-dungeon.html#dungeontier">DungeonTier</a>&gt;</code><code class="java"><a href="api-dungeon.html#dungeontier">DungeonTier</a> tier()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its tier.</td></tr>
-<tr id="dungeon-lowest-level"><td class="sig"><code class="rs">fn lowest_level(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long lowestLevel()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its creatures&#x27; lowest level.</td></tr>
-<tr id="dungeon-highest-level"><td class="sig"><code class="rs">fn highest_level(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long highestLevel()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its creatures&#x27; highest level (its guardian&#x27;s).</td></tr>
-<tr id="dungeon-corrupted"><td class="sig"><code class="rs">fn corrupted(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean corrupted()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Whether it is corrupted this time (stronger, better loot).</td></tr>
-<tr id="dungeon-beaten"><td class="sig"><code class="rs">fn beaten(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean beaten()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Whether its guardian is beaten and it waits to reset.</td></tr>
-<tr id="dungeon-resets"><td class="sig"><code class="rs">fn resets(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long resets()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>How many times it has reset.</td></tr>
-<tr id="dungeon-reset"><td class="sig"><code class="rs">fn reset(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean reset()</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Resets it now (chests refilled, guardian back), if no player is inside.</td></tr>
+<tr id="dungeon-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code></td><td>Its name, as its banner shows (CATACOMBS, OVERGROWN HALLS, SANDSTONE TOMB, FROZEN CRYPT, BASALT FORGE).</td></tr>
+<tr id="dungeon-entrance"><td class="sig"><code class="rs">fn entrance(&amp;self) -&gt; Result&lt;<a href="api-types.html#place">Place</a>&gt;</code><code class="java"><a href="api-types.html#place">Place</a> entrance()</code></td><td>Where its stairs begin: the middle of its plaza, over the stairwell.</td></tr>
+<tr id="dungeon-tier"><td class="sig"><code class="rs">fn tier(&amp;self) -&gt; Result&lt;<a href="api-dungeon.html#dungeontier">DungeonTier</a>&gt;</code><code class="java"><a href="api-dungeon.html#dungeontier">DungeonTier</a> tier()</code></td><td>Its tier.</td></tr>
+<tr id="dungeon-lowest-level"><td class="sig"><code class="rs">fn lowest_level(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long lowestLevel()</code></td><td>Its creatures&#x27; lowest level.</td></tr>
+<tr id="dungeon-highest-level"><td class="sig"><code class="rs">fn highest_level(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long highestLevel()</code></td><td>Its creatures&#x27; highest level (its guardian&#x27;s).</td></tr>
+<tr id="dungeon-corrupted"><td class="sig"><code class="rs">fn corrupted(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean corrupted()</code></td><td>Whether it is corrupted this time (stronger, better loot).</td></tr>
+<tr id="dungeon-beaten"><td class="sig"><code class="rs">fn beaten(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean beaten()</code></td><td>Whether its guardian is beaten and it waits to reset (saved with the world).</td></tr>
+<tr id="dungeon-resets"><td class="sig"><code class="rs">fn resets(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long resets()</code></td><td>How many times it has reset.</td></tr>
+<tr id="dungeon-reset"><td class="sig"><code class="rs">fn reset(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean reset()</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Resets a beaten dungeon now, if no player stands over it: one more reset, its corruption rolled again, its guardian waiting again; false if its guardian is not beaten or someone is there. It changes the dungeon&#x27;s saved record only: the reset that comes on its own (the first dawn a full day after its guardian fell, with no player inside) also refills its chests and puts its boss room back.</td></tr>
 </table>
 <h2 id="dungeontier">DungeonTier</h2>
 <p class="kind">One of a fixed set of values.</p>
@@ -93,6 +93,6 @@
 <div class="pager"><a class="prev" href="api-town.html">← Town</a><a class="next" href="api-creature.html">Creature →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

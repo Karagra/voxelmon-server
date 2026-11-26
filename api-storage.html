@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Storage · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -66,7 +66,7 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Storage</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Storage</h1>
-<div class="note"><strong>Being built.</strong> 9 of 10 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
 <p class="kind">Reached from the server: <code>server.storage()</code>.</p>
 <p>Data a plugin keeps between runs, for itself and for each player, its own files, and the internet.</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
@@ -79,7 +79,7 @@
 <tr id="storage-read-file"><td class="sig"><code class="rs">fn read_file(&amp;self, path: &amp;str) -&gt; Result&lt;Option&lt;Vec&lt;u8&gt;&gt;&gt;</code><code class="java">Optional&lt;byte[]&gt; readFile(String path)</code> <span class="need" title="Needs files in the manifest">files</span></td><td>Reads a file in the plugin&#x27;s folder.</td></tr>
 <tr id="storage-write-file"><td class="sig"><code class="rs">fn write_file(&amp;self, path: &amp;str, data: Vec&lt;u8&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void writeFile(String path, byte[] data)</code> <span class="need" title="Needs files in the manifest">files</span></td><td>Writes a file in the plugin&#x27;s folder.</td></tr>
 <tr id="storage-list-files"><td class="sig"><code class="rs">fn list_files(&amp;self, folder: &amp;str) -&gt; Result&lt;Vec&lt;String&gt;&gt;</code><code class="java">List&lt;String&gt; listFiles(String folder)</code> <span class="need" title="Needs files in the manifest">files</span></td><td>Files in a folder of the plugin&#x27;s folder.</td></tr>
-<tr id="storage-http"><td class="sig"><code class="rs">fn http(&amp;self, request: <a href="api-storage.html#httprequest">HttpRequest</a>, then: impl FnMut(<a href="api-storage.html#httpresponse">HttpResponse</a>) + &#x27;static) -&gt; Result&lt;()&gt;</code><code class="java">void http(<a href="api-storage.html#httprequest">HttpRequest</a> request, Consumer&lt;<a href="api-storage.html#httpresponse">HttpResponse</a>&gt; then)</code> <span class="need" title="Needs internet in the manifest">internet</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Sends an HTTP request; <code>then</code> is called with the answer on a later tick.</td></tr>
+<tr id="storage-http"><td class="sig"><code class="rs">fn http(&amp;self, request: <a href="api-storage.html#httprequest">HttpRequest</a>, then: impl FnMut(<a href="api-storage.html#httpresponse">HttpResponse</a>) + &#x27;static) -&gt; Result&lt;()&gt;</code><code class="java">void http(<a href="api-storage.html#httprequest">HttpRequest</a> request, Consumer&lt;<a href="api-storage.html#httpresponse">HttpResponse</a>&gt; then)</code> <span class="need" title="Needs internet in the manifest">internet</span></td><td>Sends an HTTP request; <code>then</code> is called with the answer on a later tick.</td></tr>
 </table>
 <h2 id="description">Description</h2><p>Values are kept with the world, and a plugin sees only its own. Files are in the plugin&#x27;s folder, <code>plugins/&lt;id&gt;/</code>, with the <code>files</code> need. Internet requests go only to hosts the manifest lists in <code>internet_hosts</code>, with the <code>internet</code> need; the answer comes later, on the tick.</p>
 <h2 id="httprequest">HttpRequest</h2>
@@ -103,6 +103,6 @@
 <div class="pager"><a class="prev" href="api-permissions.html">← Permissions</a><a class="next" href="api-player.html">Player →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

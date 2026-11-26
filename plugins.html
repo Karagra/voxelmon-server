@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Plugins and content packs · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -69,12 +69,12 @@
 <h1>Plugins and content packs</h1>
 <p class="lead">Ways for server owners and creators to add to VoxelMon worlds.</p>
 
-<div class="note"><strong>Being built.</strong> Rust and Java plugins run on the server, and part of the API works today: every reference page says which calls do and marks the rest <span class="soon">not yet</span>. Notices, banners and menus reach players' headsets; floating labels and content packs are still to come. Names may change until the first plugin release.</div>
+<div class="note"><strong>Built.</strong> Rust and Java plugins run on the server and every call and event of the API is carried out. Notices, banners, menus and floating labels reach players' headsets. Content packs add loot and wild spawns; packs that add new items, blocks and recipes are still to come. Names may change until the first plugin release.</div>
 
 <h2 id="three-kinds">Three kinds</h2>
 <table>
 <tr><th>Kind</th><th>What it adds</th><th>Written in</th></tr>
-<tr><td><strong>Content packs</strong></td><td>New items, blocks, recipes, loot and where creatures appear. Data only, no code. Players' headsets download a server's packs when they join, after asking them.</td><td>Data files</td></tr>
+<tr><td><strong>Content packs</strong></td><td>More loot and where creatures appear, from the game's own items and species; later new items, blocks and recipes. Data only, no code.</td><td>Data files</td></tr>
 <tr><td><strong>Rust plugins</strong></td><td>Server behaviour: events, rules, menus, minigames, permissions. Run sandboxed: a plugin can touch only what the server hands it.</td><td>Rust, compiled to WebAssembly</td></tr>
 <tr><td><strong>Java plugins</strong></td><td>The same, for authors who know Java. Run with the server's full trust, as plugins do on other block-game servers. Java (25 or newer) is started only on a server that has a Java plugin.</td><td>Java 25+ (<code>.jar</code>)</td></tr>
 </table>
@@ -108,6 +108,6 @@
 <div class="pager"><a class="prev" href="docker.html">← Docker</a><a class="next" href="api-basics.html">Writing a plugin →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

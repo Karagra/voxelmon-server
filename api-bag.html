@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bag · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -67,17 +67,17 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Bag</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Bag</h1>
-<div class="note"><strong>Being built.</strong> 5 of 7 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
 <p>What a player carries: the backpack&#x27;s 16 slots, its side slots, the strap pockets, the belt&#x27;s 4 cubes and both hands.</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
 <tr id="bag-get"><td class="sig"><code class="rs">fn get(&amp;self, slot: <a href="api-bag.html#bagslot">BagSlot</a>) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; get(<a href="api-bag.html#bagslot">BagSlot</a> slot)</code></td><td>What is in a slot.</td></tr>
-<tr id="bag-set"><td class="sig"><code class="rs">fn set(&amp;self, slot: <a href="api-bag.html#bagslot">BagSlot</a>, stack: Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void set(<a href="api-bag.html#bagslot">BagSlot</a> slot, <a href="api-itemstack.html">ItemStack</a> stack)</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Puts something in a slot, or empties it.</td></tr>
+<tr id="bag-set"><td class="sig"><code class="rs">fn set(&amp;self, slot: <a href="api-bag.html#bagslot">BagSlot</a>, stack: Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void set(<a href="api-bag.html#bagslot">BagSlot</a> slot, <a href="api-itemstack.html">ItemStack</a> stack)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Puts something in a slot, or empties it.</td></tr>
 <tr id="bag-add"><td class="sig"><code class="rs">fn add(&amp;self, stack: <a href="api-itemstack.html">ItemStack</a>) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; add(<a href="api-itemstack.html">ItemStack</a> stack)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Puts items where they fit, backpack first; returns what did not fit.</td></tr>
 <tr id="bag-remove"><td class="sig"><code class="rs">fn remove(&amp;self, item: <a href="api-itemstack.html#itemtype">ItemType</a>, count: i64) -&gt; Result&lt;i64&gt;</code><code class="java">long remove(<a href="api-itemstack.html#itemtype">ItemType</a> item, long count)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Takes up to that many from anywhere; returns how many were taken.</td></tr>
 <tr id="bag-count"><td class="sig"><code class="rs">fn count(&amp;self, item: <a href="api-itemstack.html#itemtype">ItemType</a>) -&gt; Result&lt;i64&gt;</code><code class="java">long count(<a href="api-itemstack.html#itemtype">ItemType</a> item)</code></td><td>How many they carry, everywhere.</td></tr>
 <tr id="bag-all"><td class="sig"><code class="rs">fn all(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-bag.html#bagentry">BagEntry</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-bag.html#bagentry">BagEntry</a>&gt; all()</code></td><td>Every slot that holds something.</td></tr>
-<tr id="bag-clear"><td class="sig"><code class="rs">fn clear(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void clear()</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Empties everything but the belt&#x27;s cubes.</td></tr>
+<tr id="bag-clear"><td class="sig"><code class="rs">fn clear(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void clear()</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Empties everything but the belt&#x27;s cubes.</td></tr>
 </table>
 <h2 id="description">Description</h2><p>A player&#x27;s things are where they put them, as in the game. Reading needs nothing; changing needs <code>player_data</code>, and shows on the player&#x27;s own pack at once.</p>
 <h2 id="bagslot">BagSlot</h2>
@@ -107,6 +107,6 @@
 <div class="pager"><a class="prev" href="api-player.html">← Player</a><a class="next" href="api-itemstack.html">ItemStack →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

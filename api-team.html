@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Team · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -64,22 +64,22 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Team</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Team</h1>
-<div class="note"><strong>Being built.</strong> 0 of 6 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
 <p>A player&#x27;s Voxelmon: the four cubes on their belt, and those stored.</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
-<tr id="team-belt"><td class="sig"><code class="rs">fn belt(&amp;self) -&gt; Result&lt;Vec&lt;Option&lt;<a href="api-creature.html">Creature</a>&gt;&gt;&gt;</code><code class="java">List&lt;<a href="api-creature.html">Creature</a>&gt; belt()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The four belt places, in order.</td></tr>
-<tr id="team-stored"><td class="sig"><code class="rs">fn stored(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-creature.html">Creature</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-creature.html">Creature</a>&gt; stored()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Every stored Voxelmon.</td></tr>
-<tr id="team-stored-limit"><td class="sig"><code class="rs">fn stored_limit(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long storedLimit()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>How many may be stored.</td></tr>
-<tr id="team-add"><td class="sig"><code class="rs">fn add(&amp;self, species: <a href="api-species.html">Species</a>, level: i64) -&gt; Result&lt;Option&lt;<a href="api-creature.html">Creature</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-creature.html">Creature</a>&gt; add(<a href="api-species.html">Species</a> species, long level)</code> <span class="need" title="Needs creatures in the manifest">creatures</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Gives the player a new Voxelmon: to the belt if a place is free, else stored; nothing if full.</td></tr>
-<tr id="team-remove"><td class="sig"><code class="rs">fn remove(&amp;self, creature: <a href="api-creature.html">Creature</a>) -&gt; Result&lt;()&gt;</code><code class="java">void remove(<a href="api-creature.html">Creature</a> creature)</code> <span class="need" title="Needs creatures in the manifest">creatures</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Takes one from the player for good.</td></tr>
-<tr id="team-heal-all"><td class="sig"><code class="rs">fn heal_all(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void healAll()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Heals every one, as at a clinic.</td></tr>
+<tr id="team-belt"><td class="sig"><code class="rs">fn belt(&amp;self) -&gt; Result&lt;Vec&lt;Option&lt;<a href="api-creature.html">Creature</a>&gt;&gt;&gt;</code><code class="java">List&lt;<a href="api-creature.html">Creature</a>&gt; belt()</code></td><td>The four belt places, in order.</td></tr>
+<tr id="team-stored"><td class="sig"><code class="rs">fn stored(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-creature.html">Creature</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-creature.html">Creature</a>&gt; stored()</code></td><td>Every stored Voxelmon.</td></tr>
+<tr id="team-stored-limit"><td class="sig"><code class="rs">fn stored_limit(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long storedLimit()</code></td><td>How many may be stored.</td></tr>
+<tr id="team-add"><td class="sig"><code class="rs">fn add(&amp;self, species: <a href="api-species.html">Species</a>, level: i64) -&gt; Result&lt;Option&lt;<a href="api-creature.html">Creature</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-creature.html">Creature</a>&gt; add(<a href="api-species.html">Species</a> species, long level)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Gives the player a new Voxelmon: to the belt if a place is free, else stored; nothing if full.</td></tr>
+<tr id="team-remove"><td class="sig"><code class="rs">fn remove(&amp;self, creature: <a href="api-creature.html">Creature</a>) -&gt; Result&lt;()&gt;</code><code class="java">void remove(<a href="api-creature.html">Creature</a> creature)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Takes one from the player for good.</td></tr>
+<tr id="team-heal-all"><td class="sig"><code class="rs">fn heal_all(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void healAll()</code></td><td>Heals every one, as at a clinic.</td></tr>
 </table>
 <h2 id="description">Description</h2><p>The belt holds the cubes a player carries into battle; the rest are stored and reached at a clinic or on the watch. Adding and removing needs <code>creatures</code>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-species.html">← Species</a><a class="next" href="api-battle.html">Battle →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

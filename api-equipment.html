@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Equipment · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -64,16 +64,16 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Equipment</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Equipment</h1>
-<div class="note"><strong>Being built.</strong> 0 of 6 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
 <p>What a player wears and holds ready: the ten slots of the page inside their backpack&#x27;s door.</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
-<tr id="equipment-defense"><td class="sig"><code class="rs">fn defense(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long defense()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Defense from everything worn.</td></tr>
-<tr id="equipment-attack"><td class="sig"><code class="rs">fn attack(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long attack()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Attack of the main-hand weapon.</td></tr>
-<tr id="equipment-block"><td class="sig"><code class="rs">fn block(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long block()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Block of the off-hand shield.</td></tr>
-<tr id="equipment-get"><td class="sig"><code class="rs">fn get(&amp;self, slot: <a href="api-equipment.html#gearslot">GearSlot</a>) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; get(<a href="api-equipment.html#gearslot">GearSlot</a> slot)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What a slot holds.</td></tr>
-<tr id="equipment-set"><td class="sig"><code class="rs">fn set(&amp;self, slot: <a href="api-equipment.html#gearslot">GearSlot</a>, stack: Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void set(<a href="api-equipment.html#gearslot">GearSlot</a> slot, <a href="api-itemstack.html">ItemStack</a> stack)</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Puts a piece on (it must suit the slot), or takes it off to nowhere.</td></tr>
-<tr id="equipment-swap-hands"><td class="sig"><code class="rs">fn swap_hands(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void swapHands()</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Swaps the main-hand and off-hand pieces, as SWAP does.</td></tr>
+<tr id="equipment-defense"><td class="sig"><code class="rs">fn defense(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long defense()</code></td><td>Defense from everything worn.</td></tr>
+<tr id="equipment-attack"><td class="sig"><code class="rs">fn attack(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long attack()</code></td><td>Attack of the main-hand weapon.</td></tr>
+<tr id="equipment-block"><td class="sig"><code class="rs">fn block(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long block()</code></td><td>Block of the off-hand shield.</td></tr>
+<tr id="equipment-get"><td class="sig"><code class="rs">fn get(&amp;self, slot: <a href="api-equipment.html#gearslot">GearSlot</a>) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; get(<a href="api-equipment.html#gearslot">GearSlot</a> slot)</code></td><td>What a slot holds.</td></tr>
+<tr id="equipment-set"><td class="sig"><code class="rs">fn set(&amp;self, slot: <a href="api-equipment.html#gearslot">GearSlot</a>, stack: Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void set(<a href="api-equipment.html#gearslot">GearSlot</a> slot, <a href="api-itemstack.html">ItemStack</a> stack)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Puts a piece on (it must suit the slot), or takes it off to nowhere.</td></tr>
+<tr id="equipment-swap-hands"><td class="sig"><code class="rs">fn swap_hands(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void swapHands()</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Swaps the main-hand and off-hand pieces, as SWAP does.</td></tr>
 </table>
 <h2 id="gearslot">GearSlot</h2>
 <p class="kind">One of a fixed set of values.</p>
@@ -94,6 +94,6 @@
 <div class="pager"><a class="prev" href="api-itemstack.html">← ItemStack</a><a class="next" href="api-professions.html">Professions →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

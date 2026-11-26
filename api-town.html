@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Town · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -64,22 +64,22 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Town</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Town</h1>
-<div class="note"><strong>Being built.</strong> 0 of 6 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
 <p>A town: its place, its clinic, and the Voxelord threatening it.</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
-<tr id="town-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its name.</td></tr>
-<tr id="town-centre"><td class="sig"><code class="rs">fn centre(&amp;self) -&gt; Result&lt;<a href="api-types.html#place">Place</a>&gt;</code><code class="java"><a href="api-types.html#place">Place</a> centre()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its plaza&#x27;s middle.</td></tr>
-<tr id="town-freed"><td class="sig"><code class="rs">fn freed(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean freed()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Whether its Voxelord has been beaten.</td></tr>
-<tr id="town-voxelord"><td class="sig"><code class="rs">fn voxelord(&amp;self) -&gt; Result&lt;<a href="api-species.html">Species</a>&gt;</code><code class="java"><a href="api-species.html">Species</a> voxelord()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The species of its Voxelord.</td></tr>
-<tr id="town-lair"><td class="sig"><code class="rs">fn lair(&amp;self) -&gt; Result&lt;<a href="api-types.html#place">Place</a>&gt;</code><code class="java"><a href="api-types.html#place">Place</a> lair()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Where its Voxelord waits.</td></tr>
-<tr id="town-clinic"><td class="sig"><code class="rs">fn clinic(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-types.html#place">Place</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-types.html#place">Place</a>&gt; clinic()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its VoxelAid clinic.</td></tr>
+<tr id="town-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code></td><td>Its name: what it is built as (MEADOW TOWN, FISHING TOWN, PALISADE TOWN...); the game gives towns no names of their own.</td></tr>
+<tr id="town-centre"><td class="sig"><code class="rs">fn centre(&amp;self) -&gt; Result&lt;<a href="api-types.html#place">Place</a>&gt;</code><code class="java"><a href="api-types.html#place">Place</a> centre()</code></td><td>Its plaza&#x27;s middle, at the plaza&#x27;s floor.</td></tr>
+<tr id="town-freed"><td class="sig"><code class="rs">fn freed(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean freed()</code></td><td>Whether its Voxelord has been beaten (saved with the world).</td></tr>
+<tr id="town-voxelord"><td class="sig"><code class="rs">fn voxelord(&amp;self) -&gt; Result&lt;<a href="api-species.html">Species</a>&gt;</code><code class="java"><a href="api-species.html">Species</a> voxelord()</code></td><td>The species of its Voxelord (by what the town is built as).</td></tr>
+<tr id="town-lair"><td class="sig"><code class="rs">fn lair(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-types.html#place">Place</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-types.html#place">Place</a>&gt; lair()</code></td><td>Where its Voxelord waits, outside the town; none for the rare town with no fit ground round it. Looked for once, the first time it is asked (a few milliseconds).</td></tr>
+<tr id="town-clinic"><td class="sig"><code class="rs">fn clinic(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-types.html#place">Place</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-types.html#place">Place</a>&gt; clinic()</code></td><td>Its VoxelAid clinic: the middle of the clinic&#x27;s floor.</td></tr>
 </table>
 <h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#playerenteredtown"><code>PlayerEnteredTown</code></a>, <a href="api-events.html#townfreed"><code>TownFreed</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-region.html">← Region</a><a class="next" href="api-dungeon.html">Dungeon →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Block · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=792bb58ae5">
+<link rel="stylesheet" href="style.css?v=474d77d415">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -65,7 +65,7 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Block</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Block</h1>
-<div class="note"><strong>Being built.</strong> 8 of 10 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
 <p class="kind">Plain data, copied: fields in both directions.</p>
 <p>One block in the world: what it is and where.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
@@ -82,8 +82,8 @@
 <tr id="blocktype-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code></td><td>Its name.</td></tr>
 <tr id="blocktype-solid"><td class="sig"><code class="rs">fn solid(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean solid()</code></td><td>Whether bodies stand on it and cannot pass.</td></tr>
 <tr id="blocktype-liquid"><td class="sig"><code class="rs">fn liquid(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean liquid()</code></td><td>Water or lava.</td></tr>
-<tr id="blocktype-light"><td class="sig"><code class="rs">fn light(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long light()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Light it gives, 0 to 15.</td></tr>
-<tr id="blocktype-hardness"><td class="sig"><code class="rs">fn hardness(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double hardness()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Seconds to break it by hand.</td></tr>
+<tr id="blocktype-light"><td class="sig"><code class="rs">fn light(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long light()</code></td><td>Light it gives, 0 to 15.</td></tr>
+<tr id="blocktype-hardness"><td class="sig"><code class="rs">fn hardness(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double hardness()</code></td><td>Seconds to break it by hand.</td></tr>
 <tr id="blocktype-item"><td class="sig"><code class="rs">fn item(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt; item()</code></td><td>The item it is as carried.</td></tr>
 <tr id="blocktype-named"><td class="sig"><code class="rs">fn named(name: &amp;str) -&gt; Result&lt;Option&lt;<a href="api-block.html#blocktype">BlockType</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-block.html#blocktype">BlockType</a>&gt; named(String name)</code></td><td>A block by its name (any case).</td></tr>
 <tr id="blocktype-by-id"><td class="sig"><code class="rs">fn by_id(id: i64) -&gt; Result&lt;Option&lt;<a href="api-block.html#blocktype">BlockType</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-block.html#blocktype">BlockType</a>&gt; byId(long id)</code></td><td>A block by its number.</td></tr>
@@ -94,6 +94,6 @@
 <div class="pager"><a class="prev" href="api-world.html">← World</a><a class="next" href="api-placedobject.html">PlacedObject →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=792bb58ae5"></script>
+<script src="search.js?v=474d77d415"></script>
 </body>
 </html>

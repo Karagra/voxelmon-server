@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plugins and content packs · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><a class="brand" href="index.html">VoxelMon Server</a>
+<a href="index.html">Overview</a>
+<a href="install.html">Getting started</a>
+<a href="settings.html">Settings</a>
+<a href="commands.html">Commands</a>
+<a href="network.html">Networking</a>
+<a href="docker.html">Docker</a>
+<a href="plugins.html" aria-current="page">Plugins</a></nav>
+<main>
+<h1>Plugins and content packs</h1>
+<p class="lead">Planned: ways for server owners and creators to add to VoxelMon worlds. Nothing here is available yet; this page grows as each part is built.</p>
+
+<h2 id="three-kinds">Three kinds</h2>
+<table>
+<tr><th>Kind</th><th>What it adds</th><th>Written in</th></tr>
+<tr><td><strong>Content packs</strong></td><td>New items, blocks, recipes, loot and where creatures appear. Data only, no code. Players' headsets download a server's packs when they join, after asking them.</td><td>Data files</td></tr>
+<tr><td><strong>Rust plugins</strong></td><td>Server behaviour: commands, events, rules, minigames, permissions. Run sandboxed: a plugin can touch only what the server hands it.</td><td>Rust, compiled to WebAssembly</td></tr>
+<tr><td><strong>Java plugins</strong></td><td>The same, for authors who know Java. Run with the server's full trust, like plugins on other block-game servers. Java is started only on a server that has a Java plugin.</td><td>Java (<code>.jar</code>)</td></tr>
+</table>
+<p>Plugins run on the server only. Headsets never run plugin code; they receive only what the plugins change in the world, and the data of content packs.</p>
+
+<h2 id="one-api-for-both-languages">One API for both languages</h2>
+<p>Rust and Java plugins see the same API: the same events, commands, permissions and scheduler, generated from one definition, so a feature reaches both at once and their documentation never disagrees. Its reference will be published here.</p>
+
+<h2 id="safety">Safety</h2>
+<ul>
+<li>A server owner approves each plugin by its exact file; a changed file needs approving again. Nothing updates itself.</li>
+<li>Each plugin says what it needs (for example, saving files or reaching the internet), and Rust plugins get nothing else.</li>
+<li>Content packs have hard size limits, and the headset checks every file before using it.</li>
+<li>Run the server under its own user or in <a href="docker.html">Docker</a>, so a plugin with full trust can reach only the server's own folder.</li>
+</ul>
+</main>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</body>
+</html>

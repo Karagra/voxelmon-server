@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Networking · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><a class="brand" href="index.html">VoxelMon Server</a>
+<a href="index.html">Overview</a>
+<a href="install.html">Getting started</a>
+<a href="settings.html">Settings</a>
+<a href="commands.html">Commands</a>
+<a href="network.html" aria-current="page">Networking</a>
+<a href="docker.html">Docker</a>
+<a href="plugins.html">Plugins</a></nav>
+<main>
+<h1>Networking</h1>
+<p class="lead">Players join with a six-character join code. On your own network or across the internet, the code is all they need.</p>
+
+<h2 id="how-players-find-the-server">How players find the server</h2>
+<p>When a player enters the code, their game looks for it two ways at once:</p>
+<ul>
+<li><strong>On the same network</strong> (the same Wi-Fi or LAN as the server), the game finds the server directly and connects to it straight.</li>
+<li><strong>Over the internet</strong>, the game asks Epic Online Services, where the server has registered its code. Epic connects the two directly where the routers allow it, and through Epic's relay where they do not. Nothing has to be forwarded on your router for this.</li>
+</ul>
+<p>If both work, the game uses the same-network connection.</p>
+
+<h2 id="accounts">Accounts</h2>
+<p>Every player must be signed in to their store account (Meta Quest or PICO). When a player joins, the server asks Epic to confirm their account; a player Epic cannot vouch for is turned away with a message saying so. This needs the server to reach Epic, so it needs the internet even when every player is on your own network.</p>
+<p>The server signs in to Epic with an anonymous identity of its own, made on its first run and kept in its <code>epic/</code> folder. You need no Epic account.</p>
+
+<h2 id="ports-and-firewalls">Ports and firewalls</h2>
+<table>
+<tr><th>Port</th><th>Used for</th><th>Needed when</th></tr>
+<tr><td>UDP 25565 (<code>port</code>)</td><td>The game's own connections</td><td>Players on the same network</td></tr>
+<tr><td>UDP 25566</td><td>Answering join codes on the network</td><td>Players on the same network</td></tr>
+<tr><td>Outgoing HTTPS and UDP</td><td>Epic Online Services</td><td>Always (accounts, internet play)</td></tr>
+</table>
+<p>Internet play through Epic needs no incoming ports: the server reaches out to Epic, which is allowed by almost every firewall. Only same-network joins need the two incoming UDP ports open on the server's own firewall.</p>
+<h3 id="opening-them">Opening them</h3>
+<p>Windows: allow <code>voxelmon-server.exe</code> when Windows asks on the first run, or add an inbound rule for UDP 25565 and 25566.</p>
+<p>Linux with firewalld (Fedora, CachyOS and others):</p>
+<pre><code>sudo firewall-cmd --permanent --add-port=25565-25566/udp
+sudo firewall-cmd --reload</code></pre>
+<p>Linux with ufw (Ubuntu and others):</p>
+<pre><code>sudo ufw allow 25565:25566/udp</code></pre>
+<p>If a player on your network cannot find the server but players elsewhere can, these ports are the first thing to check. Their game then falls back to Epic, which works too, just not as directly.</p>
+
+<h2 id="what-the-server-tells-you">What the server tells you</h2>
+<table>
+<tr><th>Message</th><th>Meaning</th></tr>
+<tr><td>Players anywhere can join with the code.</td><td>Internet play is working.</td></tr>
+<tr><td>Epic could not be reached. Nobody can join until it is.</td><td>No internet, or Epic is down. Every player's account is confirmed by Epic, so nobody can join until it is back. The server tries again on its own (after 30 seconds, then waiting longer each time, up to 5 minutes), so it recovers by itself once the internet returns.</td></tr>
+<tr><td>Another game holds this code on the internet: choosing a new one.</td><td>Rare. The server picks a new code and prints it; share the new one.</td></tr>
+</table>
+
+<h2 id="bandwidth">Bandwidth</h2>
+<p>Each player sends and receives only what is near them, and a player standing still costs very little. As a rough guide, allow 30 to 60 KB/s of upload for each active player; a home connection with 20 to 40 Mbit/s of upload holds about 40 to 60 busy players.</p>
+</main>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</body>
+</html>

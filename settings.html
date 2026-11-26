@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><a class="brand" href="index.html">VoxelMon Server</a>
+<a href="index.html">Overview</a>
+<a href="install.html">Getting started</a>
+<a href="settings.html" aria-current="page">Settings</a>
+<a href="commands.html">Commands</a>
+<a href="network.html">Networking</a>
+<a href="docker.html">Docker</a>
+<a href="plugins.html">Plugins</a></nav>
+<main>
+<h1>Settings</h1>
+<p class="lead">Everything is in <code>server.toml</code> in the server's folder. Restart the server after changing it.</p>
+
+<p>The first run writes the file with every setting and an explanation of each. A line starting with <code>#</code> is a comment. Text goes in quotes; numbers and <code>true</code>/<code>false</code> do not. If a line has a mistake (an unknown setting or a value out of range), the server does not start and names the line, so a typo never quietly falls back to a default.</p>
+
+<h2 id="all-settings">All settings</h2>
+<table>
+<tr><th>Setting</th><th>Default</th><th>What it does</th></tr>
+<tr><td><code>port</code></td><td><code>25565</code></td><td>The UDP port players' games connect to, 1 to 65535. Join codes are always answered on UDP 25566.</td></tr>
+<tr><td><code>max_players</code></td><td><code>8</code></td><td>Players at once, 1 to 255. See <a href="install.html#how-much-computer-it-needs">how much computer it needs</a>.</td></tr>
+<tr><td><code>title</code></td><td><code>"VoxelMon Server"</code></td><td>The name players see when they look up the join code.</td></tr>
+<tr><td><code>description</code></td><td><code>""</code></td><td>A line shown under the title.</td></tr>
+<tr><td><code>seed</code></td><td>random</td><td>The seed for a new world, a whole number. Leave it out for a random world. An existing world keeps its own seed.</td></tr>
+<tr><td><code>autosave_minutes</code></td><td><code>5</code></td><td>Minutes between automatic saves, 0 to 1440. 0 saves only on the <code>save</code> and <code>stop</code> commands.</td></tr>
+<tr><td><code>internet</code></td><td><code>true</code></td><td>Opens the join code to players on other networks through Epic Online Services. Must stay on: see below.</td></tr>
+<tr><td><code>difficulty</code></td><td><code>"normal"</code></td><td><code>"normal"</code>; <code>"hard"</code> (creatures hit harder and starving can make you faint); or <code>"hardcore"</code> (hard, and one life: a player who faints stays down for good in this world).</td></tr>
+<tr><td><code>combat</code></td><td><code>"turn-based"</code></td><td><code>"turn-based"</code> battles, or <code>"action"</code> for real-time combat.</td></tr>
+<tr><td><code>keep_inventory</code></td><td><code>true</code></td><td>A player who faints keeps everything they carry.</td></tr>
+<tr><td><code>creative</code></td><td><code>false</code></td><td>Free flight, no harm and unlimited blocks for every player.</td></tr>
+</table>
+
+<div class="note">The server lets in only players signed in to their store account, as confirmed by Epic Online Services. That check needs the internet, so <code>internet</code> must stay <code>true</code> even if all your players are on your own network: with it off, nobody can join.</div>
+
+<h2 id="an-example">An example</h2>
+<pre><code># A hardcore server for up to 30 friends.
+port = 25565
+max_players = 30
+title = "Karagra's Hardcore World"
+description = "One life. Make it count."
+autosave_minutes = 5
+internet = true
+difficulty = "hardcore"
+combat = "action"
+keep_inventory = false
+creative = false</code></pre>
+</main>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docker · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><a class="brand" href="index.html">VoxelMon Server</a>
+<a href="index.html">Overview</a>
+<a href="install.html">Getting started</a>
+<a href="settings.html">Settings</a>
+<a href="commands.html">Commands</a>
+<a href="network.html">Networking</a>
+<a href="docker.html" aria-current="page">Docker</a>
+<a href="plugins.html">Plugins</a></nav>
+<main>
+<h1>Docker</h1>
+<p class="lead">The official image runs the same server, with the world kept in a volume.</p>
+
+<div class="note">The image will be published with the server's first release as <code>ghcr.io/karagra/voxelmon-server</code>.</div>
+
+<h2 id="run-it">Run it</h2>
+<pre><code>docker run -d -it --name voxelmon \
+  --network host \
+  --stop-timeout 20 \
+  -v voxelmon:/data \
+  ghcr.io/karagra/voxelmon-server:latest
+
+docker logs voxelmon        # the join code is near the top</code></pre>
+<ul>
+<li><strong><code>--network host</code></strong>: the server makes its join code from its own network address and answers codes on your network. Inside Docker's own private network it would see the wrong address, and players on your network could not find it.</li>
+<li><strong><code>-v voxelmon:/data</code></strong>: the world, <code>server.toml</code> and the blocked list live in the <code>voxelmon</code> volume, so they survive updates. Use a folder instead (<code>-v /srv/voxelmon:/data</code>) to edit <code>server.toml</code> directly.</li>
+<li><strong><code>--stop-timeout 20</code></strong>: <code>docker stop</code> asks the server to stop as the <code>stop</code> command does: players are told and the world is saved. This gives it time.</li>
+<li><strong><code>-it</code></strong>: keeps a console you can reach with <code>docker attach voxelmon</code>. Leave it with Ctrl-P then Ctrl-Q; Ctrl-C there stops the server.</li>
+</ul>
+
+<h2 id="docker-compose">Docker Compose</h2>
+<pre><code>services:
+  voxelmon:
+    container_name: voxelmon
+    image: ghcr.io/karagra/voxelmon-server:latest
+    network_mode: host
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    stop_grace_period: 20s
+    volumes:
+      - voxelmon:/data
+volumes:
+  voxelmon:</code></pre>
+<pre><code>docker compose up -d
+docker attach voxelmon</code></pre>
+
+<h2 id="settings">Settings</h2>
+<p>On its first run the server writes <code>server.toml</code> into <code>/data</code>. Edit it there (in the volume or your folder) and restart the container: <code>docker restart voxelmon</code>.</p>
+
+<h2 id="updating">Updating</h2>
+<pre><code>docker pull ghcr.io/karagra/voxelmon-server:latest
+docker rm -f voxelmon
+docker run ...              # as above; the volume keeps the world</code></pre>
+<p>To stay on one version, use its tag (for example <code>:0.1.0</code>) instead of <code>:latest</code>, and change it when your players update their game.</p>
+
+<h2 id="what-is-in-the-image">What is in the image</h2>
+<p>A small Debian base, the Linux server and Epic's library. The server runs as its own limited user, <code>voxelmon</code>, which can write only to <code>/data</code>.</p>
+</main>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</body>
+</html>

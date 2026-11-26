@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoxelMon Dedicated Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><a class="brand" href="index.html">VoxelMon Server</a>
+<a href="index.html" aria-current="page">Overview</a>
+<a href="install.html">Getting started</a>
+<a href="settings.html">Settings</a>
+<a href="commands.html">Commands</a>
+<a href="network.html">Networking</a>
+<a href="docker.html">Docker</a>
+<a href="plugins.html">Plugins</a></nav>
+<main>
+<h1>VoxelMon Dedicated Server</h1>
+<p class="lead">Run a VoxelMon world that is always on, for your friends or your community, on your own PC, a rented server or in Docker.</p>
+
+<div class="note"><strong>Coming soon.</strong> The server is still being finished. Downloads will appear on the <a href="https://github.com/Karagra/voxelmon-server/releases">releases page</a> with its first version; this guide describes it as it will ship.</div>
+
+<h2 id="what-it-is">What it is</h2>
+<p>A VoxelMon world normally lives on the headset of the player who hosts it, and closes when they stop playing. The dedicated server is the same world running as a small program on a computer instead: it stays up when you take your headset off, and players join it with a join code, from the same network or from anywhere over the internet.</p>
+<ul>
+<li><strong>Light.</strong> No graphics card, no headset and no window needed. It runs on one CPU core and a few hundred megabytes of memory.</li>
+<li><strong>Up to 255 players.</strong> You choose the limit. Each headset shows its player the nearest seven others, so a big server costs a headset no more than a small one.</li>
+<li><strong>Nothing to install.</strong> Unzip it and run it, on Windows or Linux, or run the Docker image.</li>
+<li><strong>Your world, your rules.</strong> Difficulty (including one-life Hardcore), turn-based or real-time combat, creative mode, keep inventory, and a block list of players who may never join.</li>
+</ul>
+
+<h2 id="who-can-join">Who can join</h2>
+<p>Players on the <strong>Meta Quest</strong> and <strong>PICO</strong> versions of VoxelMon, signed in to their store account. The server asks Epic Online Services to confirm each player's account before letting them in. Players must run the same version of the game as the server.</p>
+
+<h2 id="where-to-start">Where to start</h2>
+<ul>
+<li><a href="install.html">Getting started</a>: download, first run, keeping it running.</li>
+<li><a href="settings.html">Settings</a>: every option in <code>server.toml</code>.</li>
+<li><a href="commands.html">Console commands</a>: managing players and the world.</li>
+<li><a href="network.html">Networking</a>: join codes, internet play, ports and firewalls.</li>
+<li><a href="docker.html">Docker</a>: running the official image.</li>
+<li><a href="plugins.html">Plugins and content packs</a>: what is planned.</li>
+</ul>
+</main>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Console commands · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><a class="brand" href="index.html">VoxelMon Server</a>
+<a href="index.html">Overview</a>
+<a href="install.html">Getting started</a>
+<a href="settings.html">Settings</a>
+<a href="commands.html" aria-current="page">Commands</a>
+<a href="network.html">Networking</a>
+<a href="docker.html">Docker</a>
+<a href="plugins.html">Plugins</a></nav>
+<main>
+<h1>Console commands</h1>
+<p class="lead">Type these into the server's window (or its terminal). Type <code>help</code> to list them.</p>
+
+<table>
+<tr><th>Command</th><th>What it does</th></tr>
+<tr><td><code>status</code></td><td>The world, the players in it, when it was last saved, and how long the server's ticks take.</td></tr>
+<tr><td><code>code</code></td><td>This server's join code.</td></tr>
+<tr><td><code>list</code></td><td>The players in the world, each with a number. Commands below take that number.</td></tr>
+<tr><td><code>kick N</code></td><td>Puts player N out. They may join again.</td></tr>
+<tr><td><code>block N</code></td><td>Puts player N out and never lets them in again, kept in <code>blocked.txt</code>.</td></tr>
+<tr><td><code>blocked</code></td><td>The blocked list, numbered.</td></tr>
+<tr><td><code>unblock N</code></td><td>Takes entry N off the blocked list.</td></tr>
+<tr><td><code>save</code></td><td>Saves the world now.</td></tr>
+<tr><td><code>stop</code></td><td>Tells players, saves and stops the server. Ctrl-C does the same.</td></tr>
+</table>
+
+<h2 id="players-and-their-numbers">Players and their numbers</h2>
+<p><code>list</code> shows each player with their store account's name, numbered from 1:</p>
+<pre><code>list
+  1  KARAGRA (store account)
+  2  NERY (store account)
+  3  SKIP#0377 (store account), no pose arriving</code></pre>
+<p>"No pose arriving" means that player's headset is sending no movement (it is asleep or has lost tracking); they stand still to everyone until it comes back.</p>
+<p>A number after a name (<code>#0377</code>) appears only while two players have the same name, so you can tell them apart. A number belongs to a player while they are in the world; check <code>list</code> again before <code>kick</code> or <code>block</code> if players have come and gone.</p>
+<p>Blocking needs Epic to have confirmed who the player is, which happens within a few seconds of them joining. A blocked player stays blocked across restarts until you <code>unblock</code> them.</p>
+</main>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</body>
+</html>

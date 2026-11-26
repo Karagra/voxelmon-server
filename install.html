@@ -7,14 +7,37 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav><a class="brand" href="index.html">VoxelMon Server</a>
-<a href="index.html">Overview</a>
-<a href="install.html" aria-current="page">Getting started</a>
-<a href="settings.html">Settings</a>
-<a href="commands.html">Commands</a>
-<a href="network.html">Networking</a>
-<a href="docker.html">Docker</a>
-<a href="plugins.html">Plugins</a></nav>
+<header>
+<a class="brand" href="index.html">VoxelMon Server</a>
+<label class="menu-button" for="menu">Menu</label>
+</header>
+<input type="checkbox" id="menu" hidden>
+<div class="layout">
+<nav aria-label="Site">
+<p class="section">Server guide</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html" aria-current="page">Getting started</a>
+<ul class="headings">
+<li><a href="#download">Download</a></li>
+<li><a href="#first-run">First run</a></li>
+<li><a href="#what-is-in-the-folder">What is in the folder</a></li>
+<li><a href="#stopping-and-saving">Stopping and saving</a></li>
+<li><a href="#keeping-it-running-on-linux">Keeping it running on Linux</a></li>
+<li><a href="#updating">Updating</a></li>
+<li><a href="#how-much-computer-it-needs">How much computer it needs</a></li>
+</ul>
+</li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="section">Modding</p>
+<ul>
+<li><a href="plugins.html">Plugins and content packs</a></li>
+</ul>
+</nav>
 <main>
 <h1>Getting started</h1>
 <p class="lead">Download, unzip and run. The server writes everything it needs on its first run.</p>
@@ -95,7 +118,8 @@ journalctl -u voxelmon -f      # its output, including the join code</code></pre
 <tr><td>50 to 100</td><td>A fast core; a dedicated or rented server</td><td>50 Mbit/s</td></tr>
 </table>
 <p>Upload speed is usually what runs out first on a home connection. Over 100 players is possible: test it with your own players first.</p>
-</main>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</main>
+</div>
 </body>
 </html>

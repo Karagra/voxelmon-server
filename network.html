@@ -7,14 +7,35 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav><a class="brand" href="index.html">VoxelMon Server</a>
-<a href="index.html">Overview</a>
-<a href="install.html">Getting started</a>
-<a href="settings.html">Settings</a>
-<a href="commands.html">Commands</a>
-<a href="network.html" aria-current="page">Networking</a>
-<a href="docker.html">Docker</a>
-<a href="plugins.html">Plugins</a></nav>
+<header>
+<a class="brand" href="index.html">VoxelMon Server</a>
+<label class="menu-button" for="menu">Menu</label>
+</header>
+<input type="checkbox" id="menu" hidden>
+<div class="layout">
+<nav aria-label="Site">
+<p class="section">Server guide</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Getting started</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Commands</a></li>
+<li><a href="network.html" aria-current="page">Networking</a>
+<ul class="headings">
+<li><a href="#how-players-find-the-server">How players find the server</a></li>
+<li><a href="#accounts">Accounts</a></li>
+<li><a href="#ports-and-firewalls">Ports and firewalls</a></li>
+<li><a href="#what-the-server-tells-you">What the server tells you</a></li>
+<li><a href="#bandwidth">Bandwidth</a></li>
+</ul>
+</li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="section">Modding</p>
+<ul>
+<li><a href="plugins.html">Plugins and content packs</a></li>
+</ul>
+</nav>
 <main>
 <h1>Networking</h1>
 <p class="lead">Players join with a six-character join code. On your own network or across the internet, the code is all they need.</p>
@@ -58,7 +79,8 @@ sudo firewall-cmd --reload</code></pre>
 
 <h2 id="bandwidth">Bandwidth</h2>
 <p>Each player sends and receives only what is near them, and a player standing still costs very little. As a rough guide, allow 30 to 60 KB/s of upload for each active player; a home connection with 20 to 40 Mbit/s of upload holds about 40 to 60 busy players.</p>
-</main>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</main>
+</div>
 </body>
 </html>

@@ -7,14 +7,33 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav><a class="brand" href="index.html">VoxelMon Server</a>
-<a href="index.html">Overview</a>
-<a href="install.html">Getting started</a>
-<a href="settings.html">Settings</a>
-<a href="commands.html">Commands</a>
-<a href="network.html">Networking</a>
-<a href="docker.html">Docker</a>
-<a href="plugins.html" aria-current="page">Plugins</a></nav>
+<header>
+<a class="brand" href="index.html">VoxelMon Server</a>
+<label class="menu-button" for="menu">Menu</label>
+</header>
+<input type="checkbox" id="menu" hidden>
+<div class="layout">
+<nav aria-label="Site">
+<p class="section">Server guide</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Getting started</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="section">Modding</p>
+<ul>
+<li><a href="plugins.html" aria-current="page">Plugins and content packs</a>
+<ul class="headings">
+<li><a href="#three-kinds">Three kinds</a></li>
+<li><a href="#one-api-for-both-languages">One API for both languages</a></li>
+<li><a href="#safety">Safety</a></li>
+</ul>
+</li>
+</ul>
+</nav>
 <main>
 <h1>Plugins and content packs</h1>
 <p class="lead">Planned: ways for server owners and creators to add to VoxelMon worlds. Nothing here is available yet; this page grows as each part is built.</p>
@@ -38,7 +57,8 @@
 <li>Content packs have hard size limits, and the headset checks every file before using it.</li>
 <li>Run the server under its own user or in <a href="docker.html">Docker</a>, so a plugin with full trust can reach only the server's own folder.</li>
 </ul>
-</main>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</main>
+</div>
 </body>
 </html>

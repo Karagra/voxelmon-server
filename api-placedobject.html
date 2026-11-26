@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PlacedObject · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -46,8 +47,6 @@
 <li><a href="api-block.html">Block</a></li>
 <li class="current"><a href="api-placedobject.html" aria-current="page">PlacedObject</a>
 <ul>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#methods">Methods</a></li>
 <li><a href="#container">Container</a></li>
 <li><a href="#station">Station</a></li>
 <li><a href="#events">Events</a></li>
@@ -64,40 +63,45 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » PlacedObject</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » PlacedObject</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>PlacedObject</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From world.objects_near(...), world.object_at(...) and events.</p>
-<p class="lead">Something placed that is more than a block: furniture, stations, chests, beds, doors, crops.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-itemstack.html#itemtype">ItemType</a></td><td><code>item</code></td><td>What it is.</td></tr>
-<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>at</code></td><td>Its first block.</td></tr>
-<tr><td class="type">float</td><td><code>facing</code></td><td>Which way it faces.</td></tr>
-<tr><td class="type">List[<a href="api-types.html#blockpos">BlockPos</a>]</td><td><code>fills</code></td><td>Every block it fills.</td></tr>
-<tr><td class="type"><a href="api-placedobject.html#station">Station</a>?</td><td><code>station</code></td><td>What kind of station it is, if one.</td></tr>
-<tr><td class="type">bool</td><td><code>open</code></td><td>Whether a door or lid stands open.</td></tr>
-<tr><td class="type">int?</td><td><code>crop_percent</code></td><td>How grown a crop is, 0 to 100.</td></tr>
-</table>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-placedobject.html#container">Container</a>?</td><td><code>container()</code></td><td>Its contents, for a chest, barrel or shelf.</td></tr>
-<tr><td class="type">nothing</td><td><code>set_open(open: bool)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Opens or shuts a door or lid.</td></tr>
-<tr><td class="type">nothing</td><td><code>remove(drop: bool)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Takes it down, dropping it as an item or not.</td></tr>
+<div class="note"><strong>Being built.</strong> 0 of 13 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>Something placed that is more than a block: furniture, stations, chests, beds, doors, crops.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="placedobject-item"><td class="sig"><code class="rs">fn item(&amp;self) -&gt; Result&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt;</code><code class="java"><a href="api-itemstack.html#itemtype">ItemType</a> item()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What it is.</td></tr>
+<tr id="placedobject-at"><td class="sig"><code class="rs">fn at(&amp;self) -&gt; Result&lt;<a href="api-types.html#blockpos">BlockPos</a>&gt;</code><code class="java"><a href="api-types.html#blockpos">BlockPos</a> at()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its first block.</td></tr>
+<tr id="placedobject-facing"><td class="sig"><code class="rs">fn facing(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double facing()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Which way it faces, in degrees.</td></tr>
+<tr id="placedobject-station"><td class="sig"><code class="rs">fn station(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-placedobject.html#station">Station</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-placedobject.html#station">Station</a>&gt; station()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What kind of station it is, if one.</td></tr>
+<tr id="placedobject-open"><td class="sig"><code class="rs">fn open(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean open()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Whether a door or lid stands open.</td></tr>
+<tr id="placedobject-crop-percent"><td class="sig"><code class="rs">fn crop_percent(&amp;self) -&gt; Result&lt;Option&lt;i64&gt;&gt;</code><code class="java">Optional&lt;Long&gt; cropPercent()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>How grown a crop is, 0 to 100.</td></tr>
+<tr id="placedobject-container"><td class="sig"><code class="rs">fn container(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-placedobject.html#container">Container</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-placedobject.html#container">Container</a>&gt; container()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its contents, for a chest, barrel or shelf.</td></tr>
+<tr id="placedobject-set-open"><td class="sig"><code class="rs">fn set_open(&amp;self, open: bool) -&gt; Result&lt;()&gt;</code><code class="java">void setOpen(boolean open)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Opens or shuts a door or lid.</td></tr>
+<tr id="placedobject-remove"><td class="sig"><code class="rs">fn remove(&amp;self, drop: bool) -&gt; Result&lt;()&gt;</code><code class="java">void remove(boolean drop)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Takes it down, dropping it as an item or not.</td></tr>
 </table>
 <h2 id="container">Container</h2>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
 <p>A chest&#x27;s, barrel&#x27;s or shelf&#x27;s slots.</p>
-<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
-<tr><td class="type">int</td><td><code>slots</code></td><td>How many slots.</td></tr>
-<tr><td class="type"><a href="api-itemstack.html">ItemStack</a>?</td><td><code>get(slot)</code></td><td>What a slot holds.</td></tr>
-<tr><td class="type">nothing</td><td><code>set(slot, stack)</code></td><td>Sets a slot (needs <code>world_edit</code>).</td></tr>
-<tr><td class="type"><a href="api-itemstack.html">ItemStack</a>?</td><td><code>add(stack)</code></td><td>Adds where it fits; returns what did not (needs <code>world_edit</code>).</td></tr>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="container-slots"><td class="sig"><code class="rs">fn slots(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long slots()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>How many slots.</td></tr>
+<tr id="container-get"><td class="sig"><code class="rs">fn get(&amp;self, slot: i64) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; get(long slot)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What a slot holds.</td></tr>
+<tr id="container-set"><td class="sig"><code class="rs">fn set(&amp;self, slot: i64, stack: Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void set(long slot, <a href="api-itemstack.html">ItemStack</a> stack)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Sets a slot.</td></tr>
+<tr id="container-add"><td class="sig"><code class="rs">fn add(&amp;self, stack: <a href="api-itemstack.html">ItemStack</a>) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; add(<a href="api-itemstack.html">ItemStack</a> stack)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Adds where it fits; returns what did not.</td></tr>
 </table>
 <h2 id="station">Station</h2>
-<p>Workbench, anvil, fletching bench, forge, brewing cauldron, campfire, or cooking pot.</p>
-<h2 id="events">Events</h2>
-<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#objectplacing"><code>ObjectPlacing</code></a>, <a href="api-events.html#objectremoved"><code>ObjectRemoved</code></a>, <a href="api-events.html#containeropening"><code>ContainerOpening</code></a>, <a href="api-events.html#doorused"><code>DoorUsed</code></a>.</p>
+<p class="kind">One of a fixed set of values.</p>
+<p>A crafting station.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-placedobject.html#station">Station</a>::Workbench</code><code class="java"><a href="api-placedobject.html#station">Station</a>.WORKBENCH</code></td><td>The workbench.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-placedobject.html#station">Station</a>::Anvil</code><code class="java"><a href="api-placedobject.html#station">Station</a>.ANVIL</code></td><td>The anvil.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-placedobject.html#station">Station</a>::FletchingBench</code><code class="java"><a href="api-placedobject.html#station">Station</a>.FLETCHING_BENCH</code></td><td>The fletching bench.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-placedobject.html#station">Station</a>::Forge</code><code class="java"><a href="api-placedobject.html#station">Station</a>.FORGE</code></td><td>The forge.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-placedobject.html#station">Station</a>::Cauldron</code><code class="java"><a href="api-placedobject.html#station">Station</a>.CAULDRON</code></td><td>The brewing cauldron.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-placedobject.html#station">Station</a>::Campfire</code><code class="java"><a href="api-placedobject.html#station">Station</a>.CAMPFIRE</code></td><td>A campfire&#x27;s rim.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-placedobject.html#station">Station</a>::CookingPot</code><code class="java"><a href="api-placedobject.html#station">Station</a>.COOKING_POT</code></td><td>A cooking pot over a campfire.</td></tr>
+</table>
+<h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#objectplacing"><code>ObjectPlacing</code></a>, <a href="api-events.html#objectremoved"><code>ObjectRemoved</code></a>, <a href="api-events.html#containeropening"><code>ContainerOpening</code></a>, <a href="api-events.html#doorused"><code>DoorUsed</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-block.html">← Block</a><a class="next" href="api-region.html">Region →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

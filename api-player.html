@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Player · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -38,10 +39,10 @@
 <li class="current"><a href="api-player.html" aria-current="page">Player</a>
 <ul>
 <li><a href="#description">Description</a></li>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#methods">Methods</a></li>
 <li><a href="#playerprofile">PlayerProfile</a></li>
 <li><a href="#hand">Hand</a></li>
+<li><a href="#handside">HandSide</a></li>
+<li><a href="#packcolour">PackColour</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
 </li>
@@ -65,88 +66,102 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Player</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Player</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Player</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From server.players(), events, or server.player(id).</p>
-<p class="lead">A player in the world: their body, health, bag, gear, coins, progress and team.</p>
-<h2 id="description">Description</h2>
-<p>A <code>Player</code> is someone in the world now. Their lasting <code>id</code> stays the same every time they join (it comes from their store account through Epic); keep that, not the <code>Player</code>, to remember someone. A player who has left is a <a href="api-player.html#playerprofile">PlayerProfile</a>, readable and, for saved values, changeable until they return.</p>
-<p>Reading needs nothing. Changing a player&#x27;s bag, gear, coins, progress or team needs <code>player_data</code>; moving or healing them needs nothing more than the plugin being approved.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-types.html#playerid">PlayerId</a></td><td><code>id</code></td><td>Their lasting ID.</td></tr>
-<tr><td class="type">String</td><td><code>name</code></td><td>Their store account&#x27;s name.</td></tr>
-<tr><td class="type">String</td><td><code>called</code></td><td>What everyone sees: their name, with a #number while another player has the same name.</td></tr>
-<tr><td class="type">int</td><td><code>number</code></td><td>Their number in this session, as <code>list</code> shows it (from 1).</td></tr>
-<tr><td class="type">Store</td><td><code>store</code></td><td>Meta Quest or PICO.</td></tr>
-<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>position</code></td><td>Where their feet are.</td></tr>
-<tr><td class="type">float</td><td><code>facing</code></td><td>The way their body faces, in degrees.</td></tr>
-<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>head</code></td><td>Where their head is, from their headset.</td></tr>
-<tr><td class="type"><a href="api-player.html#hand">Hand</a></td><td><code>left_hand</code></td><td>Their left hand&#x27;s place, turn and what it holds.</td></tr>
-<tr><td class="type"><a href="api-player.html#hand">Hand</a></td><td><code>right_hand</code></td><td>Their right hand&#x27;s place, turn and what it holds.</td></tr>
-<tr><td class="type">float</td><td><code>health</code></td><td>Their health now.</td></tr>
-<tr><td class="type">float</td><td><code>max_health</code></td><td>Their most health.</td></tr>
-<tr><td class="type">float</td><td><code>hunger</code></td><td>How fed they are, 0 to 1.</td></tr>
-<tr><td class="type">float</td><td><code>breath</code></td><td>Breath left under water, 0 to 1.</td></tr>
-<tr><td class="type">bool</td><td><code>fainted</code></td><td>Whether they have fainted.</td></tr>
-<tr><td class="type">bool</td><td><code>in_battle</code></td><td>Whether they are in a turn-based battle.</td></tr>
-<tr><td class="type">bool</td><td><code>sitting</code></td><td>Whether they are sitting (a log, a chair, a bench).</td></tr>
-<tr><td class="type">bool</td><td><code>flying</code></td><td>Whether they are flying (creative).</td></tr>
-<tr><td class="type"><a href="api-town.html">Town</a>?</td><td><code>town</code></td><td>The town they are in, if any.</td></tr>
-<tr><td class="type"><a href="api-dungeon.html">Dungeon</a>?</td><td><code>dungeon</code></td><td>The dungeon they are down in, if any.</td></tr>
-<tr><td class="type">int</td><td><code>coins</code></td><td>Their coins.</td></tr>
-<tr><td class="type">PackColour</td><td><code>pack_colour</code></td><td>Their backpack&#x27;s colour.</td></tr>
-<tr><td class="type"><a href="api-types.html#duration">Duration</a></td><td><code>played</code></td><td>How long they have played in this world.</td></tr>
+<div class="note"><strong>Being built.</strong> 29 of 46 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>A player in the world: their body, health, bag, gear, coins, progress and team.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="player-id"><td class="sig"><code class="rs">fn id(&amp;self) -&gt; Result&lt;<a href="api-types.html#playerid">PlayerId</a>&gt;</code><code class="java">String id()</code></td><td>Their lasting ID.</td></tr>
+<tr id="player-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code></td><td>Their store account&#x27;s name.</td></tr>
+<tr id="player-called"><td class="sig"><code class="rs">fn called(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String called()</code></td><td>What everyone sees: their name, with a #number while another player has the same name.</td></tr>
+<tr id="player-number"><td class="sig"><code class="rs">fn number(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long number()</code></td><td>Their number in this session, as the console&#x27;s <code>list</code> shows it (from 1).</td></tr>
+<tr id="player-store"><td class="sig"><code class="rs">fn store(&amp;self) -&gt; Result&lt;<a href="api-types.html#store">Store</a>&gt;</code><code class="java"><a href="api-types.html#store">Store</a> store()</code></td><td>Which store their account is from.</td></tr>
+<tr id="player-position"><td class="sig"><code class="rs">fn position(&amp;self) -&gt; Result&lt;<a href="api-types.html#place">Place</a>&gt;</code><code class="java"><a href="api-types.html#place">Place</a> position()</code></td><td>Where their feet are.</td></tr>
+<tr id="player-facing"><td class="sig"><code class="rs">fn facing(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double facing()</code></td><td>The way their body faces, in degrees (0 north, 90 east).</td></tr>
+<tr id="player-head"><td class="sig"><code class="rs">fn head(&amp;self) -&gt; Result&lt;<a href="api-types.html#place">Place</a>&gt;</code><code class="java"><a href="api-types.html#place">Place</a> head()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Where their head is.</td></tr>
+<tr id="player-left-hand"><td class="sig"><code class="rs">fn left_hand(&amp;self) -&gt; Result&lt;<a href="api-player.html#hand">Hand</a>&gt;</code><code class="java"><a href="api-player.html#hand">Hand</a> leftHand()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Their left hand.</td></tr>
+<tr id="player-right-hand"><td class="sig"><code class="rs">fn right_hand(&amp;self) -&gt; Result&lt;<a href="api-player.html#hand">Hand</a>&gt;</code><code class="java"><a href="api-player.html#hand">Hand</a> rightHand()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Their right hand.</td></tr>
+<tr id="player-health"><td class="sig"><code class="rs">fn health(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double health()</code></td><td>Their health now.</td></tr>
+<tr id="player-max-health"><td class="sig"><code class="rs">fn max_health(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double maxHealth()</code></td><td>Their most health.</td></tr>
+<tr id="player-hunger"><td class="sig"><code class="rs">fn hunger(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double hunger()</code></td><td>How fed they are, 0 to 1.</td></tr>
+<tr id="player-breath"><td class="sig"><code class="rs">fn breath(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double breath()</code></td><td>Breath left under water, 0 to 1.</td></tr>
+<tr id="player-fainted"><td class="sig"><code class="rs">fn fainted(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean fainted()</code></td><td>Whether they have fainted.</td></tr>
+<tr id="player-in-battle"><td class="sig"><code class="rs">fn in_battle(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean inBattle()</code></td><td>Whether they are in a turn-based battle.</td></tr>
+<tr id="player-sitting"><td class="sig"><code class="rs">fn sitting(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean sitting()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Whether they are sitting.</td></tr>
+<tr id="player-town"><td class="sig"><code class="rs">fn town(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-town.html">Town</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-town.html">Town</a>&gt; town()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The town they are in.</td></tr>
+<tr id="player-dungeon"><td class="sig"><code class="rs">fn dungeon(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-dungeon.html">Dungeon</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-dungeon.html">Dungeon</a>&gt; dungeon()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The dungeon they are down in.</td></tr>
+<tr id="player-coins"><td class="sig"><code class="rs">fn coins(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long coins()</code></td><td>Their coins.</td></tr>
+<tr id="player-pack-colour"><td class="sig"><code class="rs">fn pack_colour(&amp;self) -&gt; Result&lt;<a href="api-player.html#packcolour">PackColour</a>&gt;</code><code class="java"><a href="api-player.html#packcolour">PackColour</a> packColour()</code></td><td>Their backpack&#x27;s colour.</td></tr>
+<tr id="player-played"><td class="sig"><code class="rs">fn played(&amp;self) -&gt; Result&lt;<a href="api-types.html#duration">Duration</a>&gt;</code><code class="java">double played()</code></td><td>How long they have played in this world.</td></tr>
+<tr id="player-bag"><td class="sig"><code class="rs">fn bag(&amp;self) -&gt; Result&lt;<a href="api-bag.html">Bag</a>&gt;</code><code class="java"><a href="api-bag.html">Bag</a> bag()</code></td><td>What they carry.</td></tr>
+<tr id="player-equipment"><td class="sig"><code class="rs">fn equipment(&amp;self) -&gt; Result&lt;<a href="api-equipment.html">Equipment</a>&gt;</code><code class="java"><a href="api-equipment.html">Equipment</a> equipment()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What they wear and hold ready.</td></tr>
+<tr id="player-professions"><td class="sig"><code class="rs">fn professions(&amp;self) -&gt; Result&lt;<a href="api-professions.html">Professions</a>&gt;</code><code class="java"><a href="api-professions.html">Professions</a> professions()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Their twelve professions.</td></tr>
+<tr id="player-team"><td class="sig"><code class="rs">fn team(&amp;self) -&gt; Result&lt;<a href="api-team.html">Team</a>&gt;</code><code class="java"><a href="api-team.html">Team</a> team()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Their Voxelmon.</td></tr>
+<tr id="player-companion"><td class="sig"><code class="rs">fn companion(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-creature.html">Creature</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-creature.html">Creature</a>&gt; companion()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Their Voxelmon out of its cube.</td></tr>
+<tr id="player-teleport"><td class="sig"><code class="rs">fn teleport(&amp;self, place: <a href="api-types.html#place">Place</a>) -&gt; Result&lt;()&gt;</code><code class="java">void teleport(<a href="api-types.html#place">Place</a> place)</code></td><td>Moves them there at once.</td></tr>
+<tr id="player-teleport-facing"><td class="sig"><code class="rs">fn teleport_facing(&amp;self, place: <a href="api-types.html#place">Place</a>, facing: f64) -&gt; Result&lt;()&gt;</code><code class="java">void teleportFacing(<a href="api-types.html#place">Place</a> place, double facing)</code></td><td>Moves them and turns their body.</td></tr>
+<tr id="player-heal"><td class="sig"><code class="rs">fn heal(&amp;self, amount: f64) -&gt; Result&lt;()&gt;</code><code class="java">void heal(double amount)</code></td><td>Gives back health, up to their most.</td></tr>
+<tr id="player-damage"><td class="sig"><code class="rs">fn damage(&amp;self, amount: f64) -&gt; Result&lt;()&gt;</code><code class="java">void damage(double amount)</code></td><td>Hurts them (<code>PlayerDamaging</code> comes with cause PLUGIN; not in creative).</td></tr>
+<tr id="player-set-hunger"><td class="sig"><code class="rs">fn set_hunger(&amp;self, value: f64) -&gt; Result&lt;()&gt;</code><code class="java">void setHunger(double value)</code></td><td>Sets how fed they are, 0 to 1.</td></tr>
+<tr id="player-revive"><td class="sig"><code class="rs">fn revive(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void revive()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Gets a fainted player up where they are.</td></tr>
+<tr id="player-set-coins"><td class="sig"><code class="rs">fn set_coins(&amp;self, coins: i64) -&gt; Result&lt;()&gt;</code><code class="java">void setCoins(long coins)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Sets their coins.</td></tr>
+<tr id="player-add-coins"><td class="sig"><code class="rs">fn add_coins(&amp;self, coins: i64) -&gt; Result&lt;()&gt;</code><code class="java">void addCoins(long coins)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Gives coins (a negative number takes them, never below nothing).</td></tr>
+<tr id="player-set-pack-colour"><td class="sig"><code class="rs">fn set_pack_colour(&amp;self, colour: <a href="api-player.html#packcolour">PackColour</a>) -&gt; Result&lt;()&gt;</code><code class="java">void setPackColour(<a href="api-player.html#packcolour">PackColour</a> colour)</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Colours their backpack.</td></tr>
+<tr id="player-home"><td class="sig"><code class="rs">fn home(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-types.html#place">Place</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-types.html#place">Place</a>&gt; home()</code></td><td>Where they wake after fainting, if they slept in a bed.</td></tr>
+<tr id="player-set-home"><td class="sig"><code class="rs">fn set_home(&amp;self, place: <a href="api-types.html#place">Place</a>) -&gt; Result&lt;()&gt;</code><code class="java">void setHome(<a href="api-types.html#place">Place</a> place)</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Sets where they wake.</td></tr>
+<tr id="player-has-permission"><td class="sig"><code class="rs">fn has_permission(&amp;self, permission: &amp;str) -&gt; Result&lt;bool&gt;</code><code class="java">boolean hasPermission(String permission)</code></td><td>Whether they have a permission (<a href="api-permissions.html">Permissions</a>).</td></tr>
+<tr id="player-notice"><td class="sig"><code class="rs">fn notice(&amp;self, text: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void notice(String text)</code></td><td>A short notice by their watch.</td></tr>
+<tr id="player-banner"><td class="sig"><code class="rs">fn banner(&amp;self, banner: <a href="api-messages.html#banner">Banner</a>) -&gt; Result&lt;()&gt;</code><code class="java">void banner(<a href="api-messages.html#banner">Banner</a> banner)</code></td><td>A large banner before them.</td></tr>
+<tr id="player-play-sound"><td class="sig"><code class="rs">fn play_sound(&amp;self, sound: <a href="api-messages.html#sound">Sound</a>) -&gt; Result&lt;()&gt;</code><code class="java">void playSound(<a href="api-messages.html#sound">Sound</a> sound)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A sound only they hear.</td></tr>
+<tr id="player-open-menu"><td class="sig"><code class="rs">fn open_menu(&amp;self, menu: <a href="api-menu.html">Menu</a>) -&gt; Result&lt;()&gt;</code><code class="java">void openMenu(<a href="api-menu.html">Menu</a> menu)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Shows them a menu (<a href="api-menu.html">Menu</a>).</td></tr>
+<tr id="player-close-menu"><td class="sig"><code class="rs">fn close_menu(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void closeMenu()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Closes any plugin menu they have open.</td></tr>
+<tr id="player-kick"><td class="sig"><code class="rs">fn kick(&amp;self, reason: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void kick(String reason)</code></td><td>Puts them out with a reason. They may join again.</td></tr>
+<tr id="player-block"><td class="sig"><code class="rs">fn block(&amp;self, reason: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void block(String reason)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Puts them out and keeps them out.</td></tr>
 </table>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-bag.html">Bag</a></td><td><code>bag()</code></td><td>Their backpack, side slots, strap pockets, belt cubes and hands.</td></tr>
-<tr><td class="type"><a href="api-equipment.html">Equipment</a></td><td><code>equipment()</code></td><td>What they wear and hold ready.</td></tr>
-<tr><td class="type"><a href="api-professions.html">Professions</a></td><td><code>professions()</code></td><td>Their twelve professions.</td></tr>
-<tr><td class="type"><a href="api-team.html">Team</a></td><td><code>team()</code></td><td>Their Voxelmon: the belt and those stored.</td></tr>
-<tr><td class="type"><a href="api-creature.html">Creature</a>?</td><td><code>companion()</code></td><td>Their Voxelmon out of its cube, if any.</td></tr>
-<tr><td class="type">nothing</td><td><code>teleport(place: <a href="api-types.html#place">Place</a>)</code></td><td>Moves them there at once; their game follows.</td></tr>
-<tr><td class="type">nothing</td><td><code>teleport_facing(place: <a href="api-types.html#place">Place</a>, facing: float)</code></td><td>Moves them and turns their body.</td></tr>
-<tr><td class="type">nothing</td><td><code>heal(amount: float)</code></td><td>Gives back health, up to their most.</td></tr>
-<tr><td class="type">nothing</td><td><code>damage(amount: float)</code></td><td>Hurts them, as a fall would (not in creative).</td></tr>
-<tr><td class="type">nothing</td><td><code>set_hunger(value: float)</code></td><td>Sets how fed they are.</td></tr>
-<tr><td class="type">nothing</td><td><code>revive()</code></td><td>Gets a fainted player up again where they are.</td></tr>
-<tr><td class="type">nothing</td><td><code>set_coins(coins: int)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Sets their coins.</td></tr>
-<tr><td class="type">nothing</td><td><code>add_coins(coins: int)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Gives coins (a negative number takes them; never below nothing).</td></tr>
-<tr><td class="type">nothing</td><td><code>set_pack_colour(colour: PackColour)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Colours their backpack.</td></tr>
-<tr><td class="type"><a href="api-types.html#place">Place</a>?</td><td><code>home()</code></td><td>Where they wake after fainting, if they set one with a bed.</td></tr>
-<tr><td class="type">nothing</td><td><code>set_home(place: <a href="api-types.html#place">Place</a>)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Sets where they wake.</td></tr>
-<tr><td class="type">bool</td><td><code>has_permission(permission: String)</code></td><td>Whether they have a permission (<a href="api-permissions.html">Permissions</a>).</td></tr>
-<tr><td class="type">nothing</td><td><code>notice(text: String)</code></td><td>A short notice by their watch (<a href="api-messages.html">Messages</a>).</td></tr>
-<tr><td class="type">nothing</td><td><code>banner(banner: <a href="api-messages.html#banner">Banner</a>)</code></td><td>A large banner before them (<a href="api-messages.html">Messages</a>).</td></tr>
-<tr><td class="type">nothing</td><td><code>play_sound(sound: <a href="api-messages.html#sound">Sound</a>)</code></td><td>A sound only they hear.</td></tr>
-<tr><td class="type">nothing</td><td><code>open_menu(menu: <a href="api-menu.html">Menu</a>)</code></td><td>Shows them a plugin&#x27;s menu (<a href="api-menu.html">Menu</a>).</td></tr>
-<tr><td class="type">nothing</td><td><code>close_menu()</code></td><td>Closes any plugin menu they have open.</td></tr>
-<tr><td class="type">nothing</td><td><code>kick(reason: String)</code></td><td>Puts them out with a reason. They may join again.</td></tr>
-<tr><td class="type">nothing</td><td><code>block(reason: String)</code></td><td>Puts them out and keeps them out (the blocked list).</td></tr>
-<tr><td class="type">bool</td><td><code>can_see(place: <a href="api-types.html#place">Place</a>)</code></td><td>Whether the place is within the land their game has.</td></tr>
-</table>
+<h2 id="description">Description</h2><p>A <code>Player</code> is someone in the world now. Their lasting <code>id</code> stays the same every time they join (it comes from their store account through Epic): keep that, not the <code>Player</code>, to remember someone. Once they leave, the <code>Player</code> is gone and its calls fail; what is kept of them is a <a href="api-player.html#playerprofile">PlayerProfile</a>.</p>
+<p>Reading needs nothing. Changing a player&#x27;s bag, gear, coins, progress or team needs <code>player_data</code>.</p>
 <h2 id="playerprofile">PlayerProfile</h2>
+<p class="kind">Plain data, copied: fields in both directions.</p>
 <p>A player who has played here, whether in the world now or not.</p>
-<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-types.html#playerid">PlayerId</a></td><td><code>id</code></td><td>Their lasting ID.</td></tr>
-<tr><td class="type">String</td><td><code>name</code></td><td>Their name when last seen.</td></tr>
-<tr><td class="type"><a href="api-types.html#time">Time</a></td><td><code>first_joined</code></td><td>When they first joined.</td></tr>
-<tr><td class="type"><a href="api-types.html#time">Time</a></td><td><code>last_seen</code></td><td>When they last left (now, if in the world).</td></tr>
-<tr><td class="type">bool</td><td><code>blocked</code></td><td>Whether they are on the blocked list.</td></tr>
-<tr><td class="type"><a href="api-player.html">Player</a>?</td><td><code>online</code></td><td>The player, if in the world now.</td></tr>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">id: <a href="api-types.html#playerid">PlayerId</a></code><code class="java">String id()</code></td><td>Their lasting ID.</td></tr>
+<tr><td class="sig"><code class="rs">name: String</code><code class="java">String name()</code></td><td>Their name when last seen.</td></tr>
+<tr><td class="sig"><code class="rs">first_joined: <a href="api-types.html#time">Time</a></code><code class="java">long firstJoined()</code></td><td>When they first joined.</td></tr>
+<tr><td class="sig"><code class="rs">last_seen: <a href="api-types.html#time">Time</a></code><code class="java">long lastSeen()</code></td><td>When they last left (now, if in the world).</td></tr>
+<tr><td class="sig"><code class="rs">blocked: bool</code><code class="java">boolean blocked()</code></td><td>Whether they are on the blocked list.</td></tr>
+<tr><td class="sig"><code class="rs">online: bool</code><code class="java">boolean online()</code></td><td>Whether they are in the world now.</td></tr>
 </table>
 <h2 id="hand">Hand</h2>
+<p class="kind">Plain data, copied: fields in both directions.</p>
 <p>One of a player&#x27;s hands.</p>
-<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>position</code></td><td>Where it is.</td></tr>
-<tr><td class="type"><a href="api-types.html#turn">Turn</a></td><td><code>turn</code></td><td>How it is turned.</td></tr>
-<tr><td class="type"><a href="api-itemstack.html">ItemStack</a>?</td><td><code>holding</code></td><td>What it holds.</td></tr>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">position: <a href="api-types.html#place">Place</a></code><code class="java"><a href="api-types.html#place">Place</a> position()</code></td><td>Where it is.</td></tr>
+<tr><td class="sig"><code class="rs">turn: <a href="api-types.html#turn">Turn</a></code><code class="java"><a href="api-types.html#turn">Turn</a> turn()</code></td><td>How it is turned.</td></tr>
+<tr><td class="sig"><code class="rs">holding: Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; holding()</code></td><td>What it holds.</td></tr>
 </table>
-<h2 id="events">Events</h2>
-<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#playerjoining"><code>PlayerJoining</code></a>, <a href="api-events.html#playerjoined"><code>PlayerJoined</code></a>, <a href="api-events.html#playerleft"><code>PlayerLeft</code></a>, <a href="api-events.html#playerdamaging"><code>PlayerDamaging</code></a>, <a href="api-events.html#playerfainted"><code>PlayerFainted</code></a>, <a href="api-events.html#playerrespawning"><code>PlayerRespawning</code></a>, <a href="api-events.html#playermovedblock"><code>PlayerMovedBlock</code></a>, <a href="api-events.html#coinschanged"><code>CoinsChanged</code></a>.</p>
+<h2 id="handside">HandSide</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>Left or right.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-player.html#handside">HandSide</a>::Left</code><code class="java"><a href="api-player.html#handside">HandSide</a>.LEFT</code></td><td>The left hand.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-player.html#handside">HandSide</a>::Right</code><code class="java"><a href="api-player.html#handside">HandSide</a>.RIGHT</code></td><td>The right hand.</td></tr>
+</table>
+<h2 id="packcolour">PackColour</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>A backpack&#x27;s colour.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-player.html#packcolour">PackColour</a>::Tan</code><code class="java"><a href="api-player.html#packcolour">PackColour</a>.TAN</code></td><td>Tan, the first pack.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-player.html#packcolour">PackColour</a>::Red</code><code class="java"><a href="api-player.html#packcolour">PackColour</a>.RED</code></td><td>Red.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-player.html#packcolour">PackColour</a>::Blue</code><code class="java"><a href="api-player.html#packcolour">PackColour</a>.BLUE</code></td><td>Blue.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-player.html#packcolour">PackColour</a>::Green</code><code class="java"><a href="api-player.html#packcolour">PackColour</a>.GREEN</code></td><td>Green.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-player.html#packcolour">PackColour</a>::Gold</code><code class="java"><a href="api-player.html#packcolour">PackColour</a>.GOLD</code></td><td>Gold.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-player.html#packcolour">PackColour</a>::Violet</code><code class="java"><a href="api-player.html#packcolour">PackColour</a>.VIOLET</code></td><td>Violet.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-player.html#packcolour">PackColour</a>::Orange</code><code class="java"><a href="api-player.html#packcolour">PackColour</a>.ORANGE</code></td><td>Orange.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-player.html#packcolour">PackColour</a>::Pink</code><code class="java"><a href="api-player.html#packcolour">PackColour</a>.PINK</code></td><td>Pink.</td></tr>
+</table>
+<h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#playerjoining"><code>PlayerJoining</code></a>, <a href="api-events.html#playerjoined"><code>PlayerJoined</code></a>, <a href="api-events.html#playerleft"><code>PlayerLeft</code></a>, <a href="api-events.html#playerdamaging"><code>PlayerDamaging</code></a>, <a href="api-events.html#playerfainted"><code>PlayerFainted</code></a>, <a href="api-events.html#playerrespawning"><code>PlayerRespawning</code></a>, <a href="api-events.html#playermovedblock"><code>PlayerMovedBlock</code></a>, <a href="api-events.html#coinschanged"><code>CoinsChanged</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-storage.html">← Storage</a><a class="next" href="api-bag.html">Bag →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

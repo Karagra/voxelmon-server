@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Plugins and content packs · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -63,19 +64,19 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » Plugins and packs » Plugins and content packs</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » Plugins and packs » Plugins and content packs</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Plugins and content packs</h1>
 <p class="lead">Ways for server owners and creators to add to VoxelMon worlds.</p>
 
-<div class="note"><strong>Planned.</strong> Nothing here can be used yet. These pages list the whole API being built, so you can see what plugins will be able to do; names may change until the first plugin release.</div>
+<div class="note"><strong>Being built.</strong> Rust and Java plugins run on the server, and part of the API works today: every reference page says which calls do and marks the rest <span class="soon">not yet</span>. Notices and banners reach players' headsets; menus, floating labels and content packs are still to come. Names may change until the first plugin release.</div>
 
 <h2 id="three-kinds">Three kinds</h2>
 <table>
 <tr><th>Kind</th><th>What it adds</th><th>Written in</th></tr>
 <tr><td><strong>Content packs</strong></td><td>New items, blocks, recipes, loot and where creatures appear. Data only, no code. Players' headsets download a server's packs when they join, after asking them.</td><td>Data files</td></tr>
 <tr><td><strong>Rust plugins</strong></td><td>Server behaviour: events, rules, menus, minigames, permissions. Run sandboxed: a plugin can touch only what the server hands it.</td><td>Rust, compiled to WebAssembly</td></tr>
-<tr><td><strong>Java plugins</strong></td><td>The same, for authors who know Java. Run with the server's full trust, as plugins do on other block-game servers. Java is started only on a server that has a Java plugin.</td><td>Java (<code>.jar</code>)</td></tr>
+<tr><td><strong>Java plugins</strong></td><td>The same, for authors who know Java. Run with the server's full trust, as plugins do on other block-game servers. Java (25 or newer) is started only on a server that has a Java plugin.</td><td>Java 25+ (<code>.jar</code>)</td></tr>
 </table>
 <p>Plugins run on the server only. Headsets never run plugin code; they receive what plugins change in the world, the menus and messages plugins show, and the data of content packs.</p>
 
@@ -83,7 +84,7 @@
 <p>Rust and Java plugins use the same API, generated from one definition: the same events, the same calls and the same documentation. Where to look:</p>
 <table>
 <tr><th>Page</th><th>What it covers</th></tr>
-<tr><td><a href="api-basics.html">Writing a plugin</a></td><td>The plugin file, its manifest and needs, starting and stopping</td></tr>
+<tr><td><a href="api-basics.html">Writing a plugin</a></td><td>Your first plugin in Rust or Java, its manifest and needs, starting and stopping</td></tr>
 <tr><td><a href="api.html">API reference</a></td><td>Every type, with its properties and methods</td></tr>
 <tr><td><a href="api-events.html">Events</a></td><td>Everything a plugin can react to, and what it can stop</td></tr>
 <tr><td><a href="api-player.html">Player</a></td><td>A player in the world: body, bag, gear, coins, progress, team</td></tr>

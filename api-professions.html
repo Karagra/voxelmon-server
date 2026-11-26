@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Professions · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -41,9 +42,7 @@
 <li><a href="api-equipment.html">Equipment</a></li>
 <li class="current"><a href="api-professions.html" aria-current="page">Professions</a>
 <ul>
-<li><a href="#description">Description</a></li>
-<li><a href="#methods">Methods</a></li>
-<li><a href="#values">Values</a></li>
+<li><a href="#profession">Profession</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
 </li>
@@ -63,39 +62,35 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Professions</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Professions</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Professions</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From player.professions().</p>
-<p class="lead">A player&#x27;s twelve professions: their experience, levels and what each level gives.</p>
-<h2 id="description">Description</h2>
-<p>Players earn experience in a profession by doing it: mining ore, chopping trees, cooking. A plugin can read levels to gate its own rewards, and give or take experience.</p>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type">int</td><td><code>level(profession: Profession)</code></td><td>Their level in it.</td></tr>
-<tr><td class="type">int</td><td><code>experience(profession: Profession)</code></td><td>Their experience in it.</td></tr>
-<tr><td class="type">int</td><td><code>experience_for(level: int)</code></td><td>Experience a level needs.</td></tr>
-<tr><td class="type">nothing</td><td><code>add_experience(profession: Profession, amount: int)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Gives experience (it may level them up).</td></tr>
-<tr><td class="type">nothing</td><td><code>set_experience(profession: Profession, amount: int)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Sets their experience.</td></tr>
+<div class="note"><strong>Being built.</strong> 0 of 3 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>A player&#x27;s twelve professions: experience and levels.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="professions-level"><td class="sig"><code class="rs">fn level(&amp;self, profession: <a href="api-professions.html#profession">Profession</a>) -&gt; Result&lt;i64&gt;</code><code class="java">long level(<a href="api-professions.html#profession">Profession</a> profession)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Their level in it.</td></tr>
+<tr id="professions-experience"><td class="sig"><code class="rs">fn experience(&amp;self, profession: <a href="api-professions.html#profession">Profession</a>) -&gt; Result&lt;i64&gt;</code><code class="java">long experience(<a href="api-professions.html#profession">Profession</a> profession)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Their experience in it.</td></tr>
+<tr id="professions-add-experience"><td class="sig"><code class="rs">fn add_experience(&amp;self, profession: <a href="api-professions.html#profession">Profession</a>, amount: i64) -&gt; Result&lt;()&gt;</code><code class="java">void addExperience(<a href="api-professions.html#profession">Profession</a> profession, long amount)</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Gives experience (it may level them up).</td></tr>
 </table>
-<h2 id="values">Values</h2>
+<h2 id="profession">Profession</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>One of the twelve professions.</p>
 <table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
-<tr><td><code>Profession.MINING</code></td><td>Mining.</td></tr>
-<tr><td><code>Profession.WOODCUTTING</code></td><td>Woodcutting.</td></tr>
-<tr><td><code>Profession.FARMING</code></td><td>Farming.</td></tr>
-<tr><td><code>Profession.FISHING</code></td><td>Fishing.</td></tr>
-<tr><td><code>Profession.FORAGING</code></td><td>Foraging.</td></tr>
-<tr><td><code>Profession.EXCAVATION</code></td><td>Excavation (digging).</td></tr>
-<tr><td><code>Profession.COOKING</code></td><td>Cooking.</td></tr>
-<tr><td><code>Profession.BLACKSMITHING</code></td><td>Blacksmithing (forge and anvil).</td></tr>
-<tr><td><code>Profession.CARPENTRY</code></td><td>Carpentry (the workbench).</td></tr>
-<tr><td><code>Profession.ALCHEMY</code></td><td>Alchemy (the cauldron).</td></tr>
-<tr><td><code>Profession.RANCHING</code></td><td>Ranching.</td></tr>
-<tr><td><code>Profession.TAMING</code></td><td>Taming (catching Voxelmon).</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Mining</code><code class="java"><a href="api-professions.html#profession">Profession</a>.MINING</code></td><td>Mining.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Woodcutting</code><code class="java"><a href="api-professions.html#profession">Profession</a>.WOODCUTTING</code></td><td>Woodcutting.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Farming</code><code class="java"><a href="api-professions.html#profession">Profession</a>.FARMING</code></td><td>Farming.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Fishing</code><code class="java"><a href="api-professions.html#profession">Profession</a>.FISHING</code></td><td>Fishing.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Foraging</code><code class="java"><a href="api-professions.html#profession">Profession</a>.FORAGING</code></td><td>Foraging.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Excavation</code><code class="java"><a href="api-professions.html#profession">Profession</a>.EXCAVATION</code></td><td>Digging.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Cooking</code><code class="java"><a href="api-professions.html#profession">Profession</a>.COOKING</code></td><td>Cooking.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Blacksmithing</code><code class="java"><a href="api-professions.html#profession">Profession</a>.BLACKSMITHING</code></td><td>Forge and anvil.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Carpentry</code><code class="java"><a href="api-professions.html#profession">Profession</a>.CARPENTRY</code></td><td>The workbench.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Alchemy</code><code class="java"><a href="api-professions.html#profession">Profession</a>.ALCHEMY</code></td><td>The cauldron.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Ranching</code><code class="java"><a href="api-professions.html#profession">Profession</a>.RANCHING</code></td><td>Ranching.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-professions.html#profession">Profession</a>::Taming</code><code class="java"><a href="api-professions.html#profession">Profession</a>.TAMING</code></td><td>Catching Voxelmon.</td></tr>
 </table>
-<h2 id="events">Events</h2>
-<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#professionlevelledup"><code>ProfessionLevelledUp</code></a>.</p>
+<h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#professionlevelledup"><code>ProfessionLevelledUp</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-equipment.html">← Equipment</a><a class="next" href="api-messages.html">Messages →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

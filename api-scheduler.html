@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scheduler · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -35,7 +36,6 @@
 <li class="current"><a href="api-scheduler.html" aria-current="page">Scheduler</a>
 <ul>
 <li><a href="#description">Description</a></li>
-<li><a href="#methods">Methods</a></li>
 <li><a href="#task">Task</a></li>
 </ul>
 </li>
@@ -62,29 +62,27 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Scheduler</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Scheduler</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Scheduler</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From server.scheduler().</p>
-<p class="lead">Running code later, or again and again.</p>
-<h2 id="description">Description</h2>
-<p>Times are in ticks (60 a second) or seconds. Every task runs on the server&#x27;s tick. A Java plugin may also run work off the tick (<code>off_tick</code>), which must not touch the world; its result comes back with <code>then</code> on the tick.</p>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>next_tick(run: <a href="api-types.html#callback">Callback</a>)</code></td><td>Runs once, on the next tick.</td></tr>
-<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>after(ticks: int, run: <a href="api-types.html#callback">Callback</a>)</code></td><td>Runs once after a number of ticks.</td></tr>
-<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>after_seconds(seconds: float, run: <a href="api-types.html#callback">Callback</a>)</code></td><td>Runs once after some seconds.</td></tr>
-<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>every(ticks: int, run: <a href="api-types.html#callback">Callback</a>)</code></td><td>Runs again and again, a number of ticks apart.</td></tr>
-<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>every_seconds(seconds: float, run: <a href="api-types.html#callback">Callback</a>)</code></td><td>Runs again and again, some seconds apart.</td></tr>
-<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>off_tick(work: <a href="api-types.html#callback">Callback</a>)</code></td><td>Java only: runs work on another thread, never touching the world.</td></tr>
-<tr><td class="type">nothing</td><td><code>cancel_all()</code></td><td>Cancels every task this plugin made.</td></tr>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
+<p class="kind">Reached from the server: <code>server.scheduler()</code>.</p>
+<p>Running code later, or again and again.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="scheduler-next-tick"><td class="sig"><code class="rs">fn next_tick(&amp;self, run: impl FnMut() + &#x27;static) -&gt; Result&lt;<a href="api-scheduler.html#task">Task</a>&gt;</code><code class="java"><a href="api-scheduler.html#task">Task</a> nextTick(Runnable run)</code></td><td>Runs once, on the next tick.</td></tr>
+<tr id="scheduler-after"><td class="sig"><code class="rs">fn after(&amp;self, ticks: i64, run: impl FnMut() + &#x27;static) -&gt; Result&lt;<a href="api-scheduler.html#task">Task</a>&gt;</code><code class="java"><a href="api-scheduler.html#task">Task</a> after(long ticks, Runnable run)</code></td><td>Runs once after a number of ticks.</td></tr>
+<tr id="scheduler-after-seconds"><td class="sig"><code class="rs">fn after_seconds(&amp;self, seconds: f64, run: impl FnMut() + &#x27;static) -&gt; Result&lt;<a href="api-scheduler.html#task">Task</a>&gt;</code><code class="java"><a href="api-scheduler.html#task">Task</a> afterSeconds(double seconds, Runnable run)</code></td><td>Runs once after some seconds.</td></tr>
+<tr id="scheduler-every"><td class="sig"><code class="rs">fn every(&amp;self, ticks: i64, run: impl FnMut() + &#x27;static) -&gt; Result&lt;<a href="api-scheduler.html#task">Task</a>&gt;</code><code class="java"><a href="api-scheduler.html#task">Task</a> every(long ticks, Runnable run)</code></td><td>Runs again and again, a number of ticks apart.</td></tr>
+<tr id="scheduler-every-seconds"><td class="sig"><code class="rs">fn every_seconds(&amp;self, seconds: f64, run: impl FnMut() + &#x27;static) -&gt; Result&lt;<a href="api-scheduler.html#task">Task</a>&gt;</code><code class="java"><a href="api-scheduler.html#task">Task</a> everySeconds(double seconds, Runnable run)</code></td><td>Runs again and again, some seconds apart.</td></tr>
+<tr id="scheduler-cancel-all"><td class="sig"><code class="rs">fn cancel_all(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void cancelAll()</code></td><td>Cancels every task this plugin made.</td></tr>
 </table>
+<h2 id="description">Description</h2><p>Times are in ticks (60 a second) or seconds. Every task runs on the server&#x27;s tick, after the world&#x27;s step.</p>
 <h2 id="task">Task</h2>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
 <p>A scheduled task.</p>
-<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
-<tr><td class="type">bool</td><td><code>running</code></td><td>Whether it is still to run.</td></tr>
-<tr><td class="type">nothing</td><td><code>cancel()</code></td><td>Stops it running.</td></tr>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="task-running"><td class="sig"><code class="rs">fn running(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean running()</code></td><td>Whether it is still to run.</td></tr>
+<tr id="task-cancel"><td class="sig"><code class="rs">fn cancel(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void cancel()</code></td><td>Stops it running.</td></tr>
 </table>
 </main>
 <div class="pager"><a class="prev" href="api-plugin.html">← Plugin</a><a class="next" href="api-permissions.html">Permissions →</a></div>

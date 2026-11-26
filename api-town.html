@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Town · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -48,7 +49,6 @@
 <li><a href="api-region.html">Region</a></li>
 <li class="current"><a href="api-town.html" aria-current="page">Town</a>
 <ul>
-<li><a href="#properties">Properties</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
 </li>
@@ -61,25 +61,21 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Town</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Town</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Town</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From world.town_at(...), world.towns_near(...) and player.town.</p>
-<p class="lead">A town of the world: its place, its people&#x27;s clinic and shops, and the Voxelord threatening it.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type">String</td><td><code>name</code></td><td>Its name.</td></tr>
-<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>centre</code></td><td>Its plaza&#x27;s middle.</td></tr>
-<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>from</code></td><td>One corner of its land.</td></tr>
-<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>to</code></td><td>The other corner.</td></tr>
-<tr><td class="type">bool</td><td><code>freed</code></td><td>Whether its Voxelord has been beaten.</td></tr>
-<tr><td class="type"><a href="api-species.html">Species</a></td><td><code>voxelord</code></td><td>The species of its Voxelord.</td></tr>
-<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>lair</code></td><td>Where its Voxelord waits.</td></tr>
-<tr><td class="type"><a href="api-types.html#place">Place</a>?</td><td><code>clinic</code></td><td>Its VoxelAid clinic, where Voxelmon are healed.</td></tr>
+<div class="note"><strong>Being built.</strong> 0 of 6 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>A town: its place, its clinic, and the Voxelord threatening it.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="town-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its name.</td></tr>
+<tr id="town-centre"><td class="sig"><code class="rs">fn centre(&amp;self) -&gt; Result&lt;<a href="api-types.html#place">Place</a>&gt;</code><code class="java"><a href="api-types.html#place">Place</a> centre()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its plaza&#x27;s middle.</td></tr>
+<tr id="town-freed"><td class="sig"><code class="rs">fn freed(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean freed()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Whether its Voxelord has been beaten.</td></tr>
+<tr id="town-voxelord"><td class="sig"><code class="rs">fn voxelord(&amp;self) -&gt; Result&lt;<a href="api-species.html">Species</a>&gt;</code><code class="java"><a href="api-species.html">Species</a> voxelord()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The species of its Voxelord.</td></tr>
+<tr id="town-lair"><td class="sig"><code class="rs">fn lair(&amp;self) -&gt; Result&lt;<a href="api-types.html#place">Place</a>&gt;</code><code class="java"><a href="api-types.html#place">Place</a> lair()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Where its Voxelord waits.</td></tr>
+<tr id="town-clinic"><td class="sig"><code class="rs">fn clinic(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-types.html#place">Place</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-types.html#place">Place</a>&gt; clinic()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its VoxelAid clinic.</td></tr>
 </table>
-<h2 id="events">Events</h2>
-<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#playerenteredtown"><code>PlayerEnteredTown</code></a>, <a href="api-events.html#townfreed"><code>TownFreed</code></a>.</p>
+<h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#playerenteredtown"><code>PlayerEnteredTown</code></a>, <a href="api-events.html#townfreed"><code>TownFreed</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-region.html">← Region</a><a class="next" href="api-dungeon.html">Dungeon →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

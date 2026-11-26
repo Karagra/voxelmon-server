@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Equipment · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -40,10 +41,7 @@
 <li><a href="api-itemstack.html">ItemStack</a></li>
 <li class="current"><a href="api-equipment.html" aria-current="page">Equipment</a>
 <ul>
-<li><a href="#description">Description</a></li>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#methods">Methods</a></li>
-<li><a href="#values">Values</a></li>
+<li><a href="#gearslot">GearSlot</a></li>
 </ul>
 </li>
 <li><a href="api-professions.html">Professions</a></li>
@@ -63,38 +61,34 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Equipment</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Equipment</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Equipment</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From player.equipment().</p>
-<p class="lead">What a player wears and holds ready: the ten slots of the equipment page inside their backpack&#x27;s door.</p>
-<h2 id="description">Description</h2>
-<p>Gear goes on and comes off only through these slots, as on the page in the game. The two hand slots are the weapon and shield holstered at the shoulders, drawn by reaching over them.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type">int</td><td><code>defense</code></td><td>Defense from everything worn.</td></tr>
-<tr><td class="type">int</td><td><code>attack</code></td><td>Attack of the main-hand weapon.</td></tr>
-<tr><td class="type">int</td><td><code>block</code></td><td>Block of the off-hand shield.</td></tr>
+<div class="note"><strong>Being built.</strong> 0 of 6 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>What a player wears and holds ready: the ten slots of the page inside their backpack&#x27;s door.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="equipment-defense"><td class="sig"><code class="rs">fn defense(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long defense()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Defense from everything worn.</td></tr>
+<tr id="equipment-attack"><td class="sig"><code class="rs">fn attack(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long attack()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Attack of the main-hand weapon.</td></tr>
+<tr id="equipment-block"><td class="sig"><code class="rs">fn block(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long block()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Block of the off-hand shield.</td></tr>
+<tr id="equipment-get"><td class="sig"><code class="rs">fn get(&amp;self, slot: <a href="api-equipment.html#gearslot">GearSlot</a>) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; get(<a href="api-equipment.html#gearslot">GearSlot</a> slot)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What a slot holds.</td></tr>
+<tr id="equipment-set"><td class="sig"><code class="rs">fn set(&amp;self, slot: <a href="api-equipment.html#gearslot">GearSlot</a>, stack: Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void set(<a href="api-equipment.html#gearslot">GearSlot</a> slot, <a href="api-itemstack.html">ItemStack</a> stack)</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Puts a piece on (it must suit the slot), or takes it off to nowhere.</td></tr>
+<tr id="equipment-swap-hands"><td class="sig"><code class="rs">fn swap_hands(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void swapHands()</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Swaps the main-hand and off-hand pieces, as SWAP does.</td></tr>
 </table>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-itemstack.html">ItemStack</a>?</td><td><code>get(slot: GearSlot)</code></td><td>What a slot holds.</td></tr>
-<tr><td class="type">nothing</td><td><code>set(slot: GearSlot, stack: <a href="api-itemstack.html">ItemStack</a>?)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Puts a piece on (it must suit the slot), or takes it off to nowhere.</td></tr>
-<tr><td class="type">nothing</td><td><code>swap_hands()</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Swaps the main-hand and off-hand pieces, as SWAP does.</td></tr>
-</table>
-<h2 id="values">Values</h2>
+<h2 id="gearslot">GearSlot</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>A slot of the equipment page.</p>
 <table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
-<tr><td><code>GearSlot.HELMET</code></td><td>Head.</td></tr>
-<tr><td><code>GearSlot.NECKLACE</code></td><td>Neck.</td></tr>
-<tr><td><code>GearSlot.CHEST</code></td><td>Chest.</td></tr>
-<tr><td><code>GearSlot.LEGS</code></td><td>Legs.</td></tr>
-<tr><td><code>GearSlot.BOOTS</code></td><td>Feet.</td></tr>
-<tr><td><code>GearSlot.GLOVES</code></td><td>Hands.</td></tr>
-<tr><td><code>GearSlot.RING_1</code></td><td>First ring.</td></tr>
-<tr><td><code>GearSlot.RING_2</code></td><td>Second ring.</td></tr>
-<tr><td><code>GearSlot.MAIN_HAND</code></td><td>The weapon holstered for the main hand.</td></tr>
-<tr><td><code>GearSlot.OFF_HAND</code></td><td>The shield or weapon holstered for the other hand.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-equipment.html#gearslot">GearSlot</a>::Helmet</code><code class="java"><a href="api-equipment.html#gearslot">GearSlot</a>.HELMET</code></td><td>Head.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-equipment.html#gearslot">GearSlot</a>::Necklace</code><code class="java"><a href="api-equipment.html#gearslot">GearSlot</a>.NECKLACE</code></td><td>Neck.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-equipment.html#gearslot">GearSlot</a>::Chest</code><code class="java"><a href="api-equipment.html#gearslot">GearSlot</a>.CHEST</code></td><td>Chest.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-equipment.html#gearslot">GearSlot</a>::Legs</code><code class="java"><a href="api-equipment.html#gearslot">GearSlot</a>.LEGS</code></td><td>Legs.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-equipment.html#gearslot">GearSlot</a>::Boots</code><code class="java"><a href="api-equipment.html#gearslot">GearSlot</a>.BOOTS</code></td><td>Feet.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-equipment.html#gearslot">GearSlot</a>::Gloves</code><code class="java"><a href="api-equipment.html#gearslot">GearSlot</a>.GLOVES</code></td><td>Hands.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-equipment.html#gearslot">GearSlot</a>::Ring1</code><code class="java"><a href="api-equipment.html#gearslot">GearSlot</a>.RING_1</code></td><td>First ring.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-equipment.html#gearslot">GearSlot</a>::Ring2</code><code class="java"><a href="api-equipment.html#gearslot">GearSlot</a>.RING_2</code></td><td>Second ring.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-equipment.html#gearslot">GearSlot</a>::MainHand</code><code class="java"><a href="api-equipment.html#gearslot">GearSlot</a>.MAIN_HAND</code></td><td>The weapon holstered for the main hand.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-equipment.html#gearslot">GearSlot</a>::OffHand</code><code class="java"><a href="api-equipment.html#gearslot">GearSlot</a>.OFF_HAND</code></td><td>The shield or weapon holstered for the other hand.</td></tr>
 </table>
 </main>
 <div class="pager"><a class="prev" href="api-itemstack.html">← ItemStack</a><a class="next" href="api-professions.html">Professions →</a></div>

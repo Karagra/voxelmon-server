@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Region · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -48,8 +49,6 @@
 <li class="current"><a href="api-region.html" aria-current="page">Region</a>
 <ul>
 <li><a href="#description">Description</a></li>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#methods">Methods</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
 </li>
@@ -63,29 +62,23 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Region</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Region</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Region</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From world.region(id, from, to).</p>
-<p class="lead">A named box of the world a plugin watches: players entering and leaving it are told to the plugin.</p>
-<h2 id="description">Description</h2>
-<p>Regions are how a plugin makes spawn protection, claims, arenas or shops: it listens for players entering and leaving, and stops breaking and placing inside. A region is the plugin&#x27;s own, kept with its data, and costs the server one check when a player&#x27;s feet change block.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type">String</td><td><code>id</code></td><td>Its name, unique to the plugin.</td></tr>
-<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>from</code></td><td>One corner.</td></tr>
-<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>to</code></td><td>The other corner.</td></tr>
+<div class="note"><strong>Being built.</strong> 0 of 7 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>A named box of the world a plugin watches: players entering and leaving it are told to the plugin.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="region-id"><td class="sig"><code class="rs">fn id(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String id()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its name, unique to the plugin.</td></tr>
+<tr id="region-from"><td class="sig"><code class="rs">fn from(&amp;self) -&gt; Result&lt;<a href="api-types.html#blockpos">BlockPos</a>&gt;</code><code class="java"><a href="api-types.html#blockpos">BlockPos</a> from()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>One corner.</td></tr>
+<tr id="region-to"><td class="sig"><code class="rs">fn to(&amp;self) -&gt; Result&lt;<a href="api-types.html#blockpos">BlockPos</a>&gt;</code><code class="java"><a href="api-types.html#blockpos">BlockPos</a> to()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The other corner.</td></tr>
+<tr id="region-contains"><td class="sig"><code class="rs">fn contains(&amp;self, place: <a href="api-types.html#place">Place</a>) -&gt; Result&lt;bool&gt;</code><code class="java">boolean contains(<a href="api-types.html#place">Place</a> place)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Whether a place is inside.</td></tr>
+<tr id="region-players"><td class="sig"><code class="rs">fn players(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-player.html">Player</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-player.html">Player</a>&gt; players()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Who is inside now.</td></tr>
+<tr id="region-resize"><td class="sig"><code class="rs">fn resize(&amp;self, from: <a href="api-types.html#blockpos">BlockPos</a>, to: <a href="api-types.html#blockpos">BlockPos</a>) -&gt; Result&lt;()&gt;</code><code class="java">void resize(<a href="api-types.html#blockpos">BlockPos</a> from, <a href="api-types.html#blockpos">BlockPos</a> to)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Moves its corners.</td></tr>
+<tr id="region-remove"><td class="sig"><code class="rs">fn remove(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void remove()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Forgets it.</td></tr>
 </table>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type">bool</td><td><code>contains(place: <a href="api-types.html#place">Place</a>)</code></td><td>Whether a place is inside.</td></tr>
-<tr><td class="type">List[<a href="api-player.html">Player</a>]</td><td><code>players()</code></td><td>Who is inside now.</td></tr>
-<tr><td class="type">nothing</td><td><code>resize(from: <a href="api-types.html#blockpos">BlockPos</a>, to: <a href="api-types.html#blockpos">BlockPos</a>)</code></td><td>Moves its corners.</td></tr>
-<tr><td class="type">nothing</td><td><code>remove()</code></td><td>Forgets it.</td></tr>
-</table>
-<h2 id="events">Events</h2>
-<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#playerenteredregion"><code>PlayerEnteredRegion</code></a>, <a href="api-events.html#playerleftregion"><code>PlayerLeftRegion</code></a>.</p>
+<h2 id="description">Description</h2><p>Regions are how a plugin makes spawn protection, claims, arenas or shops: it listens for players entering and leaving, and stops breaking and placing inside. A region is the plugin&#x27;s own and is kept with its data; it costs one check when a player&#x27;s feet change block.</p>
+<h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#playerenteredregion"><code>PlayerEnteredRegion</code></a>, <a href="api-events.html#playerleftregion"><code>PlayerLeftRegion</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-placedobject.html">← PlacedObject</a><a class="next" href="api-town.html">Town →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

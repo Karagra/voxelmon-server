@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Battle · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -53,8 +54,9 @@
 <li><a href="api-team.html">Team</a></li>
 <li class="current"><a href="api-battle.html" aria-current="page">Battle</a>
 <ul>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#methods">Methods</a></li>
+<li><a href="#turnaction">TurnAction</a></li>
+<li><a href="#battlekind">BattleKind</a></li>
+<li><a href="#battleresult">BattleResult</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
 </li>
@@ -62,27 +64,47 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Battle</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Battle</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Battle</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From events, or creature.challenge(player).</p>
-<p class="lead">A turn-based battle between a player&#x27;s Voxelmon and a wild one, a trainer&#x27;s or a guardian.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>The player battling.</td></tr>
-<tr><td class="type">BattleKind</td><td><code>kind</code></td><td>WILD, TRAINER or BOSS.</td></tr>
-<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>player_creature</code></td><td>The player&#x27;s Voxelmon in the battle now.</td></tr>
-<tr><td class="type">List[<a href="api-creature.html">Creature</a>]</td><td><code>opponents</code></td><td>What they face.</td></tr>
-<tr><td class="type">int</td><td><code>turn</code></td><td>The turn&#x27;s number.</td></tr>
-<tr><td class="type">bool</td><td><code>can_catch</code></td><td>Whether a cube may be thrown (wild battles).</td></tr>
+<div class="note"><strong>Being built.</strong> 0 of 6 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>A turn-based battle between a player&#x27;s Voxelmon and a wild one, a trainer&#x27;s or a guardian.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="battle-player"><td class="sig"><code class="rs">fn player(&amp;self) -&gt; Result&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java"><a href="api-player.html">Player</a> player()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The player battling.</td></tr>
+<tr id="battle-kind"><td class="sig"><code class="rs">fn kind(&amp;self) -&gt; Result&lt;<a href="api-battle.html#battlekind">BattleKind</a>&gt;</code><code class="java"><a href="api-battle.html#battlekind">BattleKind</a> kind()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What they face.</td></tr>
+<tr id="battle-player-creature"><td class="sig"><code class="rs">fn player_creature(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-creature.html">Creature</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-creature.html">Creature</a>&gt; playerCreature()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The player&#x27;s Voxelmon in the battle now.</td></tr>
+<tr id="battle-opponents"><td class="sig"><code class="rs">fn opponents(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-creature.html">Creature</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-creature.html">Creature</a>&gt; opponents()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What they face.</td></tr>
+<tr id="battle-turn"><td class="sig"><code class="rs">fn turn(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long turn()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The turn&#x27;s number.</td></tr>
+<tr id="battle-end"><td class="sig"><code class="rs">fn end(&amp;self, result: <a href="api-battle.html#battleresult">BattleResult</a>) -&gt; Result&lt;()&gt;</code><code class="java">void end(<a href="api-battle.html#battleresult">BattleResult</a> result)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Ends it now with a result.</td></tr>
 </table>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type">nothing</td><td><code>end(result: BattleResult)</code></td><td>Ends it now with a result.</td></tr>
+<h2 id="turnaction">TurnAction</h2>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>What one side did in a turn.</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">creature: <a href="api-creature.html">Creature</a></code><code class="java"><a href="api-creature.html">Creature</a> creature()</code></td><td>Who acted.</td></tr>
+<tr><td class="sig"><code class="rs">r#move: Option&lt;<a href="api-species.html#move">Move</a>&gt;</code><code class="java">Optional&lt;<a href="api-species.html#move">Move</a>&gt; move()</code></td><td>The move used, if one.</td></tr>
+<tr><td class="sig"><code class="rs">damage: i64</code><code class="java">long damage()</code></td><td>Health it took.</td></tr>
 </table>
-<h2 id="events">Events</h2>
-<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#battlestarting"><code>BattleStarting</code></a>, <a href="api-events.html#battlestarted"><code>BattleStarted</code></a>, <a href="api-events.html#battleturn"><code>BattleTurn</code></a>, <a href="api-events.html#battleended"><code>BattleEnded</code></a>.</p>
+<h2 id="battlekind">BattleKind</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>What a battle is against.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-battle.html#battlekind">BattleKind</a>::Wild</code><code class="java"><a href="api-battle.html#battlekind">BattleKind</a>.WILD</code></td><td>A wild Voxelmon.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-battle.html#battlekind">BattleKind</a>::Trainer</code><code class="java"><a href="api-battle.html#battlekind">BattleKind</a>.TRAINER</code></td><td>A trainer.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-battle.html#battlekind">BattleKind</a>::Boss</code><code class="java"><a href="api-battle.html#battlekind">BattleKind</a>.BOSS</code></td><td>A guardian or Voxelord.</td></tr>
+</table>
+<h2 id="battleresult">BattleResult</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>How a battle ended.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-battle.html#battleresult">BattleResult</a>::Won</code><code class="java"><a href="api-battle.html#battleresult">BattleResult</a>.WON</code></td><td>The player won.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-battle.html#battleresult">BattleResult</a>::Lost</code><code class="java"><a href="api-battle.html#battleresult">BattleResult</a>.LOST</code></td><td>The player lost.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-battle.html#battleresult">BattleResult</a>::Fled</code><code class="java"><a href="api-battle.html#battleresult">BattleResult</a>.FLED</code></td><td>The player fled.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-battle.html#battleresult">BattleResult</a>::Caught</code><code class="java"><a href="api-battle.html#battleresult">BattleResult</a>.CAUGHT</code></td><td>The player caught it.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-battle.html#battleresult">BattleResult</a>::Cancelled</code><code class="java"><a href="api-battle.html#battleresult">BattleResult</a>.CANCELLED</code></td><td>Ended by the server or a plugin.</td></tr>
+</table>
+<h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#battlestarting"><code>BattleStarting</code></a>, <a href="api-events.html#battlestarted"><code>BattleStarted</code></a>, <a href="api-events.html#battleturn"><code>BattleTurn</code></a>, <a href="api-events.html#battleended"><code>BattleEnded</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-team.html">← Team</a><a class="next" href="api-types.html">Types →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

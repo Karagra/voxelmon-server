@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bag · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -39,10 +40,9 @@
 <li class="current"><a href="api-bag.html" aria-current="page">Bag</a>
 <ul>
 <li><a href="#description">Description</a></li>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#methods">Methods</a></li>
 <li><a href="#bagslot">BagSlot</a></li>
 <li><a href="#bagentry">BagEntry</a></li>
+<li><a href="#bagarea">BagArea</a></li>
 </ul>
 </li>
 <li><a href="api-itemstack.html">ItemStack</a></li>
@@ -64,40 +64,44 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Bag</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Bag</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Bag</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From player.bag().</p>
-<p class="lead">What a player carries: the backpack&#x27;s slots, its side slots, the strap pockets, the belt&#x27;s cubes and both hands.</p>
-<h2 id="description">Description</h2>
-<p>A player&#x27;s things are where they put them, as in the game: the backpack has 16 slots inside, holsters on its sides, pockets on its straps, and the belt holds 4 capture cubes. Reading needs nothing; changing needs <code>player_data</code>. A change shows on the player&#x27;s own pack at once.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type">int</td><td><code>backpack_slots</code></td><td>Slots inside the backpack (16).</td></tr>
-<tr><td class="type">int</td><td><code>side_slots</code></td><td>Holsters and strap pockets together.</td></tr>
-<tr><td class="type">int</td><td><code>belt_slots</code></td><td>Cube places on the belt (4).</td></tr>
+<div class="note"><strong>Being built.</strong> 5 of 7 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>What a player carries: the backpack&#x27;s 16 slots, its side slots, the strap pockets, the belt&#x27;s 4 cubes and both hands.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="bag-get"><td class="sig"><code class="rs">fn get(&amp;self, slot: <a href="api-bag.html#bagslot">BagSlot</a>) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; get(<a href="api-bag.html#bagslot">BagSlot</a> slot)</code></td><td>What is in a slot.</td></tr>
+<tr id="bag-set"><td class="sig"><code class="rs">fn set(&amp;self, slot: <a href="api-bag.html#bagslot">BagSlot</a>, stack: Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void set(<a href="api-bag.html#bagslot">BagSlot</a> slot, <a href="api-itemstack.html">ItemStack</a> stack)</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Puts something in a slot, or empties it.</td></tr>
+<tr id="bag-add"><td class="sig"><code class="rs">fn add(&amp;self, stack: <a href="api-itemstack.html">ItemStack</a>) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html">ItemStack</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html">ItemStack</a>&gt; add(<a href="api-itemstack.html">ItemStack</a> stack)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Puts items where they fit, backpack first; returns what did not fit.</td></tr>
+<tr id="bag-remove"><td class="sig"><code class="rs">fn remove(&amp;self, item: <a href="api-itemstack.html#itemtype">ItemType</a>, count: i64) -&gt; Result&lt;i64&gt;</code><code class="java">long remove(<a href="api-itemstack.html#itemtype">ItemType</a> item, long count)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Takes up to that many from anywhere; returns how many were taken.</td></tr>
+<tr id="bag-count"><td class="sig"><code class="rs">fn count(&amp;self, item: <a href="api-itemstack.html#itemtype">ItemType</a>) -&gt; Result&lt;i64&gt;</code><code class="java">long count(<a href="api-itemstack.html#itemtype">ItemType</a> item)</code></td><td>How many they carry, everywhere.</td></tr>
+<tr id="bag-all"><td class="sig"><code class="rs">fn all(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-bag.html#bagentry">BagEntry</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-bag.html#bagentry">BagEntry</a>&gt; all()</code></td><td>Every slot that holds something.</td></tr>
+<tr id="bag-clear"><td class="sig"><code class="rs">fn clear(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void clear()</code> <span class="need" title="Needs player_data in the manifest">player_data</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Empties everything but the belt&#x27;s cubes.</td></tr>
 </table>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-itemstack.html">ItemStack</a>?</td><td><code>get(slot: <a href="api-bag.html#bagslot">BagSlot</a>)</code></td><td>What is in a slot.</td></tr>
-<tr><td class="type">nothing</td><td><code>set(slot: <a href="api-bag.html#bagslot">BagSlot</a>, stack: <a href="api-itemstack.html">ItemStack</a>?)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Puts something in a slot, or empties it.</td></tr>
-<tr><td class="type"><a href="api-itemstack.html">ItemStack</a>?</td><td><code>add(stack: <a href="api-itemstack.html">ItemStack</a>)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Puts items where they fit, backpack first; returns what did not fit.</td></tr>
-<tr><td class="type">int</td><td><code>remove(item: <a href="api-itemstack.html#itemtype">ItemType</a>, count: int)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Takes up to that many from anywhere; returns how many were taken.</td></tr>
-<tr><td class="type">int</td><td><code>count(item: <a href="api-itemstack.html#itemtype">ItemType</a>)</code></td><td>How many they carry, everywhere.</td></tr>
-<tr><td class="type">bool</td><td><code>has(item: <a href="api-itemstack.html#itemtype">ItemType</a>, count: int)</code></td><td>Whether they carry at least that many.</td></tr>
-<tr><td class="type">List[<a href="api-bag.html#bagentry">BagEntry</a>]</td><td><code>all()</code></td><td>Every slot that holds something, with where it is.</td></tr>
-<tr><td class="type"><a href="api-itemstack.html">ItemStack</a>?</td><td><code>held(hand: HandSide)</code></td><td>What a hand holds.</td></tr>
-<tr><td class="type">nothing</td><td><code>give_to_hand(hand: HandSide, stack: <a href="api-itemstack.html">ItemStack</a>)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Puts something in an empty hand.</td></tr>
-<tr><td class="type">nothing</td><td><code>clear()</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Empties everything but the belt&#x27;s cubes.</td></tr>
-</table>
+<h2 id="description">Description</h2><p>A player&#x27;s things are where they put them, as in the game. Reading needs nothing; changing needs <code>player_data</code>, and shows on the player&#x27;s own pack at once.</p>
 <h2 id="bagslot">BagSlot</h2>
-<p>A place in the bag: <code>Backpack(n)</code> (0 to 15), <code>Side(n)</code>, <code>Belt(n)</code> (0 to 3) or <code>Hand(side)</code>.</p>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>A place in the bag: an area and a number in it.</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">area: <a href="api-bag.html#bagarea">BagArea</a></code><code class="java"><a href="api-bag.html#bagarea">BagArea</a> area()</code></td><td>Which part of the bag.</td></tr>
+<tr><td class="sig"><code class="rs">index: i64</code><code class="java">long index()</code></td><td>Which slot in it, from 0.</td></tr>
+</table>
 <h2 id="bagentry">BagEntry</h2>
+<p class="kind">Plain data, copied: fields in both directions.</p>
 <p>One filled slot.</p>
-<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-bag.html#bagslot">BagSlot</a></td><td><code>slot</code></td><td>Where.</td></tr>
-<tr><td class="type"><a href="api-itemstack.html">ItemStack</a></td><td><code>stack</code></td><td>What.</td></tr>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">slot: <a href="api-bag.html#bagslot">BagSlot</a></code><code class="java"><a href="api-bag.html#bagslot">BagSlot</a> slot()</code></td><td>Where.</td></tr>
+<tr><td class="sig"><code class="rs">stack: <a href="api-itemstack.html">ItemStack</a></code><code class="java"><a href="api-itemstack.html">ItemStack</a> stack()</code></td><td>What.</td></tr>
+</table>
+<h2 id="bagarea">BagArea</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>A part of the bag.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-bag.html#bagarea">BagArea</a>::Backpack</code><code class="java"><a href="api-bag.html#bagarea">BagArea</a>.BACKPACK</code></td><td>Inside the backpack (0 to 15).</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-bag.html#bagarea">BagArea</a>::Side</code><code class="java"><a href="api-bag.html#bagarea">BagArea</a>.SIDE</code></td><td>The holsters on its sides and the pockets on its straps.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-bag.html#bagarea">BagArea</a>::Belt</code><code class="java"><a href="api-bag.html#bagarea">BagArea</a>.BELT</code></td><td>The belt&#x27;s cubes (0 to 3).</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-bag.html#bagarea">BagArea</a>::<a href="api-player.html#hand">Hand</a></code><code class="java"><a href="api-bag.html#bagarea">BagArea</a>.HAND</code></td><td>A hand (0 left, 1 right).</td></tr>
 </table>
 </main>
 <div class="pager"><a class="prev" href="api-player.html">← Player</a><a class="next" href="api-itemstack.html">ItemStack →</a></div>

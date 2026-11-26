@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Writing a plugin · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -25,6 +26,11 @@
 <li><a href="plugins.html">Introduction</a></li>
 <li class="current"><a href="api-basics.html" aria-current="page">Writing a plugin</a>
 <ul>
+<li><a href="#your-first-rust-plugin">Your first Rust plugin</a></li>
+<li><a href="#your-first-java-plugin">Your first Java plugin</a></li>
+<li><a href="#values">Values</a></li>
+<li><a href="#when-a-call-fails">When a call fails</a></li>
+<li><a href="#limits">Limits</a></li>
 <li><a href="#where-plugins-go">Where plugins go</a></li>
 <li><a href="#the-manifest">The manifest</a></li>
 <li><a href="#lifecycle">Lifecycle</a></li>
@@ -65,14 +71,140 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » Plugins and packs » Writing a plugin</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » Plugins and packs » Writing a plugin</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Writing a plugin</h1>
 <p class="lead">What a plugin is made of, and how the server starts and stops it.</p>
-<div class="note"><strong>Planned.</strong> Names may change until the first plugin release.</div>
+<div class="note"><strong>Being built.</strong> Plugins run on the server today; part of the API works so far (the <a href="api.html">reference</a> marks the rest <span class="soon">not yet</span>). Names may change until the first plugin release.</div>
+
+<h2 id="your-first-rust-plugin">Your first Rust plugin</h2>
+<p>You need Rust (<a href="https://rustup.rs">rustup</a>) with the WebAssembly target, and the server's download, whose <code>sdk/rust/</code> holds the plugin kit:</p>
+<pre><code>rustup target add wasm32-unknown-unknown</code></pre>
+<p>A plugin is a library crate built as a <code>cdylib</code>:</p>
+<pre><code>hello/
+  Cargo.toml
+  plugin.toml
+  src/lib.rs</code></pre>
+<p><code>Cargo.toml</code>:</p>
+<pre><code>[package]
+name = "hello"
+version = "1.0.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+voxelmon-plugin-sdk = { path = "path/to/server/sdk/rust/voxelmon-plugin-sdk" }
+
+[profile.release]
+opt-level = "s"
+lto = true
+panic = "abort"
+strip = true</code></pre>
+<p><code>plugin.toml</code> (below, <a href="#the-manifest">the manifest</a>):</p>
+<pre><code>id = "hello"
+name = "Hello"
+version = "1.0.0"
+api = "1"
+needs = []</code></pre>
+<p><code>src/lib.rs</code>:</p>
+<pre><code>use voxelmon_plugin_sdk::*;
+
+struct Hello;
+
+impl Plugin for Hello {
+    fn enable(server: &amp;Server) -&gt; Self {
+        let _ = server.events().on_player_joined(|event| {
+            if let Ok(name) = event.player.called() {
+                let _ = Server.log_info(&amp;format!("Hello, {name}!"));
+            }
+        });
+        Hello
+    }
+}
+
+voxelmon_plugin!(Hello, "../plugin.toml");</code></pre>
+<p>Build it, and copy the <code>.wasm</code> into the server's <code>plugins/</code> folder:</p>
+<pre><code>cargo build --release --target wasm32-unknown-unknown
+cp target/wasm32-unknown-unknown/release/hello.wasm path/to/server/plugins/</code></pre>
+<p>Start the server (or type <code>plugin reload hello</code> in a running one); it lists the new plugin and what it needs. Type <code>plugin approve hello</code> and it loads. The manifest goes inside the <code>.wasm</code> file, so the one file is the whole plugin. Every call returns <code>voxelmon_plugin_sdk::Result</code>; a call a server does not carry out yet fails with <code>Error::Failed</code> saying so.</p>
+<p>A fuller example is in the download: <code>sdk/examples/rust/spawn-guard</code> (joins counted in storage, blocks round spawn kept unbroken, a console command).</p>
+
+<h2 id="your-first-java-plugin">Your first Java plugin</h2>
+<p>You need a JDK, version 25 or newer, and the server's download, whose <code>sdk/java/</code> holds <code>voxelmon-api.jar</code> (and its sources, for your editor). The server needs Java 25 too, to run Java plugins.</p>
+<pre><code>hello/
+  plugin.toml
+  src/com/example/hello/Hello.java</code></pre>
+<p><code>plugin.toml</code> names the main class:</p>
+<pre><code>id = "hello"
+name = "Hello"
+version = "1.0.0"
+api = "1"
+main = "com.example.hello.Hello"
+needs = []</code></pre>
+<p><code>Hello.java</code>:</p>
+<pre><code>package com.example.hello;
+
+import net.voxelmon.api.Server;
+import net.voxelmon.api.VoxelmonPlugin;
+
+public final class Hello extends VoxelmonPlugin {
+    @Override
+    public void enable(Server server) {
+        server.events().onPlayerJoined(event -&gt;
+                server.logInfo("Hello, " + event.player().called() + "!"));
+    }
+}</code></pre>
+<p>Build the jar with <code>plugin.toml</code> at its root, and copy it into <code>plugins/</code>:</p>
+<pre><code>javac --release 25 -cp path/to/server/sdk/java/voxelmon-api.jar -d classes $(find src -name '*.java')
+cp plugin.toml classes/
+jar --create --file hello.jar -C classes .
+cp hello.jar path/to/server/plugins/</code></pre>
+<p>Then <code>plugin approve hello</code>, as for Rust. A call a server cannot carry out throws <code>ApiException</code>; a value that may be missing is an <code>Optional</code>. Java plugins are started when the server starts: a jar added to a running server waits for a restart. The download's <code>sdk/examples/java/welcome</code> is a fuller example with a build script.</p>
+
+<h2 id="values">Values</h2>
+<p>Storage, settings and services between plugins hold a <code>Value</code>: text, a whole number, a number with a fraction, true or false, a list of values, or a table of named values. Tables and lists may hold values in turn, nested up to 32 deep.</p>
+<table>
+<tr><th>Kind</th><th>Rust</th><th>Java</th></tr>
+<tr><td>Text</td><td><code>Value::Text(String)</code></td><td><code>Value.of("text")</code> / <code>Value.Text</code></td></tr>
+<tr><td>Whole number</td><td><code>Value::Int(i64)</code></td><td><code>Value.of(5L)</code> / <code>Value.Int</code></td></tr>
+<tr><td>Number</td><td><code>Value::Float(f64)</code></td><td><code>Value.of(0.5)</code> / <code>Value.Float</code></td></tr>
+<tr><td>True or false</td><td><code>Value::Bool(bool)</code></td><td><code>Value.of(true)</code> / <code>Value.Bool</code></td></tr>
+<tr><td>List</td><td><code>Value::List(Vec&lt;Value&gt;)</code></td><td><code>new Value.ListValue(List.of(...))</code></td></tr>
+<tr><td>Table</td><td><code>Value::Table(Vec&lt;(String, Value)&gt;)</code></td><td><code>new Value.Table(Map.of(...))</code></td></tr>
+</table>
+<p>Reading one back, Rust has <code>as_str()</code>, <code>as_int()</code>, <code>as_float()</code>, <code>as_bool()</code> and <code>get_key("name")</code> for a table's entry, each an <code>Option</code>; in Java, <code>Value</code> is a sealed interface, read with a <code>switch</code> or <code>instanceof</code> on its records:</p>
+<pre class="rs"><code>let joins = server.storage().get("joins")?.and_then(|v| v.as_int()).unwrap_or(0);
+server.storage().set("joins", Value::Int(joins + 1))?;</code></pre>
+<pre class="java"><code>long joins = server.storage().get("joins")
+        .map(v -&gt; v instanceof Value.Int n ? n.value() : 0L).orElse(0L);
+server.storage().set("joins", Value.of(joins + 1));</code></pre>
+
+<h2 id="when-a-call-fails">When a call fails</h2>
+<p>In Rust every call returns <code>voxelmon_plugin_sdk::Result&lt;T&gt;</code>, whose error is an <code>Error</code>; in Java a call that fails throws <code>ApiException</code>, whose <code>kind()</code> says which:</p>
+<table>
+<tr><th>Rust <code>Error</code></th><th>Java <code>ApiException.Kind</code></th><th>Meaning</th></tr>
+<tr><td><code>Gone</code></td><td><code>GONE</code></td><td>What it was about is gone: a player who left, a creature beaten, a menu removed.</td></tr>
+<tr><td><code>Denied(need)</code></td><td><code>DENIED</code></td><td>The plugin's manifest does not ask for the need this call has (<a href="#needs">needs</a>); the text names it.</td></tr>
+<tr><td><code>Invalid</code></td><td><code>INVALID</code></td><td>An argument was out of range or malformed: text too long, a stack over its limit, an unknown item.</td></tr>
+<tr><td><code>Limit</code></td><td><code>LIMIT</code></td><td>A limit was reached: too many tasks, commands or stored keys, a fill too large.</td></tr>
+<tr><td><code>Failed(why)</code></td><td><code>FAILED</code></td><td>It could not be done; the text says why. A call the server does not carry out yet fails this way, saying it is not available yet, and does nothing else.</td></tr>
+</table>
+<p>A call that changes the world, made while a stoppable event is being decided (inside a handler that may <code>stop()</code> it), is carried out as soon as that event is over if it returns nothing; one that returns something fails then.</p>
+
+<h2 id="limits">Limits</h2>
+<table>
+<tr><th></th><th>Rust plugins</th><th>Java plugins</th></tr>
+<tr><td>Time</td><td>A call into the plugin taking over 250 ms is stopped, and the plugin disabled.</td><td>Over 20 ms is reported in the console; nothing can stop a Java call.</td></tr>
+<tr><td>Memory</td><td>64 MB at most.</td><td>Java's own heap, shared by every Java plugin.</td></tr>
+<tr><td>What it can reach</td><td>Only the server's calls, and only those its manifest's needs allow.</td><td>The server's calls, and anything Java itself can do as the server's user.</td></tr>
+<tr><td>Its data</td><td colspan="2"><code>storage()</code> values are kept in <code>plugins/&lt;id&gt;/data.bin</code>; files (the <code>files</code> need) in <code>plugins/&lt;id&gt;/files/</code>.</td></tr>
+</table>
+<p>A call that takes over 20 ms is reported either way, and <code>plugins</code> shows how much time each plugin has taken.</p>
 
 <h2 id="where-plugins-go">Where plugins go</h2>
-<p>Each plugin is one file in the server's <code>plugins/</code> folder: a <code>.wasm</code> file (Rust) or a <code>.jar</code> file (Java). The first time the server sees a new or changed file it lists it and waits for the owner to approve it with the <code>plugin approve</code> command. Approved plugins load in the order their dependencies need.</p>
+<p>Each plugin is one file in the server's <code>plugins/</code> folder: a <code>.wasm</code> file (Rust) or a <code>.jar</code> file (Java). The first time the server sees a new or changed file it lists it and what it needs, and waits for the owner to approve it with the <code>plugin approve</code> command; approvals are kept in <code>plugins/approved.toml</code>, each for that file's SHA-256. Approved plugins load in the order their dependencies need.</p>
 
 <h2 id="the-manifest">The manifest</h2>
 <p>Every plugin carries a <code>plugin.toml</code>:</p>
@@ -84,7 +216,8 @@ authors = ["Karagra"]
 description = "Named places players can travel to."
 depends = []                # plugins that must load first
 soft_depends = ["economy"]  # used if present
-needs = ["files"]           # what it asks the server for (below)</code></pre>
+needs = ["files"]           # what it asks the server for (below)
+main = "com.example.warps.Warps"  # Java plugins only: the main class</code></pre>
 <h3 id="needs">Needs</h3>
 <table>
 <tr><th>Need</th><th>Allows</th></tr>

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VoxelMon Dedicated Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -62,7 +63,7 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » Getting started » VoxelMon Dedicated Server</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » Getting started » VoxelMon Dedicated Server</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>VoxelMon Dedicated Server</h1>
 <p class="lead">Run a VoxelMon world that is always on, for your friends or your community, on your own PC, a rented server or in Docker.</p>
@@ -88,7 +89,7 @@
 <li><a href="commands.html">Console commands</a>: managing players and the world.</li>
 <li><a href="network.html">Networking</a>: join codes, internet play, ports and firewalls.</li>
 <li><a href="docker.html">Docker</a>: running the official image.</li>
-<li><a href="plugins.html">Plugins and content packs</a>: what is planned.</li>
+<li><a href="plugins.html">Plugins and content packs</a>: Rust and Java plugins, and what is still to come.</li>
 </ul>
 </main>
 <div class="pager"><a class="next" href="install.html">Installing and running →</a></div>

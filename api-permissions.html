@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Permissions · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -36,8 +37,7 @@
 <li class="current"><a href="api-permissions.html" aria-current="page">Permissions</a>
 <ul>
 <li><a href="#description">Description</a></li>
-<li><a href="#methods">Methods</a></li>
-<li><a href="#values">Values</a></li>
+<li><a href="#permissiondefault">PermissionDefault</a></li>
 </ul>
 </li>
 <li><a href="api-storage.html">Storage</a></li>
@@ -62,28 +62,28 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Permissions</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Permissions</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Permissions</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From server.permissions().</p>
-<p class="lead">Who may do what: operators and permission names.</p>
-<h2 id="description">Description</h2>
-<p>A permission is a name such as <code>warps.set</code>. The server keeps operators in <code>server.toml</code> (<code>operators = [...]</code>, by player ID): an operator has every permission. Anything finer, such as groups and ranks, comes from a permission manager plugin, which provides the <code>permissions</code> service; every plugin&#x27;s checks then go through it.</p>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type">bool</td><td><code>has(player: <a href="api-player.html">Player</a>, permission: String)</code></td><td>Whether a player has a permission.</td></tr>
-<tr><td class="type">nothing</td><td><code>declare(permission: String, default: PermissionDefault, description: String)</code></td><td>Names a permission this plugin checks, so owners and managers can list it.</td></tr>
-<tr><td class="type">bool</td><td><code>is_operator(id: <a href="api-types.html#playerid">PlayerId</a>)</code></td><td>Whether a player is an operator.</td></tr>
-<tr><td class="type">nothing</td><td><code>add_operator(id: <a href="api-types.html#playerid">PlayerId</a>)</code></td><td>Makes a player an operator (written to server.toml).</td></tr>
-<tr><td class="type">nothing</td><td><code>remove_operator(id: <a href="api-types.html#playerid">PlayerId</a>)</code></td><td>Takes a player off the operators.</td></tr>
-<tr><td class="type">List[String]</td><td><code>declared()</code></td><td>Every permission every plugin declared.</td></tr>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
+<p class="kind">Reached from the server: <code>server.permissions()</code>.</p>
+<p>Who may do what: operators and permission names.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="permissions-has"><td class="sig"><code class="rs">fn has(&amp;self, player: <a href="api-player.html">Player</a>, permission: &amp;str) -&gt; Result&lt;bool&gt;</code><code class="java">boolean has(<a href="api-player.html">Player</a> player, String permission)</code></td><td>Whether a player has a permission.</td></tr>
+<tr id="permissions-declare"><td class="sig"><code class="rs">fn declare(&amp;self, permission: &amp;str, default: <a href="api-permissions.html#permissiondefault">PermissionDefault</a>, description: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void declare(String permission, <a href="api-permissions.html#permissiondefault">PermissionDefault</a> default_, String description)</code></td><td>Names a permission this plugin checks, so owners and managers can list it.</td></tr>
+<tr id="permissions-declared"><td class="sig"><code class="rs">fn declared(&amp;self) -&gt; Result&lt;Vec&lt;String&gt;&gt;</code><code class="java">List&lt;String&gt; declared()</code></td><td>Every permission every plugin declared.</td></tr>
+<tr id="permissions-is-operator"><td class="sig"><code class="rs">fn is_operator(&amp;self, id: <a href="api-types.html#playerid">PlayerId</a>) -&gt; Result&lt;bool&gt;</code><code class="java">boolean isOperator(String id)</code></td><td>Whether a player is an operator.</td></tr>
+<tr id="permissions-add-operator"><td class="sig"><code class="rs">fn add_operator(&amp;self, id: <a href="api-types.html#playerid">PlayerId</a>) -&gt; Result&lt;()&gt;</code><code class="java">void addOperator(String id)</code></td><td>Makes a player an operator (written to server.toml).</td></tr>
+<tr id="permissions-remove-operator"><td class="sig"><code class="rs">fn remove_operator(&amp;self, id: <a href="api-types.html#playerid">PlayerId</a>) -&gt; Result&lt;()&gt;</code><code class="java">void removeOperator(String id)</code></td><td>Takes a player off the operators.</td></tr>
 </table>
-<h2 id="values">Values</h2>
+<h2 id="description">Description</h2><p>A permission is a name such as <code>warps.set</code>. Operators, listed in server.toml (<code>operators</code>, by player ID), have every permission. Anything finer (groups, ranks) comes from a permission manager plugin offering the <code>permissions</code> service; <code>has</code> then asks it.</p>
+<h2 id="permissiondefault">PermissionDefault</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>Who has a permission when no manager says otherwise.</p>
 <table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
-<tr><td><code>PermissionDefault.EVERYONE</code></td><td>Everyone has it unless a manager says no.</td></tr>
-<tr><td><code>PermissionDefault.OPERATORS</code></td><td>Only operators, unless a manager gives it.</td></tr>
-<tr><td><code>PermissionDefault.NOBODY</code></td><td>Nobody, unless a manager gives it.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-permissions.html#permissiondefault">PermissionDefault</a>::Everyone</code><code class="java"><a href="api-permissions.html#permissiondefault">PermissionDefault</a>.EVERYONE</code></td><td>Everyone.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-permissions.html#permissiondefault">PermissionDefault</a>::Operators</code><code class="java"><a href="api-permissions.html#permissiondefault">PermissionDefault</a>.OPERATORS</code></td><td>Operators only.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-permissions.html#permissiondefault">PermissionDefault</a>::Nobody</code><code class="java"><a href="api-permissions.html#permissiondefault">PermissionDefault</a>.NOBODY</code></td><td>Nobody.</td></tr>
 </table>
 </main>
 <div class="pager"><a class="prev" href="api-scheduler.html">← Scheduler</a><a class="next" href="api-storage.html">Storage →</a></div>

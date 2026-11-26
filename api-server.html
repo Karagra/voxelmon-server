@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Server · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -33,8 +34,6 @@
 <li class="current"><a href="api-server.html" aria-current="page">Server</a>
 <ul>
 <li><a href="#description">Description</a></li>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#methods">Methods</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
 </li>
@@ -63,47 +62,50 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Server</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Server</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Server</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">Given to the plugin in enable(); one per server.</p>
-<p class="lead">The running server: its players, world, settings and console.</p>
-<h2 id="description">Description</h2>
-<p>Everything a plugin does starts here. The server ticks 60 times a second; plugin code runs on the tick, so a plugin never needs to lock anything to read the world.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type">String</td><td><code>title</code></td><td>The title players see when they look up the join code.</td></tr>
-<tr><td class="type">String</td><td><code>description</code></td><td>The line under the title.</td></tr>
-<tr><td class="type">String</td><td><code>join_code</code></td><td>The six-character join code.</td></tr>
-<tr><td class="type">int</td><td><code>max_players</code></td><td>Players allowed at once.</td></tr>
-<tr><td class="type">String</td><td><code>version</code></td><td>The server&#x27;s version; players must run the same game version.</td></tr>
-<tr><td class="type">int</td><td><code>tick</code></td><td>Ticks since the server started (60 a second).</td></tr>
-<tr><td class="type"><a href="api-types.html#worldoptions">WorldOptions</a></td><td><code>options</code></td><td>Difficulty, combat style, keep inventory, creative.</td></tr>
+<div class="note"><strong>Being built.</strong> 20 of 33 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Reached from the server: <code>server.server()</code>.</p>
+<p>The running server: its players, world, settings, console and this plugin&#x27;s own settings and log.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="server-title"><td class="sig"><code class="rs">fn title(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String title()</code></td><td>The title players see when they look up the join code.</td></tr>
+<tr id="server-description"><td class="sig"><code class="rs">fn description(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String description()</code></td><td>The line under the title.</td></tr>
+<tr id="server-join-code"><td class="sig"><code class="rs">fn join_code(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String joinCode()</code></td><td>The six-character join code.</td></tr>
+<tr id="server-max-players"><td class="sig"><code class="rs">fn max_players(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long maxPlayers()</code></td><td>Players allowed at once.</td></tr>
+<tr id="server-version"><td class="sig"><code class="rs">fn version(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String version()</code></td><td>The server&#x27;s version; players run the same game version.</td></tr>
+<tr id="server-tick"><td class="sig"><code class="rs">fn tick(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long tick()</code></td><td>Ticks since the server started (60 a second).</td></tr>
+<tr id="server-options"><td class="sig"><code class="rs">fn options(&amp;self) -&gt; Result&lt;<a href="api-types.html#worldoptions">WorldOptions</a>&gt;</code><code class="java"><a href="api-types.html#worldoptions">WorldOptions</a> options()</code></td><td>Difficulty, combat style, keep inventory, creative.</td></tr>
+<tr id="server-players"><td class="sig"><code class="rs">fn players(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-player.html">Player</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-player.html">Player</a>&gt; players()</code></td><td>Everyone in the world now.</td></tr>
+<tr id="server-player"><td class="sig"><code class="rs">fn player(&amp;self, id: <a href="api-types.html#playerid">PlayerId</a>) -&gt; Result&lt;Option&lt;<a href="api-player.html">Player</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; player(String id)</code></td><td>A player in the world, by their lasting ID.</td></tr>
+<tr id="server-player-named"><td class="sig"><code class="rs">fn player_named(&amp;self, name: &amp;str) -&gt; Result&lt;Option&lt;<a href="api-player.html">Player</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; playerNamed(String name)</code></td><td>A player in the world by what they are called (with its #number if two share a name).</td></tr>
+<tr id="server-profile"><td class="sig"><code class="rs">fn profile(&amp;self, id: <a href="api-types.html#playerid">PlayerId</a>) -&gt; Result&lt;Option&lt;<a href="api-player.html#playerprofile">PlayerProfile</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-player.html#playerprofile">PlayerProfile</a>&gt; profile(String id)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player who has played here, in the world or not.</td></tr>
+<tr id="server-world"><td class="sig"><code class="rs">fn world(&amp;self) -&gt; <a href="api-world.html">World</a></code><code class="java"><a href="api-world.html">World</a> world()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The world.</td></tr>
+<tr id="server-events"><td class="sig"><code class="rs">fn events(&amp;self) -&gt; <a href="api-events.html">Events</a></code><code class="java"><a href="api-events.html">Events</a> events()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Where the plugin listens for <a href="api-events.html">Events</a>.</td></tr>
+<tr id="server-scheduler"><td class="sig"><code class="rs">fn scheduler(&amp;self) -&gt; <a href="api-scheduler.html">Scheduler</a></code><code class="java"><a href="api-scheduler.html">Scheduler</a> scheduler()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Timed and repeating tasks.</td></tr>
+<tr id="server-permissions"><td class="sig"><code class="rs">fn permissions(&amp;self) -&gt; <a href="api-permissions.html">Permissions</a></code><code class="java"><a href="api-permissions.html">Permissions</a> permissions()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Who may do what.</td></tr>
+<tr id="server-storage"><td class="sig"><code class="rs">fn storage(&amp;self) -&gt; <a href="api-storage.html">Storage</a></code><code class="java"><a href="api-storage.html">Storage</a> storage()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>This plugin&#x27;s saved data, files and internet.</td></tr>
+<tr id="server-messages"><td class="sig"><code class="rs">fn messages(&amp;self) -&gt; <a href="api-messages.html">Messages</a></code><code class="java"><a href="api-messages.html">Messages</a> messages()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Notices, banners, labels and sounds.</td></tr>
+<tr id="server-config"><td class="sig"><code class="rs">fn config(&amp;self) -&gt; Result&lt;<a href="api-basics.html#values">Value</a>&gt;</code><code class="java"><a href="api-basics.html#values">Value</a> config()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>This plugin&#x27;s <code>config.toml</code>, as a table (written from the plugin&#x27;s <code>config.default.toml</code> the first time).</td></tr>
+<tr id="server-reload-config"><td class="sig"><code class="rs">fn reload_config(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void reloadConfig()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Reads <code>config.toml</code> again.</td></tr>
+<tr id="server-log-info"><td class="sig"><code class="rs">fn log_info(&amp;self, text: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void logInfo(String text)</code></td><td>A line in the console, marked with the plugin&#x27;s name.</td></tr>
+<tr id="server-log-warn"><td class="sig"><code class="rs">fn log_warn(&amp;self, text: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void logWarn(String text)</code></td><td>A warning in the console.</td></tr>
+<tr id="server-log-error"><td class="sig"><code class="rs">fn log_error(&amp;self, text: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void logError(String text)</code></td><td>An error in the console.</td></tr>
+<tr id="server-broadcast"><td class="sig"><code class="rs">fn broadcast(&amp;self, text: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void broadcast(String text)</code></td><td>A notice to every player in the world.</td></tr>
+<tr id="server-register-command"><td class="sig"><code class="rs">fn register_command(&amp;self, name: &amp;str, usage: &amp;str, run: impl FnMut(Vec&lt;String&gt;) -&gt; Vec&lt;String&gt; + &#x27;static) -&gt; Result&lt;()&gt;</code><code class="java">void registerCommand(String name, String usage, Function&lt;List&lt;String&gt;, List&lt;String&gt;&gt; run)</code></td><td>Adds a console command; what it returns is printed.</td></tr>
+<tr id="server-run-command"><td class="sig"><code class="rs">fn run_command(&amp;self, line: &amp;str) -&gt; Result&lt;Vec&lt;String&gt;&gt;</code><code class="java">List&lt;String&gt; runCommand(String line)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Runs a console command as the owner would, returning what it printed.</td></tr>
+<tr id="server-set-title"><td class="sig"><code class="rs">fn set_title(&amp;self, title: &amp;str, description: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void setTitle(String title, String description)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Changes what players see when they look up the code.</td></tr>
+<tr id="server-set-creative"><td class="sig"><code class="rs">fn set_creative(&amp;self, on: bool) -&gt; Result&lt;()&gt;</code><code class="java">void setCreative(boolean on)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Switches creative mode for everyone.</td></tr>
+<tr id="server-set-combat"><td class="sig"><code class="rs">fn set_combat(&amp;self, style: <a href="api-types.html#combatstyle">CombatStyle</a>) -&gt; Result&lt;()&gt;</code><code class="java">void setCombat(<a href="api-types.html#combatstyle">CombatStyle</a> style)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Switches the combat style (waits until no fight is under way).</td></tr>
+<tr id="server-save"><td class="sig"><code class="rs">fn save(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void save()</code></td><td>Saves the world now.</td></tr>
+<tr id="server-stop"><td class="sig"><code class="rs">fn stop(&amp;self, reason: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void stop(String reason)</code></td><td>Tells players, saves and stops the server.</td></tr>
+<tr id="server-is-plugin-loaded"><td class="sig"><code class="rs">fn is_plugin_loaded(&amp;self, id: &amp;str) -&gt; Result&lt;bool&gt;</code><code class="java">boolean isPluginLoaded(String id)</code></td><td>Whether another plugin is loaded.</td></tr>
+<tr id="server-provide"><td class="sig"><code class="rs">fn provide(&amp;self, name: &amp;str, handler: impl FnMut(String, <a href="api-basics.html#values">Value</a>) -&gt; Option&lt;<a href="api-basics.html#values">Value</a>&gt; + &#x27;static) -&gt; Result&lt;()&gt;</code><code class="java">void provide(String name, BiFunction&lt;String, <a href="api-basics.html#values">Value</a>, <a href="api-basics.html#values">Value</a>&gt; handler)</code></td><td>Offers a service to other plugins under a name (<code>economy</code>, <code>permissions</code>).</td></tr>
+<tr id="server-call-service"><td class="sig"><code class="rs">fn call_service(&amp;self, name: &amp;str, method: &amp;str, argument: <a href="api-basics.html#values">Value</a>) -&gt; Result&lt;Option&lt;<a href="api-basics.html#values">Value</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-basics.html#values">Value</a>&gt; callService(String name, String method, <a href="api-basics.html#values">Value</a> argument)</code></td><td>Calls another plugin&#x27;s service; nothing if none is offered under that name.</td></tr>
 </table>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type">List[<a href="api-player.html">Player</a>]</td><td><code>players()</code></td><td>Everyone in the world now.</td></tr>
-<tr><td class="type"><a href="api-player.html">Player</a>?</td><td><code>player(id: <a href="api-types.html#playerid">PlayerId</a>)</code></td><td>A player in the world by their lasting ID.</td></tr>
-<tr><td class="type"><a href="api-player.html">Player</a>?</td><td><code>player_named(name: String)</code></td><td>A player in the world by name (a name with its #number if two share it).</td></tr>
-<tr><td class="type"><a href="api-player.html#playerprofile">PlayerProfile</a>?</td><td><code>profile(id: <a href="api-types.html#playerid">PlayerId</a>)</code></td><td>A player who has played here, in the world or not.</td></tr>
-<tr><td class="type"><a href="api-world.html">World</a></td><td><code>world()</code></td><td>The world.</td></tr>
-<tr><td class="type"><a href="api-scheduler.html">Scheduler</a></td><td><code>scheduler()</code></td><td>Timed and repeating tasks.</td></tr>
-<tr><td class="type"><a href="api-permissions.html">Permissions</a></td><td><code>permissions()</code></td><td>Who may do what.</td></tr>
-<tr><td class="type"><a href="api-storage.html">Storage</a></td><td><code>storage()</code></td><td>This plugin&#x27;s saved data.</td></tr>
-<tr><td class="type"><a href="api-messages.html">Messages</a></td><td><code>messages()</code></td><td>Notices, banners and sounds for everyone or anyone.</td></tr>
-<tr><td class="type">nothing</td><td><code>broadcast(text: String)</code></td><td>A notice to every player in the world.</td></tr>
-<tr><td class="type">nothing</td><td><code>register_command(name: String, usage: String, run: <a href="api-types.html#commandhandler">CommandHandler</a>)</code></td><td>Adds a console command (see <a href="api-types.html">Types</a>).</td></tr>
-<tr><td class="type">nothing</td><td><code>run_command(line: String)</code></td><td>Runs a console command as if the owner typed it.</td></tr>
-<tr><td class="type">nothing</td><td><code>save()</code></td><td>Saves the world now.</td></tr>
-<tr><td class="type">nothing</td><td><code>stop(reason: String)</code></td><td>Tells players, saves and stops the server.</td></tr>
-<tr><td class="type">bool</td><td><code>is_plugin_loaded(id: String)</code></td><td>Whether another plugin is loaded.</td></tr>
-<tr><td class="type">nothing</td><td><code>provide(name: String, service: <a href="api-types.html#service">Service</a>)</code></td><td>Offers something to other plugins (an economy, a permission manager).</td></tr>
-<tr><td class="type"><a href="api-types.html#service">Service</a>?</td><td><code>service(name: String)</code></td><td>Something another plugin offers.</td></tr>
-<tr><td class="type">nothing</td><td><code>set_title(title: String, description: String)</code></td><td>Changes what players see when looking up the code.</td></tr>
-</table>
-<h2 id="events">Events</h2>
-<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#worldsaved"><code>WorldSaved</code></a>, <a href="api-events.html#daystarted"><code>DayStarted</code></a>.</p>
+<h2 id="description">Description</h2><p>Everything a plugin does starts here. The server ticks 60 times a second; plugin code runs on the tick, so a plugin never needs to lock anything to read the world.</p>
+<p>What a plugin changes inside a stoppable event&#x27;s listener takes effect as soon as the listener returns; everything else takes effect at once.</p>
+<h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#worldsaved"><code>WorldSaved</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-events.html">← Events</a><a class="next" href="api-plugin.html">Plugin →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

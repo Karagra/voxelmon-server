@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Species · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -51,10 +52,14 @@
 <li><a href="api-creature.html">Creature</a></li>
 <li class="current"><a href="api-species.html" aria-current="page">Species</a>
 <ul>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#methods">Methods</a></li>
 <li><a href="#move">Move</a></li>
+<li><a href="#evolution">Evolution</a></li>
+<li><a href="#learnedmove">LearnedMove</a></li>
 <li><a href="#essence">Essence</a></li>
+<li><a href="#rarity">Rarity</a></li>
+<li><a href="#temperament">Temperament</a></li>
+<li><a href="#locomotion">Locomotion</a></li>
+<li><a href="#habitat">Habitat</a></li>
 </ul>
 </li>
 <li><a href="api-team.html">Team</a></li>
@@ -63,42 +68,123 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Species</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Species</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Species</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From Species.named(...), Species.all() or a creature.</p>
-<p class="lead">A kind of Voxelmon: its essences, its moves, where it lives and what it becomes.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type">int</td><td><code>id</code></td><td>Its lasting number.</td></tr>
-<tr><td class="type">String</td><td><code>name</code></td><td>Its name, such as LUNAPUP.</td></tr>
-<tr><td class="type"><a href="api-species.html#essence">Essence</a></td><td><code>essence</code></td><td>Its first essence (Fire, Frost, Plant and the others).</td></tr>
-<tr><td class="type"><a href="api-species.html#essence">Essence</a>?</td><td><code>second_essence</code></td><td>Its second essence, if it has one.</td></tr>
-<tr><td class="type">Rarity</td><td><code>rarity</code></td><td>How often it appears in the wild.</td></tr>
-<tr><td class="type">Temperament</td><td><code>temperament</code></td><td>Friendly, neutral or hunting.</td></tr>
-<tr><td class="type">List[Habitat]</td><td><code>habitats</code></td><td>Where it lives.</td></tr>
-<tr><td class="type">Locomotion</td><td><code>moves_by</code></td><td>Walks, swims, both, or flies.</td></tr>
-<tr><td class="type">List[Evolution]</td><td><code>evolutions</code></td><td>What it becomes, and at what level.</td></tr>
-<tr><td class="type"><a href="api-creature.html#stats">Stats</a></td><td><code>base_stats</code></td><td>Its stats before levels.</td></tr>
-</table>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-species.html">Species</a>?</td><td><code>named(name: String)</code></td><td>A species by name.</td></tr>
-<tr><td class="type">List[<a href="api-species.html">Species</a>]</td><td><code>all()</code></td><td>Every species.</td></tr>
-<tr><td class="type">List[<a href="api-species.html#move">Move</a>]</td><td><code>learns()</code></td><td>The moves it learns, and at which levels.</td></tr>
+<div class="note"><strong>Being built.</strong> 0 of 20 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>A kind of Voxelmon: its essences, its moves, where it lives and what it becomes.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="species-id"><td class="sig"><code class="rs">fn id(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long id()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its lasting number.</td></tr>
+<tr id="species-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its name, such as LUNAPUP.</td></tr>
+<tr id="species-essence"><td class="sig"><code class="rs">fn essence(&amp;self) -&gt; Result&lt;<a href="api-species.html#essence">Essence</a>&gt;</code><code class="java"><a href="api-species.html#essence">Essence</a> essence()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its first essence.</td></tr>
+<tr id="species-second-essence"><td class="sig"><code class="rs">fn second_essence(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-species.html#essence">Essence</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-species.html#essence">Essence</a>&gt; secondEssence()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its second essence, if it has one.</td></tr>
+<tr id="species-rarity"><td class="sig"><code class="rs">fn rarity(&amp;self) -&gt; Result&lt;<a href="api-species.html#rarity">Rarity</a>&gt;</code><code class="java"><a href="api-species.html#rarity">Rarity</a> rarity()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>How often it appears in the wild.</td></tr>
+<tr id="species-temperament"><td class="sig"><code class="rs">fn temperament(&amp;self) -&gt; Result&lt;<a href="api-species.html#temperament">Temperament</a>&gt;</code><code class="java"><a href="api-species.html#temperament">Temperament</a> temperament()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>How it treats players.</td></tr>
+<tr id="species-habitats"><td class="sig"><code class="rs">fn habitats(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-species.html#habitat">Habitat</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-species.html#habitat">Habitat</a>&gt; habitats()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Where it lives.</td></tr>
+<tr id="species-locomotion"><td class="sig"><code class="rs">fn locomotion(&amp;self) -&gt; Result&lt;<a href="api-species.html#locomotion">Locomotion</a>&gt;</code><code class="java"><a href="api-species.html#locomotion">Locomotion</a> locomotion()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Walks, swims or both.</td></tr>
+<tr id="species-evolutions"><td class="sig"><code class="rs">fn evolutions(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-species.html#evolution">Evolution</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-species.html#evolution">Evolution</a>&gt; evolutions()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What it becomes.</td></tr>
+<tr id="species-base-stats"><td class="sig"><code class="rs">fn base_stats(&amp;self) -&gt; Result&lt;<a href="api-creature.html#stats">Stats</a>&gt;</code><code class="java"><a href="api-creature.html#stats">Stats</a> baseStats()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its stats before levels.</td></tr>
+<tr id="species-learns"><td class="sig"><code class="rs">fn learns(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-species.html#learnedmove">LearnedMove</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-species.html#learnedmove">LearnedMove</a>&gt; learns()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The moves it learns, and at which levels.</td></tr>
+<tr id="species-named"><td class="sig"><code class="rs">fn named(name: &amp;str) -&gt; Result&lt;Option&lt;<a href="api-species.html">Species</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-species.html">Species</a>&gt; named(String name)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A species by name (any case).</td></tr>
+<tr id="species-by-id"><td class="sig"><code class="rs">fn by_id(id: i64) -&gt; Result&lt;Option&lt;<a href="api-species.html">Species</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-species.html">Species</a>&gt; byId(long id)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A species by number.</td></tr>
+<tr id="species-all"><td class="sig"><code class="rs">fn all() -&gt; Result&lt;Vec&lt;<a href="api-species.html">Species</a>&gt;&gt;</code><code class="java">static List&lt;<a href="api-species.html">Species</a>&gt; all()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Every species.</td></tr>
 </table>
 <h2 id="move">Move</h2>
-<p>A battle move, found by name (<code>Move.named(&quot;Tackle&quot;)</code>).</p>
-<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
-<tr><td class="type">int</td><td><code>id</code></td><td>Its lasting number.</td></tr>
-<tr><td class="type">String</td><td><code>name</code></td><td>Its name.</td></tr>
-<tr><td class="type"><a href="api-species.html#essence">Essence</a>?</td><td><code>essence</code></td><td>Its essence, or none for a plain move.</td></tr>
-<tr><td class="type">int</td><td><code>power</code></td><td>How hard it hits (0 for a move that does not).</td></tr>
-<tr><td class="type">int</td><td><code>accuracy</code></td><td>Its chance to land, in percent.</td></tr>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>A battle move.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="move-id"><td class="sig"><code class="rs">fn id(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long id()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its lasting number.</td></tr>
+<tr id="move-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its name.</td></tr>
+<tr id="move-essence"><td class="sig"><code class="rs">fn essence(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-species.html#essence">Essence</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-species.html#essence">Essence</a>&gt; essence()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its essence, or none for a plain move.</td></tr>
+<tr id="move-power"><td class="sig"><code class="rs">fn power(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long power()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>How hard it hits (0 for a move that does not).</td></tr>
+<tr id="move-accuracy"><td class="sig"><code class="rs">fn accuracy(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long accuracy()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its chance to land, in percent.</td></tr>
+<tr id="move-named"><td class="sig"><code class="rs">fn named(name: &amp;str) -&gt; Result&lt;Option&lt;<a href="api-species.html#move">Move</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-species.html#move">Move</a>&gt; named(String name)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A move by name (any case).</td></tr>
+</table>
+<h2 id="evolution">Evolution</h2>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>What a species becomes.</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">into: <a href="api-species.html">Species</a></code><code class="java"><a href="api-species.html">Species</a> into()</code></td><td>The species it becomes.</td></tr>
+<tr><td class="sig"><code class="rs">level: i64</code><code class="java">long level()</code></td><td>The level it may evolve at.</td></tr>
+</table>
+<h2 id="learnedmove">LearnedMove</h2>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>A move a species learns.</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">r#move: <a href="api-species.html#move">Move</a></code><code class="java"><a href="api-species.html#move">Move</a> move()</code></td><td>The move.</td></tr>
+<tr><td class="sig"><code class="rs">level: i64</code><code class="java">long level()</code></td><td>The level it is learned at.</td></tr>
 </table>
 <h2 id="essence">Essence</h2>
+<p class="kind">One of a fixed set of values.</p>
 <p>One of the twelve essences: each strong against two and weak against two.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Air</code><code class="java"><a href="api-species.html#essence">Essence</a>.AIR</code></td><td>Air.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Water</code><code class="java"><a href="api-species.html#essence">Essence</a>.WATER</code></td><td>Water.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Fire</code><code class="java"><a href="api-species.html#essence">Essence</a>.FIRE</code></td><td>Fire.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Earth</code><code class="java"><a href="api-species.html#essence">Essence</a>.EARTH</code></td><td>Earth.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Dragon</code><code class="java"><a href="api-species.html#essence">Essence</a>.DRAGON</code></td><td>Dragon.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Frost</code><code class="java"><a href="api-species.html#essence">Essence</a>.FROST</code></td><td>Frost.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Insect</code><code class="java"><a href="api-species.html#essence">Essence</a>.INSECT</code></td><td>Insect.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Lightning</code><code class="java"><a href="api-species.html#essence">Essence</a>.LIGHTNING</code></td><td>Lightning.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Metal</code><code class="java"><a href="api-species.html#essence">Essence</a>.METAL</code></td><td>Metal.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Shadow</code><code class="java"><a href="api-species.html#essence">Essence</a>.SHADOW</code></td><td>Shadow.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Plant</code><code class="java"><a href="api-species.html#essence">Essence</a>.PLANT</code></td><td>Plant.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#essence">Essence</a>::Poison</code><code class="java"><a href="api-species.html#essence">Essence</a>.POISON</code></td><td>Poison.</td></tr>
+</table>
+<h2 id="rarity">Rarity</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>How often a species appears.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#rarity">Rarity</a>::Common</code><code class="java"><a href="api-species.html#rarity">Rarity</a>.COMMON</code></td><td>Common.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#rarity">Rarity</a>::Uncommon</code><code class="java"><a href="api-species.html#rarity">Rarity</a>.UNCOMMON</code></td><td>Uncommon.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#rarity">Rarity</a>::Rare</code><code class="java"><a href="api-species.html#rarity">Rarity</a>.RARE</code></td><td>Rare.</td></tr>
+</table>
+<h2 id="temperament">Temperament</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>How a species treats players.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#temperament">Temperament</a>::Friendly</code><code class="java"><a href="api-species.html#temperament">Temperament</a>.FRIENDLY</code></td><td>Never attacks.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#temperament">Temperament</a>::Neutral</code><code class="java"><a href="api-species.html#temperament">Temperament</a>.NEUTRAL</code></td><td>Attacks when riled.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#temperament">Temperament</a>::Aggressive</code><code class="java"><a href="api-species.html#temperament">Temperament</a>.AGGRESSIVE</code></td><td>Hunts players.</td></tr>
+</table>
+<h2 id="locomotion">Locomotion</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>How a species moves.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#locomotion">Locomotion</a>::Walk</code><code class="java"><a href="api-species.html#locomotion">Locomotion</a>.WALK</code></td><td>On land.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#locomotion">Locomotion</a>::Swim</code><code class="java"><a href="api-species.html#locomotion">Locomotion</a>.SWIM</code></td><td>Only in water.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#locomotion">Locomotion</a>::Amphibious</code><code class="java"><a href="api-species.html#locomotion">Locomotion</a>.AMPHIBIOUS</code></td><td>On land and in water.</td></tr>
+</table>
+<h2 id="habitat">Habitat</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>Where a species lives.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Grass</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.GRASS</code></td><td>Grassland.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Savanna</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.SAVANNA</code></td><td>Savanna.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Mud</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.MUD</code></td><td>Swamp and mud.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Sand</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.SAND</code></td><td>Desert.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Snow</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.SNOW</code></td><td>Snow.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Autumn</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.AUTUMN</code></td><td>Autumn woods.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Taiga</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.TAIGA</code></td><td>Taiga.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Jungle</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.JUNGLE</code></td><td>Jungle.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Coast</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.COAST</code></td><td>Beaches.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Rock</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.ROCK</code></td><td>Peaks and rock.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Fungal</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.FUNGAL</code></td><td>Fungal isles.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Volcanic</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.VOLCANIC</code></td><td>Volcanic land.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Moor</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.MOOR</code></td><td>Moor.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Cave</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.CAVE</code></td><td>Caves.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::LushCave</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.LUSH_CAVE</code></td><td>Verdant caves.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::FloodedCave</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.FLOODED_CAVE</code></td><td>Flooded caves.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::VolcanicCave</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.VOLCANIC_CAVE</code></td><td>Volcanic caves.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::IceCave</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.ICE_CAVE</code></td><td>Ice caves.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::CrystalCave</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.CRYSTAL_CAVE</code></td><td>Crystal caves.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::<a href="api-dungeon.html">Dungeon</a></code><code class="java"><a href="api-species.html#habitat">Habitat</a>.DUNGEON</code></td><td>Dungeons.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Shallows</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.SHALLOWS</code></td><td>Shallow sea.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Reef</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.REEF</code></td><td>Reefs.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::OpenSea</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.OPEN_SEA</code></td><td>Open sea.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-species.html#habitat">Habitat</a>::Lake</code><code class="java"><a href="api-species.html#habitat">Habitat</a>.LAKE</code></td><td>Lakes.</td></tr>
+</table>
 </main>
 <div class="pager"><a class="prev" href="api-creature.html">← Creature</a><a class="next" href="api-team.html">Team →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

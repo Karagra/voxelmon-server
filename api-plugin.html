@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Plugin · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -34,7 +35,6 @@
 <li class="current"><a href="api-plugin.html" aria-current="page">Plugin</a>
 <ul>
 <li><a href="#description">Description</a></li>
-<li><a href="#methods">Methods</a></li>
 </ul>
 </li>
 <li><a href="api-scheduler.html">Scheduler</a></li>
@@ -61,27 +61,18 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Plugin</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Plugin</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Plugin</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">The plugin itself: what a plugin implements, and what it is given.</p>
-<p class="lead">A plugin&#x27;s own lifecycle, settings, folder and log.</p>
-<h2 id="description">Description</h2>
-<p>A Rust plugin implements the <code>Plugin</code> trait; a Java plugin extends <code>VoxelmonPlugin</code>. The server calls <code>enable</code> once loaded, <code>world_ready</code> once players may join and <code>disable</code> when stopping or reloading. See <a href="api-basics.html">Writing a plugin</a> for the manifest.</p>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type">nothing</td><td><code>enable(server: <a href="api-server.html">Server</a>)</code></td><td>Called once loaded: register events, commands and tasks here.</td></tr>
-<tr><td class="type">nothing</td><td><code>world_ready()</code></td><td>Called once the world has loaded and players may join.</td></tr>
-<tr><td class="type">nothing</td><td><code>disable()</code></td><td>Called when the server stops or the plugin is reloaded: save what it keeps.</td></tr>
-<tr><td class="type">String</td><td><code>id()</code></td><td>Its id from the manifest.</td></tr>
-<tr><td class="type">String</td><td><code>version()</code></td><td>Its version from the manifest.</td></tr>
-<tr><td class="type">Config</td><td><code>config()</code></td><td>Its <code>config.toml</code>, written from its defaults the first time.</td></tr>
-<tr><td class="type">nothing</td><td><code>reload_config()</code></td><td>Reads <code>config.toml</code> again.</td></tr>
-<tr><td class="type">nothing</td><td><code>log_info(text: String)</code></td><td>A line in the console, marked with the plugin&#x27;s name.</td></tr>
-<tr><td class="type">nothing</td><td><code>log_warn(text: String)</code></td><td>A warning in the console.</td></tr>
-<tr><td class="type">nothing</td><td><code>log_error(text: String)</code></td><td>An error in the console.</td></tr>
+
+<p class="kind">What a plugin implements.</p>
+<p>What a plugin is: the code the server calls as it starts, as the world becomes ready and as it stops.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="plugin-enable"><td class="sig"><code class="rs">fn enable(server: &amp;<a href="api-server.html">Server</a>) -&gt; Self</code><code class="java">public void enable(<a href="api-server.html">Server</a> server)</code></td><td>Called once loaded. Listen for events, register commands and tasks.</td></tr>
+<tr id="plugin-world-ready"><td class="sig"><code class="rs">fn world_ready(&amp;mut self)</code><code class="java">public void worldReady()</code></td><td>Called once the world has loaded and players may join.</td></tr>
+<tr id="plugin-disable"><td class="sig"><code class="rs">fn disable(&amp;mut self)</code><code class="java">public void disable()</code></td><td>Called when the server stops or the plugin is reloaded: save what it keeps.</td></tr>
 </table>
+<h2 id="description">Description</h2><p>In Rust a plugin is a type implementing <code>Plugin</code>, named with the <code>voxelmon_plugin!</code> macro; in Java a class extending <code>VoxelmonPlugin</code>, named in its <code>plugin.toml</code>. The server makes it with <code>enable</code>, where it listens for events and registers commands and tasks. See <a href="api-basics.html">Writing a plugin</a> for the manifest.</p>
 </main>
 <div class="pager"><a class="prev" href="api-server.html">← Server</a><a class="next" href="api-scheduler.html">Scheduler →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

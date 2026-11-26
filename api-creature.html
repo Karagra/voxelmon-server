@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Creature · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -51,9 +52,10 @@
 <li class="current"><a href="api-creature.html" aria-current="page">Creature</a>
 <ul>
 <li><a href="#description">Description</a></li>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#methods">Methods</a></li>
 <li><a href="#stats">Stats</a></li>
+<li><a href="#size">Size</a></li>
+<li><a href="#status">Status</a></li>
+<li><a href="#creaturestate">CreatureState</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
 </li>
@@ -64,57 +66,85 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Creature</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Creature</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Creature</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From world.creatures_near(...), a team, a cube or events.</p>
-<p class="lead">One Voxelmon: wild, a player&#x27;s companion, or stored in a player&#x27;s team.</p>
-<h2 id="description">Description</h2>
-<p>A creature has a lasting <code>id</code>. A wild one exists only while it is in the world; a player&#x27;s is kept with them. Its species, level, size and moves are its own (two of a species differ). Spawning, changing and removing creatures needs <code>creatures</code>.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-types.html#creatureid">CreatureId</a></td><td><code>id</code></td><td>Its lasting ID.</td></tr>
-<tr><td class="type"><a href="api-species.html">Species</a></td><td><code>species</code></td><td>Its species.</td></tr>
-<tr><td class="type">int</td><td><code>level</code></td><td>Its level.</td></tr>
-<tr><td class="type">int</td><td><code>experience</code></td><td>Experience toward its next level.</td></tr>
-<tr><td class="type">float</td><td><code>health</code></td><td>Its health now.</td></tr>
-<tr><td class="type">float</td><td><code>max_health</code></td><td>Its most health.</td></tr>
-<tr><td class="type">Size</td><td><code>size</code></td><td>From MICROSCOPIC to COLOSSAL (how large it is drawn).</td></tr>
-<tr><td class="type">List[<a href="api-species.html#move">Move</a>]</td><td><code>moves</code></td><td>The moves it knows (up to four).</td></tr>
-<tr><td class="type"><a href="api-creature.html#stats">Stats</a></td><td><code>stats</code></td><td>Its battle stats at its level.</td></tr>
-<tr><td class="type">Condition?</td><td><code>condition</code></td><td>A condition it suffers, if any (burned, frozen, asleep...).</td></tr>
-<tr><td class="type"><a href="api-types.html#playerid">PlayerId</a>?</td><td><code>owner</code></td><td>Its player, if it is someone&#x27;s.</td></tr>
-<tr><td class="type">CreatureState</td><td><code>state</code></td><td>WILD, OUT (a companion), IN_CUBE, STORED or IN_BATTLE.</td></tr>
-<tr><td class="type"><a href="api-types.html#place">Place</a>?</td><td><code>position</code></td><td>Where it is, if in the world.</td></tr>
-<tr><td class="type">bool</td><td><code>riled</code></td><td>Whether it has turned on a player.</td></tr>
-<tr><td class="type">bool</td><td><code>fainted</code></td><td>Whether it has fainted.</td></tr>
-<tr><td class="type"><a href="api-itemstack.html#itemtype">ItemType</a></td><td><code>cube</code></td><td>The look of its cube (tier and colour).</td></tr>
+<div class="note"><strong>Being built.</strong> 0 of 24 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>One Voxelmon: wild, a player&#x27;s companion, or kept in a player&#x27;s team.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="creature-id"><td class="sig"><code class="rs">fn id(&amp;self) -&gt; Result&lt;<a href="api-types.html#creatureid">CreatureId</a>&gt;</code><code class="java">long id()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its lasting ID.</td></tr>
+<tr id="creature-species"><td class="sig"><code class="rs">fn species(&amp;self) -&gt; Result&lt;<a href="api-species.html">Species</a>&gt;</code><code class="java"><a href="api-species.html">Species</a> species()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its species.</td></tr>
+<tr id="creature-level"><td class="sig"><code class="rs">fn level(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long level()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its level.</td></tr>
+<tr id="creature-experience"><td class="sig"><code class="rs">fn experience(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long experience()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Experience toward its next level.</td></tr>
+<tr id="creature-health"><td class="sig"><code class="rs">fn health(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double health()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its health now.</td></tr>
+<tr id="creature-max-health"><td class="sig"><code class="rs">fn max_health(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double maxHealth()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its most health.</td></tr>
+<tr id="creature-size"><td class="sig"><code class="rs">fn size(&amp;self) -&gt; Result&lt;<a href="api-creature.html#size">Size</a>&gt;</code><code class="java"><a href="api-creature.html#size">Size</a> size()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>How large it is.</td></tr>
+<tr id="creature-moves"><td class="sig"><code class="rs">fn moves(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-species.html#move">Move</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-species.html#move">Move</a>&gt; moves()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The moves it knows (up to four).</td></tr>
+<tr id="creature-stats"><td class="sig"><code class="rs">fn stats(&amp;self) -&gt; Result&lt;<a href="api-creature.html#stats">Stats</a>&gt;</code><code class="java"><a href="api-creature.html#stats">Stats</a> stats()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its battle stats at its level.</td></tr>
+<tr id="creature-status"><td class="sig"><code class="rs">fn status(&amp;self) -&gt; Result&lt;<a href="api-creature.html#status">Status</a>&gt;</code><code class="java"><a href="api-creature.html#status">Status</a> status()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A status it suffers in battle.</td></tr>
+<tr id="creature-owner"><td class="sig"><code class="rs">fn owner(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-types.html#playerid">PlayerId</a>&gt;&gt;</code><code class="java">Optional&lt;String&gt; owner()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its player, if it is someone&#x27;s.</td></tr>
+<tr id="creature-state"><td class="sig"><code class="rs">fn state(&amp;self) -&gt; Result&lt;<a href="api-creature.html#creaturestate">CreatureState</a>&gt;</code><code class="java"><a href="api-creature.html#creaturestate">CreatureState</a> state()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Where it is.</td></tr>
+<tr id="creature-position"><td class="sig"><code class="rs">fn position(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-types.html#place">Place</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-types.html#place">Place</a>&gt; position()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Where it is, if in the world.</td></tr>
+<tr id="creature-set-level"><td class="sig"><code class="rs">fn set_level(&amp;self, level: i64) -&gt; Result&lt;()&gt;</code><code class="java">void setLevel(long level)</code> <span class="need" title="Needs creatures in the manifest">creatures</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Sets its level (its stats follow).</td></tr>
+<tr id="creature-add-experience"><td class="sig"><code class="rs">fn add_experience(&amp;self, amount: i64) -&gt; Result&lt;()&gt;</code><code class="java">void addExperience(long amount)</code> <span class="need" title="Needs creatures in the manifest">creatures</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Gives experience (it may level up and evolve).</td></tr>
+<tr id="creature-heal"><td class="sig"><code class="rs">fn heal(&amp;self, amount: f64) -&gt; Result&lt;()&gt;</code><code class="java">void heal(double amount)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Gives back health.</td></tr>
+<tr id="creature-heal-fully"><td class="sig"><code class="rs">fn heal_fully(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void healFully()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Health, moves and status restored, as at a clinic.</td></tr>
+<tr id="creature-damage"><td class="sig"><code class="rs">fn damage(&amp;self, amount: f64) -&gt; Result&lt;()&gt;</code><code class="java">void damage(double amount)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Hurts it.</td></tr>
+<tr id="creature-teach"><td class="sig"><code class="rs">fn teach(&amp;self, r#move: <a href="api-species.html#move">Move</a>, slot: i64) -&gt; Result&lt;()&gt;</code><code class="java">void teach(<a href="api-species.html#move">Move</a> move, long slot)</code> <span class="need" title="Needs creatures in the manifest">creatures</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Teaches a move in place of the one in that slot (0 to 3).</td></tr>
+<tr id="creature-teleport"><td class="sig"><code class="rs">fn teleport(&amp;self, place: <a href="api-types.html#place">Place</a>) -&gt; Result&lt;()&gt;</code><code class="java">void teleport(<a href="api-types.html#place">Place</a> place)</code> <span class="need" title="Needs creatures in the manifest">creatures</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Moves it, if in the world.</td></tr>
+<tr id="creature-rile"><td class="sig"><code class="rs">fn rile(&amp;self, player: <a href="api-player.html">Player</a>) -&gt; Result&lt;()&gt;</code><code class="java">void rile(<a href="api-player.html">Player</a> player)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Turns a wild one on a player for a while.</td></tr>
+<tr id="creature-give-to"><td class="sig"><code class="rs">fn give_to(&amp;self, player: <a href="api-player.html">Player</a>) -&gt; Result&lt;bool&gt;</code><code class="java">boolean giveTo(<a href="api-player.html">Player</a> player)</code> <span class="need" title="Needs creatures in the manifest">creatures</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Makes a wild one theirs, as if caught; false if their team is full.</td></tr>
+<tr id="creature-challenge"><td class="sig"><code class="rs">fn challenge(&amp;self, player: <a href="api-player.html">Player</a>) -&gt; Result&lt;Option&lt;<a href="api-battle.html">Battle</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-battle.html">Battle</a>&gt; challenge(<a href="api-player.html">Player</a> player)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Starts a turn-based battle between a wild one and a player, in a turn-based world.</td></tr>
+<tr id="creature-remove"><td class="sig"><code class="rs">fn remove(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void remove()</code> <span class="need" title="Needs creatures in the manifest">creatures</span> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Takes a wild one out of the world.</td></tr>
 </table>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type">nothing</td><td><code>set_level(level: int)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Sets its level (its stats follow).</td></tr>
-<tr><td class="type">nothing</td><td><code>add_experience(amount: int)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Gives experience (it may level up and evolve).</td></tr>
-<tr><td class="type">nothing</td><td><code>heal(amount: float)</code></td><td>Gives back health.</td></tr>
-<tr><td class="type">nothing</td><td><code>heal_fully()</code></td><td>Health, moves and condition restored, as at a clinic.</td></tr>
-<tr><td class="type">nothing</td><td><code>damage(amount: float)</code></td><td>Hurts it.</td></tr>
-<tr><td class="type">nothing</td><td><code>teach(move: <a href="api-species.html#move">Move</a>, slot: int)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Teaches a move in place of one it knows.</td></tr>
-<tr><td class="type">nothing</td><td><code>teleport(place: <a href="api-types.html#place">Place</a>)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Moves it, if in the world.</td></tr>
-<tr><td class="type">nothing</td><td><code>rile(player: <a href="api-player.html">Player</a>)</code></td><td>Turns a wild one on a player for a while.</td></tr>
-<tr><td class="type">nothing</td><td><code>give_to(player: <a href="api-player.html">Player</a>)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Makes a wild one theirs, as if caught, into their team.</td></tr>
-<tr><td class="type"><a href="api-battle.html">Battle</a>?</td><td><code>challenge(player: <a href="api-player.html">Player</a>)</code></td><td>Starts a turn-based battle between a wild one and a player, in a turn-based world.</td></tr>
-<tr><td class="type">nothing</td><td><code>remove()</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Takes a wild one out of the world.</td></tr>
-</table>
+<h2 id="description">Description</h2><p>A creature has a lasting <code>id</code>. A wild one exists while it is in the world; a player&#x27;s is kept with them. Spawning, changing and removing creatures needs <code>creatures</code>.</p>
 <h2 id="stats">Stats</h2>
+<p class="kind">Plain data, copied: fields in both directions.</p>
 <p>A creature&#x27;s battle stats.</p>
-<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
-<tr><td class="type">int</td><td><code>health</code></td><td>Most health.</td></tr>
-<tr><td class="type">int</td><td><code>attack</code></td><td>Attack.</td></tr>
-<tr><td class="type">int</td><td><code>defense</code></td><td>Defense.</td></tr>
-<tr><td class="type">int</td><td><code>speed</code></td><td>Battle speed: who moves first.</td></tr>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">health: i64</code><code class="java">long health()</code></td><td>Most health.</td></tr>
+<tr><td class="sig"><code class="rs">attack: i64</code><code class="java">long attack()</code></td><td>Attack.</td></tr>
+<tr><td class="sig"><code class="rs">defense: i64</code><code class="java">long defense()</code></td><td>Defense.</td></tr>
+<tr><td class="sig"><code class="rs">speed: i64</code><code class="java">long speed()</code></td><td>Battle speed: who moves first.</td></tr>
 </table>
-<h2 id="events">Events</h2>
-<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#creaturespawning"><code>CreatureSpawning</code></a>, <a href="api-events.html#creaturespawned"><code>CreatureSpawned</code></a>, <a href="api-events.html#creaturedamaging"><code>CreatureDamaging</code></a>, <a href="api-events.html#creaturebeaten"><code>CreatureBeaten</code></a>, <a href="api-events.html#captureattempt"><code>CaptureAttempt</code></a>, <a href="api-events.html#creaturecaptured"><code>CreatureCaptured</code></a>, <a href="api-events.html#creaturelevelledup"><code>CreatureLevelledUp</code></a>, <a href="api-events.html#creatureevolving"><code>CreatureEvolving</code></a>, <a href="api-events.html#creatureevolved"><code>CreatureEvolved</code></a>, <a href="api-events.html#companionsentout"><code>CompanionSentOut</code></a>, <a href="api-events.html#companionrecalled"><code>CompanionRecalled</code></a>, <a href="api-events.html#creaturepetted"><code>CreaturePetted</code></a>.</p>
+<h2 id="size">Size</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>How large a creature is drawn.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#size">Size</a>::Microscopic</code><code class="java"><a href="api-creature.html#size">Size</a>.MICROSCOPIC</code></td><td>Microscopic.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#size">Size</a>::Tiny</code><code class="java"><a href="api-creature.html#size">Size</a>.TINY</code></td><td>Tiny.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#size">Size</a>::Petite</code><code class="java"><a href="api-creature.html#size">Size</a>.PETITE</code></td><td>Petite.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#size">Size</a>::Small</code><code class="java"><a href="api-creature.html#size">Size</a>.SMALL</code></td><td>Small.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#size">Size</a>::Average</code><code class="java"><a href="api-creature.html#size">Size</a>.AVERAGE</code></td><td>Average.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#size">Size</a>::Large</code><code class="java"><a href="api-creature.html#size">Size</a>.LARGE</code></td><td>Large.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#size">Size</a>::Huge</code><code class="java"><a href="api-creature.html#size">Size</a>.HUGE</code></td><td>Huge.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#size">Size</a>::Gigantic</code><code class="java"><a href="api-creature.html#size">Size</a>.GIGANTIC</code></td><td>Gigantic.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#size">Size</a>::Colossal</code><code class="java"><a href="api-creature.html#size">Size</a>.COLOSSAL</code></td><td>Colossal.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#size">Size</a>::Voxelord</code><code class="java"><a href="api-creature.html#size">Size</a>.VOXELORD</code></td><td>A town&#x27;s Voxelord.</td></tr>
+</table>
+<h2 id="status">Status</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>A battle status.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#status">Status</a>::Healthy</code><code class="java"><a href="api-creature.html#status">Status</a>.HEALTHY</code></td><td>None.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#status">Status</a>::Burn</code><code class="java"><a href="api-creature.html#status">Status</a>.BURN</code></td><td>Burned.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#status">Status</a>::Poison</code><code class="java"><a href="api-creature.html#status">Status</a>.POISON</code></td><td>Poisoned.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#status">Status</a>::Frost</code><code class="java"><a href="api-creature.html#status">Status</a>.FROST</code></td><td>Frozen.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#status">Status</a>::Paralysis</code><code class="java"><a href="api-creature.html#status">Status</a>.PARALYSIS</code></td><td>Paralysed.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#status">Status</a>::Sleep</code><code class="java"><a href="api-creature.html#status">Status</a>.SLEEP</code></td><td>Asleep.</td></tr>
+</table>
+<h2 id="creaturestate">CreatureState</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>Where a creature is.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#creaturestate">CreatureState</a>::Wild</code><code class="java"><a href="api-creature.html#creaturestate">CreatureState</a>.WILD</code></td><td>Wild, in the world.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#creaturestate">CreatureState</a>::Out</code><code class="java"><a href="api-creature.html#creaturestate">CreatureState</a>.OUT</code></td><td>A player&#x27;s companion, out of its cube.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#creaturestate">CreatureState</a>::InCube</code><code class="java"><a href="api-creature.html#creaturestate">CreatureState</a>.IN_CUBE</code></td><td>In a cube on its player&#x27;s belt.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#creaturestate">CreatureState</a>::Stored</code><code class="java"><a href="api-creature.html#creaturestate">CreatureState</a>.STORED</code></td><td>In its player&#x27;s storage.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-creature.html#creaturestate">CreatureState</a>::InBattle</code><code class="java"><a href="api-creature.html#creaturestate">CreatureState</a>.IN_BATTLE</code></td><td>In a battle.</td></tr>
+</table>
+<h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#creaturespawning"><code>CreatureSpawning</code></a>, <a href="api-events.html#creaturespawned"><code>CreatureSpawned</code></a>, <a href="api-events.html#creaturedamaging"><code>CreatureDamaging</code></a>, <a href="api-events.html#creaturebeaten"><code>CreatureBeaten</code></a>, <a href="api-events.html#captureattempt"><code>CaptureAttempt</code></a>, <a href="api-events.html#creaturecaptured"><code>CreatureCaptured</code></a>, <a href="api-events.html#creaturelevelledup"><code>CreatureLevelledUp</code></a>, <a href="api-events.html#creatureevolving"><code>CreatureEvolving</code></a>, <a href="api-events.html#creatureevolved"><code>CreatureEvolved</code></a>, <a href="api-events.html#companionsentout"><code>CompanionSentOut</code></a>, <a href="api-events.html#companionrecalled"><code>CompanionRecalled</code></a>, <a href="api-events.html#creaturepetted"><code>CreaturePetted</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-dungeon.html">← Dungeon</a><a class="next" href="api-species.html">Species →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

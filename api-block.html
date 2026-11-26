@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Block · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -45,8 +46,6 @@
 <li><a href="api-world.html">World</a></li>
 <li class="current"><a href="api-block.html" aria-current="page">Block</a>
 <ul>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#methods">Methods</a></li>
 <li><a href="#blocktype">BlockType</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
@@ -63,40 +62,34 @@
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Block</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Block</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Block</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">From world.block(at), and events.</p>
-<p class="lead">One block in the world: what it is and where.</p>
-<h2 id="properties">Properties</h2>
-<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
-<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>at</code></td><td>Where it is.</td></tr>
-<tr><td class="type"><a href="api-block.html#blocktype">BlockType</a></td><td><code>type</code></td><td>What it is.</td></tr>
-<tr><td class="type">int</td><td><code>sky_light</code></td><td>Daylight reaching it, 0 to 15.</td></tr>
-<tr><td class="type">int</td><td><code>block_light</code></td><td>Light from torches, lava and lamps, 0 to 15.</td></tr>
-<tr><td class="type">bool</td><td><code>edited</code></td><td>Whether a player or plugin changed it from the world as made.</td></tr>
-</table>
-<h2 id="methods">Methods</h2>
-<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
-<tr><td class="type">nothing</td><td><code>set(type: <a href="api-block.html#blocktype">BlockType</a>)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Changes it.</td></tr>
-<tr><td class="type"><a href="api-block.html">Block</a>?</td><td><code>neighbour(side: Side)</code></td><td>The block beside it.</td></tr>
+<div class="note"><strong>Being built.</strong> 8 of 10 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>One block in the world: what it is and where.</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">at: <a href="api-types.html#blockpos">BlockPos</a></code><code class="java"><a href="api-types.html#blockpos">BlockPos</a> at()</code></td><td>Where it is.</td></tr>
+<tr><td class="sig"><code class="rs">r#type: <a href="api-block.html#blocktype">BlockType</a></code><code class="java"><a href="api-block.html#blocktype">BlockType</a> type()</code></td><td>What it is.</td></tr>
+<tr><td class="sig"><code class="rs">sky_light: i64</code><code class="java">long skyLight()</code></td><td>Daylight reaching it, 0 to 15.</td></tr>
+<tr><td class="sig"><code class="rs">block_light: i64</code><code class="java">long blockLight()</code></td><td>Light from torches, lava and lamps, 0 to 15.</td></tr>
 </table>
 <h2 id="blocktype">BlockType</h2>
-<p>A kind of block, found by name (<code>BlockType.named(&quot;Oak Log&quot;)</code>).</p>
-<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
-<tr><td class="type">int</td><td><code>id</code></td><td>Its lasting number.</td></tr>
-<tr><td class="type">String</td><td><code>name</code></td><td>Its name.</td></tr>
-<tr><td class="type">bool</td><td><code>solid</code></td><td>Whether bodies stand on it and cannot pass.</td></tr>
-<tr><td class="type">bool</td><td><code>liquid</code></td><td>Water or lava.</td></tr>
-<tr><td class="type">bool</td><td><code>plant</code></td><td>Grass, flowers and other plants.</td></tr>
-<tr><td class="type">int</td><td><code>light</code></td><td>Light it gives, 0 to 15.</td></tr>
-<tr><td class="type">float</td><td><code>hardness</code></td><td>How long it takes to break.</td></tr>
-<tr><td class="type"><a href="api-itemstack.html#itemtype">ItemType</a>?</td><td><code>item</code></td><td>The item it is as carried.</td></tr>
-<tr><td class="type">String?</td><td><code>pack</code></td><td>The content pack it comes from, if any.</td></tr>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>A kind of block.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="blocktype-id"><td class="sig"><code class="rs">fn id(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long id()</code></td><td>Its lasting number.</td></tr>
+<tr id="blocktype-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code></td><td>Its name.</td></tr>
+<tr id="blocktype-solid"><td class="sig"><code class="rs">fn solid(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean solid()</code></td><td>Whether bodies stand on it and cannot pass.</td></tr>
+<tr id="blocktype-liquid"><td class="sig"><code class="rs">fn liquid(&amp;self) -&gt; Result&lt;bool&gt;</code><code class="java">boolean liquid()</code></td><td>Water or lava.</td></tr>
+<tr id="blocktype-light"><td class="sig"><code class="rs">fn light(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long light()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Light it gives, 0 to 15.</td></tr>
+<tr id="blocktype-hardness"><td class="sig"><code class="rs">fn hardness(&amp;self) -&gt; Result&lt;f64&gt;</code><code class="java">double hardness()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Seconds to break it by hand.</td></tr>
+<tr id="blocktype-item"><td class="sig"><code class="rs">fn item(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt; item()</code></td><td>The item it is as carried.</td></tr>
+<tr id="blocktype-named"><td class="sig"><code class="rs">fn named(name: &amp;str) -&gt; Result&lt;Option&lt;<a href="api-block.html#blocktype">BlockType</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-block.html#blocktype">BlockType</a>&gt; named(String name)</code></td><td>A block by its name (any case).</td></tr>
+<tr id="blocktype-by-id"><td class="sig"><code class="rs">fn by_id(id: i64) -&gt; Result&lt;Option&lt;<a href="api-block.html#blocktype">BlockType</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-block.html#blocktype">BlockType</a>&gt; byId(long id)</code></td><td>A block by its number.</td></tr>
+<tr id="blocktype-air"><td class="sig"><code class="rs">fn air() -&gt; Result&lt;<a href="api-block.html#blocktype">BlockType</a>&gt;</code><code class="java">static <a href="api-block.html#blocktype">BlockType</a> air()</code></td><td>Air: nothing.</td></tr>
 </table>
-<h2 id="events">Events</h2>
-<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#blockbreaking"><code>BlockBreaking</code></a>, <a href="api-events.html#blockbroken"><code>BlockBroken</code></a>, <a href="api-events.html#blockplacing"><code>BlockPlacing</code></a>, <a href="api-events.html#blockplaced"><code>BlockPlaced</code></a>, <a href="api-events.html#blockchanged"><code>BlockChanged</code></a>.</p>
+<h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#blockbreaking"><code>BlockBreaking</code></a>, <a href="api-events.html#blockbroken"><code>BlockBroken</code></a>, <a href="api-events.html#blockplacing"><code>BlockPlacing</code></a>, <a href="api-events.html#blockplaced"><code>BlockPlaced</code></a>, <a href="api-events.html#blockchanged"><code>BlockChanged</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-world.html">← World</a><a class="next" href="api-placedobject.html">PlacedObject →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

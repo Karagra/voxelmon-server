@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Types · VoxelMon Server</title>
 <link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
 <input type="checkbox" id="menu" hidden>
@@ -57,65 +58,157 @@
 <li><a href="#place">Place</a></li>
 <li><a href="#blockpos">BlockPos</a></li>
 <li><a href="#turn">Turn</a></li>
+<li><a href="#colour">Colour</a></li>
+<li><a href="#worldoptions">WorldOptions</a></li>
+<li><a href="#difficulty">Difficulty</a></li>
+<li><a href="#combatstyle">CombatStyle</a></li>
+<li><a href="#store">Store</a></li>
+<li><a href="#leavereason">LeaveReason</a></li>
+<li><a href="#damagecause">DamageCause</a></li>
+<li><a href="#spawnreason">SpawnReason</a></li>
+<li><a href="#lootsource">LootSource</a></li>
 <li><a href="#playerid">PlayerId</a></li>
 <li><a href="#creatureid">CreatureId</a></li>
-<li><a href="#colour">Colour</a></li>
 <li><a href="#duration">Duration</a></li>
 <li><a href="#time">Time</a></li>
-<li><a href="#value">Value</a></li>
-<li><a href="#weather">Weather</a></li>
-<li><a href="#worldoptions">WorldOptions</a></li>
-<li><a href="#commandhandler">CommandHandler</a></li>
-<li><a href="#callback">Callback</a></li>
-<li><a href="#service">Service</a></li>
-<li><a href="#httprequest">HttpRequest</a></li>
-<li><a href="#httpresponse">HttpResponse</a></li>
-<li><a href="#lists-and-maybe">Lists and maybe</a></li>
 </ul>
 </li>
 </ul>
 </nav>
 <div class="page">
-<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Types</div></header>
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Types</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Types</h1>
-<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
-<p class="kind">Values used throughout the API.</p>
-<p class="lead">The small values every page uses: places, blocks&#x27; positions, IDs, colours, times and the like.</p>
+
+<p>The small values every page uses: places, block positions, IDs, colours, times and settings.</p>
 <h2 id="place">Place</h2>
-<p>A point in the world, in blocks: <code>x</code>, <code>y</code> (up) and <code>z</code>, each a float. One block is one metre.</p>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>A point in the world, in blocks (one block is one metre); <code>y</code> is up.</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">x: f64</code><code class="java">double x()</code></td><td>East.</td></tr>
+<tr><td class="sig"><code class="rs">y: f64</code><code class="java">double y()</code></td><td>Up.</td></tr>
+<tr><td class="sig"><code class="rs">z: f64</code><code class="java">double z()</code></td><td>South.</td></tr>
+</table>
 <h2 id="blockpos">BlockPos</h2>
-<p>A block&#x27;s place: whole numbers <code>x</code>, <code>y</code> and <code>z</code>. <code>y</code> runs from -64 to 191.</p>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>A block&#x27;s place. <code>y</code> runs from -64 to 191.</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">x: i64</code><code class="java">long x()</code></td><td>East.</td></tr>
+<tr><td class="sig"><code class="rs">y: i64</code><code class="java">long y()</code></td><td>Up.</td></tr>
+<tr><td class="sig"><code class="rs">z: i64</code><code class="java">long z()</code></td><td>South.</td></tr>
+</table>
 <h2 id="turn">Turn</h2>
-<p>How something is turned in space (a quaternion), with <code>yaw</code> and <code>pitch</code> read from it in degrees.</p>
-<h2 id="playerid">PlayerId</h2>
-<p>A player&#x27;s lasting ID: the same each time they join, from their store account through Epic. Text, to be kept as it is.</p>
-<h2 id="creatureid">CreatureId</h2>
-<p>A Voxelmon&#x27;s lasting ID, a number.</p>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>How something is turned (a quaternion).</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">x: f64</code><code class="java">double x()</code></td><td>Its x part.</td></tr>
+<tr><td class="sig"><code class="rs">y: f64</code><code class="java">double y()</code></td><td>Its y part.</td></tr>
+<tr><td class="sig"><code class="rs">z: f64</code><code class="java">double z()</code></td><td>Its z part.</td></tr>
+<tr><td class="sig"><code class="rs">w: f64</code><code class="java">double w()</code></td><td>Its w part.</td></tr>
+</table>
 <h2 id="colour">Colour</h2>
-<p>A colour: <code>Colour.rgb(r, g, b)</code> from 0 to 255, or one of the game&#x27;s own, such as <code>Colour.GOLD</code>.</p>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>A colour, each part 0 to 255.</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">r: i64</code><code class="java">long r()</code></td><td>Red.</td></tr>
+<tr><td class="sig"><code class="rs">g: i64</code><code class="java">long g()</code></td><td>Green.</td></tr>
+<tr><td class="sig"><code class="rs">b: i64</code><code class="java">long b()</code></td><td>Blue.</td></tr>
+</table>
+<h2 id="worldoptions">WorldOptions</h2>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>The world&#x27;s settings, as in server.toml.</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">difficulty: <a href="api-types.html#difficulty">Difficulty</a></code><code class="java"><a href="api-types.html#difficulty">Difficulty</a> difficulty()</code></td><td>Normal, hard or hardcore.</td></tr>
+<tr><td class="sig"><code class="rs">combat: <a href="api-types.html#combatstyle">CombatStyle</a></code><code class="java"><a href="api-types.html#combatstyle">CombatStyle</a> combat()</code></td><td>Turn-based battles or real-time action.</td></tr>
+<tr><td class="sig"><code class="rs">keep_inventory: bool</code><code class="java">boolean keepInventory()</code></td><td>Whether a player who faints keeps what they carry.</td></tr>
+<tr><td class="sig"><code class="rs">creative: bool</code><code class="java">boolean creative()</code></td><td>Creative mode for everyone.</td></tr>
+</table>
+<h2 id="difficulty">Difficulty</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>How hard the world is.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#difficulty">Difficulty</a>::Normal</code><code class="java"><a href="api-types.html#difficulty">Difficulty</a>.NORMAL</code></td><td>Normal.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#difficulty">Difficulty</a>::Hard</code><code class="java"><a href="api-types.html#difficulty">Difficulty</a>.HARD</code></td><td>Creatures hit harder and starving can make a player faint.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#difficulty">Difficulty</a>::Hardcore</code><code class="java"><a href="api-types.html#difficulty">Difficulty</a>.HARDCORE</code></td><td>Hard, and one life: a player who faints stays down.</td></tr>
+</table>
+<h2 id="combatstyle">CombatStyle</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>How fights work.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#combatstyle">CombatStyle</a>::TurnBased</code><code class="java"><a href="api-types.html#combatstyle">CombatStyle</a>.TURN_BASED</code></td><td>Turn-based battles.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#combatstyle">CombatStyle</a>::Action</code><code class="java"><a href="api-types.html#combatstyle">CombatStyle</a>.ACTION</code></td><td>Real-time combat.</td></tr>
+</table>
+<h2 id="store">Store</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>Which store a player&#x27;s account is from.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#store">Store</a>::Meta</code><code class="java"><a href="api-types.html#store">Store</a>.META</code></td><td>The Meta Horizon Store (Quest).</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#store">Store</a>::Pico</code><code class="java"><a href="api-types.html#store">Store</a>.PICO</code></td><td>The PICO Store.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#store">Store</a>::Steam</code><code class="java"><a href="api-types.html#store">Store</a>.STEAM</code></td><td>Steam.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#store">Store</a>::None</code><code class="java"><a href="api-types.html#store">Store</a>.NONE</code></td><td>No store account (development servers only).</td></tr>
+</table>
+<h2 id="leavereason">LeaveReason</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>Why a player left.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#leavereason">LeaveReason</a>::Left</code><code class="java"><a href="api-types.html#leavereason">LeaveReason</a>.LEFT</code></td><td>They left.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#leavereason">LeaveReason</a>::Kicked</code><code class="java"><a href="api-types.html#leavereason">LeaveReason</a>.KICKED</code></td><td>They were put out.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#leavereason">LeaveReason</a>::Blocked</code><code class="java"><a href="api-types.html#leavereason">LeaveReason</a>.BLOCKED</code></td><td>They were blocked.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#leavereason">LeaveReason</a>::ConnectionLost</code><code class="java"><a href="api-types.html#leavereason">LeaveReason</a>.CONNECTION_LOST</code></td><td>Their connection ended.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#leavereason">LeaveReason</a>::ServerStopping</code><code class="java"><a href="api-types.html#leavereason">LeaveReason</a>.SERVER_STOPPING</code></td><td>The server is stopping.</td></tr>
+</table>
+<h2 id="damagecause">DamageCause</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>What hurt a player.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#damagecause">DamageCause</a>::<a href="api-creature.html">Creature</a></code><code class="java"><a href="api-types.html#damagecause">DamageCause</a>.CREATURE</code></td><td>A creature&#x27;s attack or shot.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#damagecause">DamageCause</a>::Fall</code><code class="java"><a href="api-types.html#damagecause">DamageCause</a>.FALL</code></td><td>A fall.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#damagecause">DamageCause</a>::Drowning</code><code class="java"><a href="api-types.html#damagecause">DamageCause</a>.DROWNING</code></td><td>Running out of breath.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#damagecause">DamageCause</a>::Hunger</code><code class="java"><a href="api-types.html#damagecause">DamageCause</a>.HUNGER</code></td><td>Starving.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#damagecause">DamageCause</a>::Burning</code><code class="java"><a href="api-types.html#damagecause">DamageCause</a>.BURNING</code></td><td>Burning, after lava.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#damagecause">DamageCause</a>::Lava</code><code class="java"><a href="api-types.html#damagecause">DamageCause</a>.LAVA</code></td><td>Lava.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#damagecause">DamageCause</a>::Trap</code><code class="java"><a href="api-types.html#damagecause">DamageCause</a>.TRAP</code></td><td>A dungeon trap.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#damagecause">DamageCause</a>::FallingBlock</code><code class="java"><a href="api-types.html#damagecause">DamageCause</a>.FALLING_BLOCK</code></td><td>A falling spike or block.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#damagecause">DamageCause</a>::<a href="api-plugin.html">Plugin</a></code><code class="java"><a href="api-types.html#damagecause">DamageCause</a>.PLUGIN</code></td><td>A plugin.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#damagecause">DamageCause</a>::Other</code><code class="java"><a href="api-types.html#damagecause">DamageCause</a>.OTHER</code></td><td>Anything else.</td></tr>
+</table>
+<h2 id="spawnreason">SpawnReason</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>Why a Voxelmon appeared.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#spawnreason">SpawnReason</a>::Wild</code><code class="java"><a href="api-types.html#spawnreason">SpawnReason</a>.WILD</code></td><td>The wild.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#spawnreason">SpawnReason</a>::<a href="api-dungeon.html">Dungeon</a></code><code class="java"><a href="api-types.html#spawnreason">SpawnReason</a>.DUNGEON</code></td><td>A dungeon.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#spawnreason">SpawnReason</a>::Den</code><code class="java"><a href="api-types.html#spawnreason">SpawnReason</a>.DEN</code></td><td>A den underground.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#spawnreason">SpawnReason</a>::Hive</code><code class="java"><a href="api-types.html#spawnreason">SpawnReason</a>.HIVE</code></td><td>A hive.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#spawnreason">SpawnReason</a>::Fishing</code><code class="java"><a href="api-types.html#spawnreason">SpawnReason</a>.FISHING</code></td><td>A fishing hook.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#spawnreason">SpawnReason</a>::Breeding</code><code class="java"><a href="api-types.html#spawnreason">SpawnReason</a>.BREEDING</code></td><td>Breeding at a ranch.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#spawnreason">SpawnReason</a>::Guardian</code><code class="java"><a href="api-types.html#spawnreason">SpawnReason</a>.GUARDIAN</code></td><td>A dungeon guardian or a town&#x27;s Voxelord.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#spawnreason">SpawnReason</a>::<a href="api-plugin.html">Plugin</a></code><code class="java"><a href="api-types.html#spawnreason">SpawnReason</a>.PLUGIN</code></td><td>A plugin.</td></tr>
+</table>
+<h2 id="lootsource">LootSource</h2>
+<p class="kind">One of a fixed set of values.</p>
+<p>What loot is for.</p>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#lootsource">LootSource</a>::Chest</code><code class="java"><a href="api-types.html#lootsource">LootSource</a>.CHEST</code></td><td>A chest in a town or the wild.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#lootsource">LootSource</a>::DungeonChest</code><code class="java"><a href="api-types.html#lootsource">LootSource</a>.DUNGEON_CHEST</code></td><td>A dungeon&#x27;s chest.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#lootsource">LootSource</a>::SupplyCache</code><code class="java"><a href="api-types.html#lootsource">LootSource</a>.SUPPLY_CACHE</code></td><td>A supply cache.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#lootsource">LootSource</a>::<a href="api-creature.html">Creature</a></code><code class="java"><a href="api-types.html#lootsource">LootSource</a>.CREATURE</code></td><td>A beaten creature.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#lootsource">LootSource</a>::<a href="api-battle.html">Battle</a></code><code class="java"><a href="api-types.html#lootsource">LootSource</a>.BATTLE</code></td><td>A won battle.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#lootsource">LootSource</a>::Fishing</code><code class="java"><a href="api-types.html#lootsource">LootSource</a>.FISHING</code></td><td>A fishing catch.</td></tr>
+<tr><td class="sig"><code class="rs"><a href="api-types.html#lootsource">LootSource</a>::Other</code><code class="java"><a href="api-types.html#lootsource">LootSource</a>.OTHER</code></td><td>Anything else.</td></tr>
+</table>
+<h2 id="playerid">PlayerId</h2>
+<p>A player&#x27;s lasting ID: the same each time they join, from their store account through Epic. Keep it as it is.</p>
+<p>Written as <code class="rs">type <a href="api-types.html#playerid">PlayerId</a> = String;</code><code class="java">String</code> (<code>String</code>).</p>
+<h2 id="creatureid">CreatureId</h2>
+<p>A Voxelmon&#x27;s lasting ID.</p>
+<p>Written as <code class="rs">type <a href="api-types.html#creatureid">CreatureId</a> = i64;</code><code class="java">long</code> (<code>int</code>).</p>
 <h2 id="duration">Duration</h2>
 <p>A length of time, in seconds.</p>
+<p>Written as <code class="rs">type <a href="api-types.html#duration">Duration</a> = f64;</code><code class="java">double</code> (<code>float</code>).</p>
 <h2 id="time">Time</h2>
 <p>A moment, as seconds since 1970 (UTC).</p>
-<h2 id="value">Value</h2>
-<p>Saved or setting data: text, a whole number, a float, true/false, a list of values or a table of named values.</p>
-<h2 id="weather">Weather</h2>
-<p>The weather: <code>kind</code> (CLEAR, RAIN, SNOW or STORM) and <code>strength</code> from 0 to 1.</p>
-<h2 id="worldoptions">WorldOptions</h2>
-<p>The world&#x27;s settings, as in server.toml: <code>difficulty</code> (NORMAL, HARD, HARDCORE), <code>combat</code> (TURN_BASED, ACTION), <code>keep_inventory</code>, <code>creative</code>. Creative and the combat style may be changed while running: <code>set_creative(on)</code>, <code>set_combat(style)</code>.</p>
-<h2 id="commandhandler">CommandHandler</h2>
-<p>What a console command runs: it is given the words typed after the command&#x27;s name and returns the lines to print.</p>
-<h2 id="callback">Callback</h2>
-<p>Code to run later: a closure in Rust, a lambda in Java.</p>
-<h2 id="service">Service</h2>
-<p>Something one plugin offers others by name (<code>economy</code>, <code>permissions</code>): an object of methods both agree on.</p>
-<h2 id="httprequest">HttpRequest</h2>
-<p>An HTTP request: <code>method</code>, <code>url</code>, <code>headers</code> and <code>body</code>. The host must be in the manifest&#x27;s <code>internet_hosts</code>.</p>
-<h2 id="httpresponse">HttpResponse</h2>
-<p>An HTTP answer: <code>status</code>, <code>headers</code> and <code>body</code>.</p>
-<h2 id="lists-and-maybe">Lists and maybe</h2>
-<p><code>List[T]</code> is a list of T. <code>T?</code> is a T or nothing.</p>
+<p>Written as <code class="rs">type <a href="api-types.html#time">Time</a> = i64;</code><code class="java">long</code> (<code>int</code>).</p>
 </main>
 <div class="pager"><a class="prev" href="api-battle.html">← Battle</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>

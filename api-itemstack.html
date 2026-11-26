@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ItemStack · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li class="current"><a href="api-itemstack.html" aria-current="page">ItemStack</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#properties">Properties</a></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#itemtype">ItemType</a></li>
+</ul>
+</li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » ItemStack</div></header>
+<main>
+<h1>ItemStack</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">A value: made with ItemStack.of(item, count).</p>
+<p class="lead">Some of one item: what it is and how many.</p>
+<h2 id="description">Description</h2>
+<p>An item&#x27;s type is an <a href="api-itemstack.html#itemtype">ItemType</a>, found by name (<code>ItemType.named(&quot;Iron Ingot&quot;)</code>) or by its id. Items added by content packs are found the same way. A capture cube holding a Voxelmon is an item too, carrying its creature.</p>
+<h2 id="properties">Properties</h2>
+<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-itemstack.html#itemtype">ItemType</a></td><td><code>item</code></td><td>What it is.</td></tr>
+<tr><td class="type">int</td><td><code>count</code></td><td>How many, from 1 to its stack limit.</td></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a>?</td><td><code>creature</code></td><td>The Voxelmon in a capture cube, if it holds one.</td></tr>
+<tr><td class="type">int</td><td><code>wear</code></td><td>How worn a starter tool is (0 new).</td></tr>
+</table>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-itemstack.html">ItemStack</a></td><td><code>of(item: <a href="api-itemstack.html#itemtype">ItemType</a>, count: int)</code></td><td>Makes a stack.</td></tr>
+<tr><td class="type"><a href="api-itemstack.html">ItemStack</a></td><td><code>with_count(count: int)</code></td><td>The same item, another count.</td></tr>
+</table>
+<h2 id="itemtype">ItemType</h2>
+<p>A kind of item: every block, tool, food, material, piece of gear, cube and station.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type">int</td><td><code>id</code></td><td>Its lasting number.</td></tr>
+<tr><td class="type">String</td><td><code>name</code></td><td>Its name as players see it, such as IRON INGOT.</td></tr>
+<tr><td class="type">int</td><td><code>stack_limit</code></td><td>How many fit in one slot.</td></tr>
+<tr><td class="type">ItemKind</td><td><code>kind</code></td><td>Block, tool, weapon, armour, food, material, cube, station, furniture.</td></tr>
+<tr><td class="type">Tier?</td><td><code>tier</code></td><td>Its tier, for tools and gear: flint, wood, copper, iron, cobalt, abyssal, voxelium.</td></tr>
+<tr><td class="type">int</td><td><code>value</code></td><td>What it is worth in coins in shops.</td></tr>
+<tr><td class="type"><a href="api-block.html#blocktype">BlockType</a>?</td><td><code>block</code></td><td>The block it places, if any.</td></tr>
+<tr><td class="type">String?</td><td><code>pack</code></td><td>The content pack it comes from, if any.</td></tr>
+</table>
+</main>
+<div class="pager"><a class="prev" href="api-bag.html">← Bag</a><a class="next" href="api-equipment.html">Equipment →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

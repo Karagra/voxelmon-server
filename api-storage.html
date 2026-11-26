@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Storage · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li class="current"><a href="api-storage.html" aria-current="page">Storage</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#methods">Methods</a></li>
+</ul>
+</li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Storage</div></header>
+<main>
+<h1>Storage</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">From server.storage().</p>
+<p class="lead">Data a plugin keeps between runs: its own, and some for each player.</p>
+<h2 id="description">Description</h2>
+<p>Values are text, numbers, true/false, lists and tables, saved with the world. A plugin sees only its own. For files of its own, a plugin with the <code>files</code> need reads and writes in its folder, <code>plugins/&lt;id&gt;/</code>.</p>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-types.html#value">Value</a>?</td><td><code>get(key: String)</code></td><td>A value this plugin saved.</td></tr>
+<tr><td class="type">nothing</td><td><code>set(key: String, value: <a href="api-types.html#value">Value</a>)</code></td><td>Saves a value.</td></tr>
+<tr><td class="type">nothing</td><td><code>remove(key: String)</code></td><td>Forgets a value.</td></tr>
+<tr><td class="type">List[String]</td><td><code>keys()</code></td><td>Every key this plugin saved.</td></tr>
+<tr><td class="type"><a href="api-types.html#value">Value</a>?</td><td><code>player_get(player: <a href="api-types.html#playerid">PlayerId</a>, key: String)</code></td><td>A value saved for a player, whether or not they are in the world.</td></tr>
+<tr><td class="type">nothing</td><td><code>player_set(player: <a href="api-types.html#playerid">PlayerId</a>, key: String, value: <a href="api-types.html#value">Value</a>)</code></td><td>Saves a value for a player.</td></tr>
+<tr><td class="type">bytes?</td><td><code>read_file(path: String)</code> <span class="need" title="Needs files in the manifest">files</span></td><td>Reads a file in the plugin&#x27;s folder.</td></tr>
+<tr><td class="type">nothing</td><td><code>write_file(path: String, data: bytes)</code> <span class="need" title="Needs files in the manifest">files</span></td><td>Writes a file in the plugin&#x27;s folder.</td></tr>
+<tr><td class="type">List[String]</td><td><code>list_files(folder: String)</code> <span class="need" title="Needs files in the manifest">files</span></td><td>Files in a folder of the plugin&#x27;s folder.</td></tr>
+<tr><td class="type"><a href="api-types.html#httpresponse">HttpResponse</a></td><td><code>http(request: <a href="api-types.html#httprequest">HttpRequest</a>)</code> <span class="need" title="Needs internet in the manifest">internet</span></td><td>An HTTP request to a host the manifest lists; answered off the tick, with its callback on it.</td></tr>
+</table>
+</main>
+<div class="pager"><a class="prev" href="api-permissions.html">← Permissions</a><a class="next" href="api-player.html">Player →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

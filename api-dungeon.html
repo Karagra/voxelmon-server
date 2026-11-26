@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dungeon · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li class="current"><a href="api-dungeon.html" aria-current="page">Dungeon</a>
+<ul>
+<li><a href="#properties">Properties</a></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#events">Events</a></li>
+</ul>
+</li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Dungeon</div></header>
+<main>
+<h1>Dungeon</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">From world.dungeon_at(...), world.dungeons_near(...) and player.dungeon.</p>
+<p class="lead">A dungeon of the world: its tier, its levels, its guardian and its reset.</p>
+<h2 id="properties">Properties</h2>
+<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
+<tr><td class="type">String</td><td><code>name</code></td><td>Its name, as its banner shows.</td></tr>
+<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>entrance</code></td><td>Where its stairs begin.</td></tr>
+<tr><td class="type">DungeonTier</td><td><code>tier</code></td><td>Copper, iron, cobalt or voxelium.</td></tr>
+<tr><td class="type">int</td><td><code>lowest_level</code></td><td>Its creatures&#x27; lowest level.</td></tr>
+<tr><td class="type">int</td><td><code>highest_level</code></td><td>Its creatures&#x27; highest level (its guardian&#x27;s).</td></tr>
+<tr><td class="type">bool</td><td><code>corrupted</code></td><td>Whether it is corrupted this time (stronger, better loot).</td></tr>
+<tr><td class="type">bool</td><td><code>beaten</code></td><td>Whether its guardian is beaten and it waits to reset.</td></tr>
+<tr><td class="type">int</td><td><code>resets</code></td><td>How many times it has reset.</td></tr>
+</table>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type">nothing</td><td><code>reset()</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Resets it now: chests refilled, guardian back (no player may be inside).</td></tr>
+</table>
+<h2 id="events">Events</h2>
+<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#playerentereddungeon"><code>PlayerEnteredDungeon</code></a>, <a href="api-events.html#dungeonbeaten"><code>DungeonBeaten</code></a>, <a href="api-events.html#dungeonreset"><code>DungeonReset</code></a>.</p>
+</main>
+<div class="pager"><a class="prev" href="api-town.html">← Town</a><a class="next" href="api-creature.html">Creature →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

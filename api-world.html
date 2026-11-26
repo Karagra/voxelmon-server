@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>World · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li class="current"><a href="api-world.html" aria-current="page">World</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#properties">Properties</a></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#looseitem">LooseItem</a></li>
+<li><a href="#events">Events</a></li>
+</ul>
+</li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » World</div></header>
+<main>
+<h1>World</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">From server.world().</p>
+<p class="lead">The world: its blocks and placed objects, loose items, time, weather, towns, dungeons and Voxelmon.</p>
+<h2 id="description">Description</h2>
+<p>The world is endless and loaded around the players: a block far from everyone is not loaded, and reading it gives nothing (<code>is_loaded</code>). Changing blocks, objects or loose items needs <code>world_edit</code>. Every change reaches players&#x27; games as a player&#x27;s own would.</p>
+<h2 id="properties">Properties</h2>
+<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
+<tr><td class="type">int</td><td><code>seed</code></td><td>The world&#x27;s seed.</td></tr>
+<tr><td class="type">int</td><td><code>day</code></td><td>The day&#x27;s number since the world began.</td></tr>
+<tr><td class="type">float</td><td><code>time_of_day</code></td><td>Where the day is, 0 to 1: 0 dawn, 0.4 dusk (20 minutes of day, 10 of night).</td></tr>
+<tr><td class="type">bool</td><td><code>is_night</code></td><td>Whether it is night.</td></tr>
+<tr><td class="type"><a href="api-types.html#weather">Weather</a></td><td><code>weather</code></td><td>Rain, snow or storm and how strong, where it is clear or falling.</td></tr>
+<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>spawn</code></td><td>Where new players arrive.</td></tr>
+<tr><td class="type">int</td><td><code>min_height</code></td><td>The lowest block&#x27;s height (-64).</td></tr>
+<tr><td class="type">int</td><td><code>max_height</code></td><td>The highest block&#x27;s height (191).</td></tr>
+</table>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-block.html">Block</a>?</td><td><code>block(at: <a href="api-types.html#blockpos">BlockPos</a>)</code></td><td>The block there, if loaded.</td></tr>
+<tr><td class="type">bool</td><td><code>is_loaded(at: <a href="api-types.html#blockpos">BlockPos</a>)</code></td><td>Whether that block is loaded.</td></tr>
+<tr><td class="type">nothing</td><td><code>set_block(at: <a href="api-types.html#blockpos">BlockPos</a>, block: <a href="api-block.html#blocktype">BlockType</a>)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Changes a block (loaded ones only).</td></tr>
+<tr><td class="type">nothing</td><td><code>break_block(at: <a href="api-types.html#blockpos">BlockPos</a>, drop: bool)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Breaks a block as a player would, dropping it or not.</td></tr>
+<tr><td class="type">int</td><td><code>fill(from: <a href="api-types.html#blockpos">BlockPos</a>, to: <a href="api-types.html#blockpos">BlockPos</a>, block: <a href="api-block.html#blocktype">BlockType</a>)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Fills a box of at most 32,768 blocks; returns how many changed.</td></tr>
+<tr><td class="type">int?</td><td><code>surface(x: int, z: int)</code></td><td>The height of the highest solid block in a column, if loaded.</td></tr>
+<tr><td class="type">List[<a href="api-placedobject.html">PlacedObject</a>]</td><td><code>objects_near(place: <a href="api-types.html#place">Place</a>, radius: float)</code></td><td>Placed objects nearby (at most 64 blocks).</td></tr>
+<tr><td class="type"><a href="api-placedobject.html">PlacedObject</a>?</td><td><code>object_at(at: <a href="api-types.html#blockpos">BlockPos</a>)</code></td><td>The placed object filling that block.</td></tr>
+<tr><td class="type"><a href="api-placedobject.html">PlacedObject</a></td><td><code>place_object(item: <a href="api-itemstack.html#itemtype">ItemType</a>, at: <a href="api-types.html#blockpos">BlockPos</a>, facing: float)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Places furniture, a station, a chest, a bed or a door.</td></tr>
+<tr><td class="type"><a href="api-world.html#looseitem">LooseItem</a></td><td><code>drop_item(place: <a href="api-types.html#place">Place</a>, stack: <a href="api-itemstack.html">ItemStack</a>)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Drops items on the ground.</td></tr>
+<tr><td class="type">List[<a href="api-world.html#looseitem">LooseItem</a>]</td><td><code>loose_items_near(place: <a href="api-types.html#place">Place</a>, radius: float)</code></td><td>Items lying nearby.</td></tr>
+<tr><td class="type">List[<a href="api-creature.html">Creature</a>]</td><td><code>creatures_near(place: <a href="api-types.html#place">Place</a>, radius: float)</code></td><td>Voxelmon nearby, wild and companions (<a href="api-creature.html">Creature</a>).</td></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>spawn_creature(species: <a href="api-species.html">Species</a>, level: int, place: <a href="api-types.html#place">Place</a>)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>A wild Voxelmon there.</td></tr>
+<tr><td class="type">List[<a href="api-player.html">Player</a>]</td><td><code>players_near(place: <a href="api-types.html#place">Place</a>, radius: float)</code></td><td>Players nearby.</td></tr>
+<tr><td class="type">nothing</td><td><code>set_time_of_day(value: float)</code></td><td>Sets the time of day.</td></tr>
+<tr><td class="type">nothing</td><td><code>set_weather(weather: <a href="api-types.html#weather">Weather</a>, seconds: float)</code></td><td>Sets the weather for a while, then it follows its own course.</td></tr>
+<tr><td class="type">nothing</td><td><code>set_spawn(place: <a href="api-types.html#place">Place</a>)</code></td><td>Moves where new players arrive.</td></tr>
+<tr><td class="type"><a href="api-town.html">Town</a>?</td><td><code>town_at(place: <a href="api-types.html#place">Place</a>)</code></td><td>The town covering a place.</td></tr>
+<tr><td class="type">List[<a href="api-town.html">Town</a>]</td><td><code>towns_near(place: <a href="api-types.html#place">Place</a>, radius: float)</code></td><td>Towns within a distance.</td></tr>
+<tr><td class="type"><a href="api-dungeon.html">Dungeon</a>?</td><td><code>dungeon_at(place: <a href="api-types.html#place">Place</a>)</code></td><td>The dungeon covering a place.</td></tr>
+<tr><td class="type">List[<a href="api-dungeon.html">Dungeon</a>]</td><td><code>dungeons_near(place: <a href="api-types.html#place">Place</a>, radius: float)</code></td><td>Dungeons within a distance.</td></tr>
+<tr><td class="type">Biome</td><td><code>biome(x: int, z: int)</code></td><td>The biome of a column.</td></tr>
+<tr><td class="type"><a href="api-region.html">Region</a></td><td><code>region(id: String, from: <a href="api-types.html#blockpos">BlockPos</a>, to: <a href="api-types.html#blockpos">BlockPos</a>)</code></td><td>A named box players are told of entering and leaving (<a href="api-region.html">Region</a>).</td></tr>
+<tr><td class="type">nothing</td><td><code>save()</code></td><td>Saves the world now.</td></tr>
+</table>
+<h2 id="looseitem">LooseItem</h2>
+<p>Items lying in the world.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-itemstack.html">ItemStack</a></td><td><code>stack</code></td><td>What they are.</td></tr>
+<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>position</code></td><td>Where they are.</td></tr>
+<tr><td class="type">nothing</td><td><code>remove()</code></td><td>Takes them away (needs <code>world_edit</code>).</td></tr>
+</table>
+<h2 id="events">Events</h2>
+<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#blockchanged"><code>BlockChanged</code></a>, <a href="api-events.html#daystarted"><code>DayStarted</code></a>, <a href="api-events.html#nightstarted"><code>NightStarted</code></a>, <a href="api-events.html#weatherchanged"><code>WeatherChanged</code></a>, <a href="api-events.html#worldsaved"><code>WorldSaved</code></a>.</p>
+</main>
+<div class="pager"><a class="prev" href="api-menu.html">← Menu</a><a class="next" href="api-block.html">Block →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

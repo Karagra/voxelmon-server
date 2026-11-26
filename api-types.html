@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Types · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li class="current"><a href="api-types.html" aria-current="page">Types</a>
+<ul>
+<li><a href="#place">Place</a></li>
+<li><a href="#blockpos">BlockPos</a></li>
+<li><a href="#turn">Turn</a></li>
+<li><a href="#playerid">PlayerId</a></li>
+<li><a href="#creatureid">CreatureId</a></li>
+<li><a href="#colour">Colour</a></li>
+<li><a href="#duration">Duration</a></li>
+<li><a href="#time">Time</a></li>
+<li><a href="#value">Value</a></li>
+<li><a href="#weather">Weather</a></li>
+<li><a href="#worldoptions">WorldOptions</a></li>
+<li><a href="#commandhandler">CommandHandler</a></li>
+<li><a href="#callback">Callback</a></li>
+<li><a href="#service">Service</a></li>
+<li><a href="#httprequest">HttpRequest</a></li>
+<li><a href="#httpresponse">HttpResponse</a></li>
+<li><a href="#lists-and-maybe">Lists and maybe</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Types</div></header>
+<main>
+<h1>Types</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">Values used throughout the API.</p>
+<p class="lead">The small values every page uses: places, blocks&#x27; positions, IDs, colours, times and the like.</p>
+<h2 id="place">Place</h2>
+<p>A point in the world, in blocks: <code>x</code>, <code>y</code> (up) and <code>z</code>, each a float. One block is one metre.</p>
+<h2 id="blockpos">BlockPos</h2>
+<p>A block&#x27;s place: whole numbers <code>x</code>, <code>y</code> and <code>z</code>. <code>y</code> runs from -64 to 191.</p>
+<h2 id="turn">Turn</h2>
+<p>How something is turned in space (a quaternion), with <code>yaw</code> and <code>pitch</code> read from it in degrees.</p>
+<h2 id="playerid">PlayerId</h2>
+<p>A player&#x27;s lasting ID: the same each time they join, from their store account through Epic. Text, to be kept as it is.</p>
+<h2 id="creatureid">CreatureId</h2>
+<p>A Voxelmon&#x27;s lasting ID, a number.</p>
+<h2 id="colour">Colour</h2>
+<p>A colour: <code>Colour.rgb(r, g, b)</code> from 0 to 255, or one of the game&#x27;s own, such as <code>Colour.GOLD</code>.</p>
+<h2 id="duration">Duration</h2>
+<p>A length of time, in seconds.</p>
+<h2 id="time">Time</h2>
+<p>A moment, as seconds since 1970 (UTC).</p>
+<h2 id="value">Value</h2>
+<p>Saved or setting data: text, a whole number, a float, true/false, a list of values or a table of named values.</p>
+<h2 id="weather">Weather</h2>
+<p>The weather: <code>kind</code> (CLEAR, RAIN, SNOW or STORM) and <code>strength</code> from 0 to 1.</p>
+<h2 id="worldoptions">WorldOptions</h2>
+<p>The world&#x27;s settings, as in server.toml: <code>difficulty</code> (NORMAL, HARD, HARDCORE), <code>combat</code> (TURN_BASED, ACTION), <code>keep_inventory</code>, <code>creative</code>. Creative and the combat style may be changed while running: <code>set_creative(on)</code>, <code>set_combat(style)</code>.</p>
+<h2 id="commandhandler">CommandHandler</h2>
+<p>What a console command runs: it is given the words typed after the command&#x27;s name and returns the lines to print.</p>
+<h2 id="callback">Callback</h2>
+<p>Code to run later: a closure in Rust, a lambda in Java.</p>
+<h2 id="service">Service</h2>
+<p>Something one plugin offers others by name (<code>economy</code>, <code>permissions</code>): an object of methods both agree on.</p>
+<h2 id="httprequest">HttpRequest</h2>
+<p>An HTTP request: <code>method</code>, <code>url</code>, <code>headers</code> and <code>body</code>. The host must be in the manifest&#x27;s <code>internet_hosts</code>.</p>
+<h2 id="httpresponse">HttpResponse</h2>
+<p>An HTTP answer: <code>status</code>, <code>headers</code> and <code>body</code>.</p>
+<h2 id="lists-and-maybe">Lists and maybe</h2>
+<p><code>List[T]</code> is a list of T. <code>T?</code> is a T or nothing.</p>
+</main>
+<div class="pager"><a class="prev" href="api-battle.html">← Battle</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

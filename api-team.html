@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li class="current"><a href="api-team.html" aria-current="page">Team</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#properties">Properties</a></li>
+<li><a href="#methods">Methods</a></li>
+</ul>
+</li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Team</div></header>
+<main>
+<h1>Team</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">From player.team().</p>
+<p class="lead">A player&#x27;s Voxelmon: the four cubes on their belt, and those stored.</p>
+<h2 id="description">Description</h2>
+<p>The belt holds the cubes a player carries into battle; the rest are stored and reached at a clinic or on the watch. Adding and removing needs <code>creatures</code>.</p>
+<h2 id="properties">Properties</h2>
+<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
+<tr><td class="type">List[<a href="api-creature.html">Creature</a>?]</td><td><code>belt</code></td><td>The four belt places, in order.</td></tr>
+<tr><td class="type">List[<a href="api-creature.html">Creature</a>]</td><td><code>stored</code></td><td>Every stored Voxelmon.</td></tr>
+<tr><td class="type">int</td><td><code>stored_limit</code></td><td>How many may be stored.</td></tr>
+</table>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type">List[<a href="api-creature.html">Creature</a>]</td><td><code>all()</code></td><td>Belt and stored together.</td></tr>
+<tr><td class="type">bool</td><td><code>add(creature: <a href="api-creature.html">Creature</a>)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Adds one: to the belt if a place is free, else stored; false if full.</td></tr>
+<tr><td class="type">nothing</td><td><code>remove(creature: <a href="api-creature.html">Creature</a>)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Takes one away from the player for good.</td></tr>
+<tr><td class="type">nothing</td><td><code>heal_all()</code></td><td>Heals every one, as at a clinic.</td></tr>
+<tr><td class="type">nothing</td><td><code>move_to_belt(creature: <a href="api-creature.html">Creature</a>, place: int)</code> <span class="need" title="Needs creatures in the manifest">creatures</span></td><td>Puts a stored one on the belt, swapping out what was there.</td></tr>
+</table>
+</main>
+<div class="pager"><a class="prev" href="api-species.html">← Species</a><a class="next" href="api-battle.html">Battle →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

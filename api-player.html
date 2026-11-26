@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Player · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li class="current"><a href="api-player.html" aria-current="page">Player</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#properties">Properties</a></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#playerprofile">PlayerProfile</a></li>
+<li><a href="#hand">Hand</a></li>
+<li><a href="#events">Events</a></li>
+</ul>
+</li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Player</div></header>
+<main>
+<h1>Player</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">From server.players(), events, or server.player(id).</p>
+<p class="lead">A player in the world: their body, health, bag, gear, coins, progress and team.</p>
+<h2 id="description">Description</h2>
+<p>A <code>Player</code> is someone in the world now. Their lasting <code>id</code> stays the same every time they join (it comes from their store account through Epic); keep that, not the <code>Player</code>, to remember someone. A player who has left is a <a href="api-player.html#playerprofile">PlayerProfile</a>, readable and, for saved values, changeable until they return.</p>
+<p>Reading needs nothing. Changing a player&#x27;s bag, gear, coins, progress or team needs <code>player_data</code>; moving or healing them needs nothing more than the plugin being approved.</p>
+<h2 id="properties">Properties</h2>
+<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-types.html#playerid">PlayerId</a></td><td><code>id</code></td><td>Their lasting ID.</td></tr>
+<tr><td class="type">String</td><td><code>name</code></td><td>Their store account&#x27;s name.</td></tr>
+<tr><td class="type">String</td><td><code>called</code></td><td>What everyone sees: their name, with a #number while another player has the same name.</td></tr>
+<tr><td class="type">int</td><td><code>number</code></td><td>Their number in this session, as <code>list</code> shows it (from 1).</td></tr>
+<tr><td class="type">Store</td><td><code>store</code></td><td>Meta Quest or PICO.</td></tr>
+<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>position</code></td><td>Where their feet are.</td></tr>
+<tr><td class="type">float</td><td><code>facing</code></td><td>The way their body faces, in degrees.</td></tr>
+<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>head</code></td><td>Where their head is, from their headset.</td></tr>
+<tr><td class="type"><a href="api-player.html#hand">Hand</a></td><td><code>left_hand</code></td><td>Their left hand&#x27;s place, turn and what it holds.</td></tr>
+<tr><td class="type"><a href="api-player.html#hand">Hand</a></td><td><code>right_hand</code></td><td>Their right hand&#x27;s place, turn and what it holds.</td></tr>
+<tr><td class="type">float</td><td><code>health</code></td><td>Their health now.</td></tr>
+<tr><td class="type">float</td><td><code>max_health</code></td><td>Their most health.</td></tr>
+<tr><td class="type">float</td><td><code>hunger</code></td><td>How fed they are, 0 to 1.</td></tr>
+<tr><td class="type">float</td><td><code>breath</code></td><td>Breath left under water, 0 to 1.</td></tr>
+<tr><td class="type">bool</td><td><code>fainted</code></td><td>Whether they have fainted.</td></tr>
+<tr><td class="type">bool</td><td><code>in_battle</code></td><td>Whether they are in a turn-based battle.</td></tr>
+<tr><td class="type">bool</td><td><code>sitting</code></td><td>Whether they are sitting (a log, a chair, a bench).</td></tr>
+<tr><td class="type">bool</td><td><code>flying</code></td><td>Whether they are flying (creative).</td></tr>
+<tr><td class="type"><a href="api-town.html">Town</a>?</td><td><code>town</code></td><td>The town they are in, if any.</td></tr>
+<tr><td class="type"><a href="api-dungeon.html">Dungeon</a>?</td><td><code>dungeon</code></td><td>The dungeon they are down in, if any.</td></tr>
+<tr><td class="type">int</td><td><code>coins</code></td><td>Their coins.</td></tr>
+<tr><td class="type">PackColour</td><td><code>pack_colour</code></td><td>Their backpack&#x27;s colour.</td></tr>
+<tr><td class="type"><a href="api-types.html#duration">Duration</a></td><td><code>played</code></td><td>How long they have played in this world.</td></tr>
+</table>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-bag.html">Bag</a></td><td><code>bag()</code></td><td>Their backpack, side slots, strap pockets, belt cubes and hands.</td></tr>
+<tr><td class="type"><a href="api-equipment.html">Equipment</a></td><td><code>equipment()</code></td><td>What they wear and hold ready.</td></tr>
+<tr><td class="type"><a href="api-professions.html">Professions</a></td><td><code>professions()</code></td><td>Their twelve professions.</td></tr>
+<tr><td class="type"><a href="api-team.html">Team</a></td><td><code>team()</code></td><td>Their Voxelmon: the belt and those stored.</td></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a>?</td><td><code>companion()</code></td><td>Their Voxelmon out of its cube, if any.</td></tr>
+<tr><td class="type">nothing</td><td><code>teleport(place: <a href="api-types.html#place">Place</a>)</code></td><td>Moves them there at once; their game follows.</td></tr>
+<tr><td class="type">nothing</td><td><code>teleport_facing(place: <a href="api-types.html#place">Place</a>, facing: float)</code></td><td>Moves them and turns their body.</td></tr>
+<tr><td class="type">nothing</td><td><code>heal(amount: float)</code></td><td>Gives back health, up to their most.</td></tr>
+<tr><td class="type">nothing</td><td><code>damage(amount: float)</code></td><td>Hurts them, as a fall would (not in creative).</td></tr>
+<tr><td class="type">nothing</td><td><code>set_hunger(value: float)</code></td><td>Sets how fed they are.</td></tr>
+<tr><td class="type">nothing</td><td><code>revive()</code></td><td>Gets a fainted player up again where they are.</td></tr>
+<tr><td class="type">nothing</td><td><code>set_coins(coins: int)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Sets their coins.</td></tr>
+<tr><td class="type">nothing</td><td><code>add_coins(coins: int)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Gives coins (a negative number takes them; never below nothing).</td></tr>
+<tr><td class="type">nothing</td><td><code>set_pack_colour(colour: PackColour)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Colours their backpack.</td></tr>
+<tr><td class="type"><a href="api-types.html#place">Place</a>?</td><td><code>home()</code></td><td>Where they wake after fainting, if they set one with a bed.</td></tr>
+<tr><td class="type">nothing</td><td><code>set_home(place: <a href="api-types.html#place">Place</a>)</code> <span class="need" title="Needs player_data in the manifest">player_data</span></td><td>Sets where they wake.</td></tr>
+<tr><td class="type">bool</td><td><code>has_permission(permission: String)</code></td><td>Whether they have a permission (<a href="api-permissions.html">Permissions</a>).</td></tr>
+<tr><td class="type">nothing</td><td><code>notice(text: String)</code></td><td>A short notice by their watch (<a href="api-messages.html">Messages</a>).</td></tr>
+<tr><td class="type">nothing</td><td><code>banner(banner: <a href="api-messages.html#banner">Banner</a>)</code></td><td>A large banner before them (<a href="api-messages.html">Messages</a>).</td></tr>
+<tr><td class="type">nothing</td><td><code>play_sound(sound: <a href="api-messages.html#sound">Sound</a>)</code></td><td>A sound only they hear.</td></tr>
+<tr><td class="type">nothing</td><td><code>open_menu(menu: <a href="api-menu.html">Menu</a>)</code></td><td>Shows them a plugin&#x27;s menu (<a href="api-menu.html">Menu</a>).</td></tr>
+<tr><td class="type">nothing</td><td><code>close_menu()</code></td><td>Closes any plugin menu they have open.</td></tr>
+<tr><td class="type">nothing</td><td><code>kick(reason: String)</code></td><td>Puts them out with a reason. They may join again.</td></tr>
+<tr><td class="type">nothing</td><td><code>block(reason: String)</code></td><td>Puts them out and keeps them out (the blocked list).</td></tr>
+<tr><td class="type">bool</td><td><code>can_see(place: <a href="api-types.html#place">Place</a>)</code></td><td>Whether the place is within the land their game has.</td></tr>
+</table>
+<h2 id="playerprofile">PlayerProfile</h2>
+<p>A player who has played here, whether in the world now or not.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-types.html#playerid">PlayerId</a></td><td><code>id</code></td><td>Their lasting ID.</td></tr>
+<tr><td class="type">String</td><td><code>name</code></td><td>Their name when last seen.</td></tr>
+<tr><td class="type"><a href="api-types.html#time">Time</a></td><td><code>first_joined</code></td><td>When they first joined.</td></tr>
+<tr><td class="type"><a href="api-types.html#time">Time</a></td><td><code>last_seen</code></td><td>When they last left (now, if in the world).</td></tr>
+<tr><td class="type">bool</td><td><code>blocked</code></td><td>Whether they are on the blocked list.</td></tr>
+<tr><td class="type"><a href="api-player.html">Player</a>?</td><td><code>online</code></td><td>The player, if in the world now.</td></tr>
+</table>
+<h2 id="hand">Hand</h2>
+<p>One of a player&#x27;s hands.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>position</code></td><td>Where it is.</td></tr>
+<tr><td class="type"><a href="api-types.html#turn">Turn</a></td><td><code>turn</code></td><td>How it is turned.</td></tr>
+<tr><td class="type"><a href="api-itemstack.html">ItemStack</a>?</td><td><code>holding</code></td><td>What it holds.</td></tr>
+</table>
+<h2 id="events">Events</h2>
+<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#playerjoining"><code>PlayerJoining</code></a>, <a href="api-events.html#playerjoined"><code>PlayerJoined</code></a>, <a href="api-events.html#playerleft"><code>PlayerLeft</code></a>, <a href="api-events.html#playerdamaging"><code>PlayerDamaging</code></a>, <a href="api-events.html#playerfainted"><code>PlayerFainted</code></a>, <a href="api-events.html#playerrespawning"><code>PlayerRespawning</code></a>, <a href="api-events.html#playermovedblock"><code>PlayerMovedBlock</code></a>, <a href="api-events.html#coinschanged"><code>CoinsChanged</code></a>.</p>
+</main>
+<div class="pager"><a class="prev" href="api-storage.html">← Storage</a><a class="next" href="api-bag.html">Bag →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

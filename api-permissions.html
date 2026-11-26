@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Permissions · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li class="current"><a href="api-permissions.html" aria-current="page">Permissions</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#values">Values</a></li>
+</ul>
+</li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Permissions</div></header>
+<main>
+<h1>Permissions</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">From server.permissions().</p>
+<p class="lead">Who may do what: operators and permission names.</p>
+<h2 id="description">Description</h2>
+<p>A permission is a name such as <code>warps.set</code>. The server keeps operators in <code>server.toml</code> (<code>operators = [...]</code>, by player ID): an operator has every permission. Anything finer, such as groups and ranks, comes from a permission manager plugin, which provides the <code>permissions</code> service; every plugin&#x27;s checks then go through it.</p>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type">bool</td><td><code>has(player: <a href="api-player.html">Player</a>, permission: String)</code></td><td>Whether a player has a permission.</td></tr>
+<tr><td class="type">nothing</td><td><code>declare(permission: String, default: PermissionDefault, description: String)</code></td><td>Names a permission this plugin checks, so owners and managers can list it.</td></tr>
+<tr><td class="type">bool</td><td><code>is_operator(id: <a href="api-types.html#playerid">PlayerId</a>)</code></td><td>Whether a player is an operator.</td></tr>
+<tr><td class="type">nothing</td><td><code>add_operator(id: <a href="api-types.html#playerid">PlayerId</a>)</code></td><td>Makes a player an operator (written to server.toml).</td></tr>
+<tr><td class="type">nothing</td><td><code>remove_operator(id: <a href="api-types.html#playerid">PlayerId</a>)</code></td><td>Takes a player off the operators.</td></tr>
+<tr><td class="type">List[String]</td><td><code>declared()</code></td><td>Every permission every plugin declared.</td></tr>
+</table>
+<h2 id="values">Values</h2>
+<table class="ref"><tr><th>Value</th><th>Meaning</th></tr>
+<tr><td><code>PermissionDefault.EVERYONE</code></td><td>Everyone has it unless a manager says no.</td></tr>
+<tr><td><code>PermissionDefault.OPERATORS</code></td><td>Only operators, unless a manager gives it.</td></tr>
+<tr><td><code>PermissionDefault.NOBODY</code></td><td>Nobody, unless a manager gives it.</td></tr>
+</table>
+</main>
+<div class="pager"><a class="prev" href="api-scheduler.html">← Scheduler</a><a class="next" href="api-storage.html">Storage →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

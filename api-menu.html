@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li class="current"><a href="api-menu.html" aria-current="page">Menu</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#properties">Properties</a></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#tab">Tab</a></li>
+<li><a href="#events">Events</a></li>
+</ul>
+</li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Menu</div></header>
+<main>
+<h1>Menu</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">Made with Menu.new(title); shown with player.open_menu(menu).</p>
+<p class="lead">A panel a plugin shows a player: tabs down its left side, and in each tab buttons, item tiles, toggles, sliders and text.</p>
+<h2 id="description">Description</h2>
+<p>A menu floats before the player in the game&#x27;s own panel style, and they point and press as on any panel. The plugin only describes it; the player&#x27;s game draws it, so no plugin code runs on the headset. Every press comes back to the plugin as a <code>MenuPressed</code> event, carrying the pressed element&#x27;s id; the plugin decides what happens, and may change the menu while it is open (it updates in place).</p>
+<p>A menu can also stand in the world at a place (<code>anchor</code>), as a shop&#x27;s board does, for any player who points at it.</p>
+<p>Example: a warp menu with a tab for each kind of place, each place a button, and a settings tab with a toggle.</p>
+<h2 id="properties">Properties</h2>
+<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
+<tr><td class="type">String</td><td><code>title</code></td><td>Its title, across the top.</td></tr>
+<tr><td class="type">List[<a href="api-menu.html#tab">Tab</a>]</td><td><code>tabs</code></td><td>Its tabs, down the left side; a menu of one tab shows no tab column.</td></tr>
+<tr><td class="type"><a href="api-types.html#place">Place</a>?</td><td><code>anchor</code></td><td>A place in the world where it stands for everyone, or none to float before one player.</td></tr>
+</table>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-menu.html">Menu</a></td><td><code>new(title: String)</code></td><td>An empty menu.</td></tr>
+<tr><td class="type"><a href="api-menu.html#tab">Tab</a></td><td><code>tab(id: String, title: String, icon: <a href="api-itemstack.html#itemtype">ItemType</a>?)</code></td><td>Adds a tab, with an item drawn as its icon.</td></tr>
+<tr><td class="type">nothing</td><td><code>select_tab(id: String)</code></td><td>Which tab shows first.</td></tr>
+<tr><td class="type">nothing</td><td><code>update()</code></td><td>Sends changes to every player who has it open.</td></tr>
+<tr><td class="type">nothing</td><td><code>close_for_all()</code></td><td>Closes it for everyone.</td></tr>
+<tr><td class="type">List[<a href="api-player.html">Player</a>]</td><td><code>viewers()</code></td><td>Who has it open.</td></tr>
+</table>
+<h2 id="tab">Tab</h2>
+<p>One tab of a menu: rows of elements, laid out top to bottom, each row&#x27;s elements side by side.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-menu.html#tab">Tab</a></td><td><code>text(id, text)</code></td><td>A line of text.</td></tr>
+<tr><td class="type"><a href="api-menu.html#tab">Tab</a></td><td><code>heading(id, text)</code></td><td>A heading.</td></tr>
+<tr><td class="type"><a href="api-menu.html#tab">Tab</a></td><td><code>button(id, text)</code></td><td>A button.</td></tr>
+<tr><td class="type"><a href="api-menu.html#tab">Tab</a></td><td><code>item(id, stack, tooltip)</code></td><td>An item tile: its model, count and a card when pointed at.</td></tr>
+<tr><td class="type"><a href="api-menu.html#tab">Tab</a></td><td><code>toggle(id, text, on)</code></td><td>An on/off switch.</td></tr>
+<tr><td class="type"><a href="api-menu.html#tab">Tab</a></td><td><code>slider(id, text, min, max, value)</code></td><td>A slider.</td></tr>
+<tr><td class="type"><a href="api-menu.html#tab">Tab</a></td><td><code>creature(id, creature)</code></td><td>A Voxelmon&#x27;s portrait with its name and level.</td></tr>
+<tr><td class="type"><a href="api-menu.html#tab">Tab</a></td><td><code>row()</code></td><td>Starts a new row.</td></tr>
+<tr><td class="type"><a href="api-menu.html#tab">Tab</a></td><td><code>grid(columns)</code></td><td>Lays the next elements out in a grid (a shop&#x27;s items).</td></tr>
+<tr><td class="type">nothing</td><td><code>set(id, value)</code></td><td>Changes an element: a text, a toggle, a tile.</td></tr>
+<tr><td class="type">nothing</td><td><code>enable(id, on)</code></td><td>Greys an element out, or not.</td></tr>
+<tr><td class="type">nothing</td><td><code>clear()</code></td><td>Empties the tab.</td></tr>
+</table>
+<h2 id="events">Events</h2>
+<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#menupressed"><code>MenuPressed</code></a>, <a href="api-events.html#menuclosed"><code>MenuClosed</code></a>.</p>
+</main>
+<div class="pager"><a class="prev" href="api-messages.html">← Messages</a><a class="next" href="api-world.html">World →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

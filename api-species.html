@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Species · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li class="current"><a href="api-species.html" aria-current="page">Species</a>
+<ul>
+<li><a href="#properties">Properties</a></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#move">Move</a></li>
+<li><a href="#essence">Essence</a></li>
+</ul>
+</li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Species</div></header>
+<main>
+<h1>Species</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">From Species.named(...), Species.all() or a creature.</p>
+<p class="lead">A kind of Voxelmon: its essences, its moves, where it lives and what it becomes.</p>
+<h2 id="properties">Properties</h2>
+<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
+<tr><td class="type">int</td><td><code>id</code></td><td>Its lasting number.</td></tr>
+<tr><td class="type">String</td><td><code>name</code></td><td>Its name, such as LUNAPUP.</td></tr>
+<tr><td class="type"><a href="api-species.html#essence">Essence</a></td><td><code>essence</code></td><td>Its first essence (Fire, Frost, Plant and the others).</td></tr>
+<tr><td class="type"><a href="api-species.html#essence">Essence</a>?</td><td><code>second_essence</code></td><td>Its second essence, if it has one.</td></tr>
+<tr><td class="type">Rarity</td><td><code>rarity</code></td><td>How often it appears in the wild.</td></tr>
+<tr><td class="type">Temperament</td><td><code>temperament</code></td><td>Friendly, neutral or hunting.</td></tr>
+<tr><td class="type">List[Habitat]</td><td><code>habitats</code></td><td>Where it lives.</td></tr>
+<tr><td class="type">Locomotion</td><td><code>moves_by</code></td><td>Walks, swims, both, or flies.</td></tr>
+<tr><td class="type">List[Evolution]</td><td><code>evolutions</code></td><td>What it becomes, and at what level.</td></tr>
+<tr><td class="type"><a href="api-creature.html#stats">Stats</a></td><td><code>base_stats</code></td><td>Its stats before levels.</td></tr>
+</table>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-species.html">Species</a>?</td><td><code>named(name: String)</code></td><td>A species by name.</td></tr>
+<tr><td class="type">List[<a href="api-species.html">Species</a>]</td><td><code>all()</code></td><td>Every species.</td></tr>
+<tr><td class="type">List[<a href="api-species.html#move">Move</a>]</td><td><code>learns()</code></td><td>The moves it learns, and at which levels.</td></tr>
+</table>
+<h2 id="move">Move</h2>
+<p>A battle move, found by name (<code>Move.named(&quot;Tackle&quot;)</code>).</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type">int</td><td><code>id</code></td><td>Its lasting number.</td></tr>
+<tr><td class="type">String</td><td><code>name</code></td><td>Its name.</td></tr>
+<tr><td class="type"><a href="api-species.html#essence">Essence</a>?</td><td><code>essence</code></td><td>Its essence, or none for a plain move.</td></tr>
+<tr><td class="type">int</td><td><code>power</code></td><td>How hard it hits (0 for a move that does not).</td></tr>
+<tr><td class="type">int</td><td><code>accuracy</code></td><td>Its chance to land, in percent.</td></tr>
+</table>
+<h2 id="essence">Essence</h2>
+<p>One of the twelve essences: each strong against two and weak against two.</p>
+</main>
+<div class="pager"><a class="prev" href="api-creature.html">← Creature</a><a class="next" href="api-team.html">Team →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

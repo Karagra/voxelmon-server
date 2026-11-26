@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Events · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li class="current"><a href="api-events.html" aria-current="page">Events</a>
+<ul>
+<li><a href="#players">Players</a></li>
+<li><a href="#blocks-and-objects">Blocks and objects</a></li>
+<li><a href="#items-and-crafting">Items and crafting</a></li>
+<li><a href="#voxelmon">Voxelmon</a></li>
+<li><a href="#battles">Battles</a></li>
+<li><a href="#progress">Progress</a></li>
+<li><a href="#world">World</a></li>
+<li><a href="#menus">Menus</a></li>
+<li><a href="#each-event">Each event</a></li>
+</ul>
+</li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Events</div></header>
+<main>
+<h1>Events</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p>Everything a plugin can react to. Some events come before something happens and can stop it; the rest say it has happened.</p>
+<p>A plugin listens by naming the event: in Rust a method on its plugin, in Java a method marked <code>@Listen</code>. Events come on the server&#x27;s tick, in the order the plugins loaded; a plugin can ask to hear an event first or last (<code>order = early</code> or <code>late</code>).</p>
+<p>An event that can be stopped is sent before the thing happens, and its name says so (for example <code>BlockBreaking</code>); calling <code>stop()</code> on it means it does not happen, and the player&#x27;s game puts back what it showed. Fields marked changeable can be changed by a listener before it happens (the damage taken, the loot dropped). The event after it (<code>BlockBroken</code>) says it did happen, and cannot be stopped.</p>
+<h2 id="players">Players</h2>
+<table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
+<tr><td><a href="#playerjoining"><code>PlayerJoining</code></a></td><td>A player has proved who they are and is about to enter the world.</td><td>Yes</td></tr>
+<tr><td><a href="#playerjoined"><code>PlayerJoined</code></a></td><td>A player has entered the world and can be seen.</td><td></td></tr>
+<tr><td><a href="#playerleft"><code>PlayerLeft</code></a></td><td>A player has left: by choice, put out, or their connection ended.</td><td></td></tr>
+<tr><td><a href="#playerdamaging"><code>PlayerDamaging</code></a></td><td>A player is about to be hurt.</td><td>Yes</td></tr>
+<tr><td><a href="#playerfainted"><code>PlayerFainted</code></a></td><td>A player&#x27;s health reached nothing and they fainted.</td><td></td></tr>
+<tr><td><a href="#playerrespawning"><code>PlayerRespawning</code></a></td><td>A fainted player is getting up again.</td><td>Yes</td></tr>
+<tr><td><a href="#playermovedblock"><code>PlayerMovedBlock</code></a></td><td>A player&#x27;s feet moved into another block. Sent once a block, not every tick.</td><td></td></tr>
+<tr><td><a href="#playerenteredregion"><code>PlayerEnteredRegion</code></a></td><td>A player walked into a <a href="api-region.html">Region</a> a plugin made.</td><td></td></tr>
+<tr><td><a href="#playerleftregion"><code>PlayerLeftRegion</code></a></td><td>A player walked out of a <a href="api-region.html">Region</a>.</td><td></td></tr>
+<tr><td><a href="#playerenteredtown"><code>PlayerEnteredTown</code></a></td><td>A player came into a town.</td><td></td></tr>
+<tr><td><a href="#playerentereddungeon"><code>PlayerEnteredDungeon</code></a></td><td>A player went down into a dungeon (when its banner shows).</td><td></td></tr>
+<tr><td><a href="#playerate"><code>PlayerAte</code></a></td><td>A player ate or drank something.</td><td>Yes</td></tr>
+<tr><td><a href="#playerrested"><code>PlayerRested</code></a></td><td>A player sitting by a campfire was healed a step.</td><td></td></tr>
+</table>
+<h2 id="blocks-and-objects">Blocks and objects</h2>
+<table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
+<tr><td><a href="#blockbreaking"><code>BlockBreaking</code></a></td><td>A player is about to break a block.</td><td>Yes</td></tr>
+<tr><td><a href="#blockbroken"><code>BlockBroken</code></a></td><td>A block was broken by a player.</td><td></td></tr>
+<tr><td><a href="#blockplacing"><code>BlockPlacing</code></a></td><td>A player is about to place a block.</td><td>Yes</td></tr>
+<tr><td><a href="#blockplaced"><code>BlockPlaced</code></a></td><td>A player placed a block.</td><td></td></tr>
+<tr><td><a href="#blockchanged"><code>BlockChanged</code></a></td><td>Any block changed, by anyone or anything: a player, water or lava flowing, sand falling, a plugin.</td><td></td></tr>
+<tr><td><a href="#objectplacing"><code>ObjectPlacing</code></a></td><td>A player is about to place an object: furniture, a station, a chest, a bed, a door.</td><td>Yes</td></tr>
+<tr><td><a href="#objectremoved"><code>ObjectRemoved</code></a></td><td>A placed object was taken down.</td><td></td></tr>
+<tr><td><a href="#containeropening"><code>ContainerOpening</code></a></td><td>A player is opening a chest, barrel or other container.</td><td>Yes</td></tr>
+<tr><td><a href="#doorused"><code>DoorUsed</code></a></td><td>A player opened or shut a door or gate.</td><td>Yes</td></tr>
+</table>
+<h2 id="items-and-crafting">Items and crafting</h2>
+<table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
+<tr><td><a href="#itempickingup"><code>ItemPickingUp</code></a></td><td>A player is taking up a loose item.</td><td>Yes</td></tr>
+<tr><td><a href="#itemdropped"><code>ItemDropped</code></a></td><td>A player let go of or threw an item.</td><td></td></tr>
+<tr><td><a href="#itemcrafting"><code>ItemCrafting</code></a></td><td>A station is about to finish a piece: the last strike at a workbench, anvil or fletching bench, a forge&#x27;s smelting, a brew&#x27;s last stir, food cooked on a campfire.</td><td>Yes</td></tr>
+<tr><td><a href="#itemcrafted"><code>ItemCrafted</code></a></td><td>A station finished a piece.</td><td></td></tr>
+<tr><td><a href="#fishcaught"><code>FishCaught</code></a></td><td>A player landed a catch with a rod or a trident.</td><td></td></tr>
+<tr><td><a href="#lootrolled"><code>LootRolled</code></a></td><td>Loot was chosen for a chest, a beaten creature, a fishing catch or a reward.</td><td></td></tr>
+</table>
+<h2 id="voxelmon">Voxelmon</h2>
+<table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
+<tr><td><a href="#creaturespawning"><code>CreatureSpawning</code></a></td><td>A wild Voxelmon is about to appear.</td><td>Yes</td></tr>
+<tr><td><a href="#creaturespawned"><code>CreatureSpawned</code></a></td><td>A wild Voxelmon appeared.</td><td></td></tr>
+<tr><td><a href="#creaturedamaging"><code>CreatureDamaging</code></a></td><td>A Voxelmon is about to be hurt, in the world or in a battle.</td><td>Yes</td></tr>
+<tr><td><a href="#creaturebeaten"><code>CreatureBeaten</code></a></td><td>A wild Voxelmon was beaten.</td><td></td></tr>
+<tr><td><a href="#captureattempt"><code>CaptureAttempt</code></a></td><td>A thrown cube is about to try to catch a Voxelmon.</td><td>Yes</td></tr>
+<tr><td><a href="#creaturecaptured"><code>CreatureCaptured</code></a></td><td>A Voxelmon was caught.</td><td></td></tr>
+<tr><td><a href="#creaturelevelledup"><code>CreatureLevelledUp</code></a></td><td>A player&#x27;s Voxelmon reached a new level.</td><td></td></tr>
+<tr><td><a href="#creatureevolving"><code>CreatureEvolving</code></a></td><td>A player&#x27;s Voxelmon is about to evolve.</td><td>Yes</td></tr>
+<tr><td><a href="#creatureevolved"><code>CreatureEvolved</code></a></td><td>A player&#x27;s Voxelmon evolved.</td><td></td></tr>
+<tr><td><a href="#companionsentout"><code>CompanionSentOut</code></a></td><td>A player threw a cube and their Voxelmon came out.</td><td></td></tr>
+<tr><td><a href="#companionrecalled"><code>CompanionRecalled</code></a></td><td>A player&#x27;s companion went back into its cube.</td><td></td></tr>
+<tr><td><a href="#creaturepetted"><code>CreaturePetted</code></a></td><td>A player petted their companion.</td><td></td></tr>
+</table>
+<h2 id="battles">Battles</h2>
+<table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
+<tr><td><a href="#battlestarting"><code>BattleStarting</code></a></td><td>A turn-based battle is about to begin, against a wild Voxelmon or a trainer.</td><td>Yes</td></tr>
+<tr><td><a href="#battlestarted"><code>BattleStarted</code></a></td><td>A battle began.</td><td></td></tr>
+<tr><td><a href="#battleturn"><code>BattleTurn</code></a></td><td>A battle&#x27;s turn was decided.</td><td></td></tr>
+<tr><td><a href="#battleended"><code>BattleEnded</code></a></td><td>A battle ended.</td><td></td></tr>
+</table>
+<h2 id="progress">Progress</h2>
+<table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
+<tr><td><a href="#professionlevelledup"><code>ProfessionLevelledUp</code></a></td><td>A player reached a new level in a profession.</td><td></td></tr>
+<tr><td><a href="#coinschanged"><code>CoinsChanged</code></a></td><td>A player&#x27;s coins changed.</td><td></td></tr>
+<tr><td><a href="#townfreed"><code>TownFreed</code></a></td><td>A town&#x27;s Voxelord was beaten and the town freed.</td><td></td></tr>
+<tr><td><a href="#dungeonbeaten"><code>DungeonBeaten</code></a></td><td>A dungeon&#x27;s guardian was beaten.</td><td></td></tr>
+<tr><td><a href="#dungeonreset"><code>DungeonReset</code></a></td><td>A beaten dungeon reset: its chests refilled and its guardian will return.</td><td></td></tr>
+</table>
+<h2 id="world">World</h2>
+<table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
+<tr><td><a href="#daystarted"><code>DayStarted</code></a></td><td>Dawn: a new day began.</td><td></td></tr>
+<tr><td><a href="#nightstarted"><code>NightStarted</code></a></td><td>Dusk: night began.</td><td></td></tr>
+<tr><td><a href="#weatherchanged"><code>WeatherChanged</code></a></td><td>The weather changed.</td><td></td></tr>
+<tr><td><a href="#worldsaved"><code>WorldSaved</code></a></td><td>The world was saved.</td><td></td></tr>
+</table>
+<h2 id="menus">Menus</h2>
+<table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
+<tr><td><a href="#menupressed"><code>MenuPressed</code></a></td><td>A player pressed a button, tile or toggle on a plugin&#x27;s <a href="api-menu.html">Menu</a>.</td><td></td></tr>
+<tr><td><a href="#menuclosed"><code>MenuClosed</code></a></td><td>A player closed a plugin&#x27;s menu, or walked away from it.</td><td></td></tr>
+</table>
+<h2 id="each-event">Each event</h2>
+<h3 id="playerjoining"><code>PlayerJoining</code></h3>
+<p>A player has proved who they are and is about to enter the world.</p><p><strong>Can be stopped:</strong> the player is turned away with `reason`.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html#playerprofile">PlayerProfile</a></td><td><code>profile</code></td><td>Their store account&#x27;s name and lasting ID, and whether they have played here before.</td></tr>
+<tr><td class="type">String</td><td><code>reason</code> <span class="need">changeable</span></td><td>What they are told if stopped.</td></tr>
+</table>
+<h3 id="playerjoined"><code>PlayerJoined</code></h3>
+<p>A player has entered the world and can be seen.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>The player.</td></tr>
+<tr><td class="type">bool</td><td><code>first_time</code></td><td>Their first time in this world.</td></tr>
+</table>
+<h3 id="playerleft"><code>PlayerLeft</code></h3>
+<p>A player has left: by choice, put out, or their connection ended.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>The player, still readable during this event.</td></tr>
+<tr><td class="type">LeaveReason</td><td><code>reason</code></td><td>Why they left.</td></tr>
+</table>
+<h3 id="playerdamaging"><code>PlayerDamaging</code></h3>
+<p>A player is about to be hurt.</p><p><strong>Can be stopped:</strong> they take no harm.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who is hurt.</td></tr>
+<tr><td class="type">float</td><td><code>amount</code> <span class="need">changeable</span></td><td>Health lost.</td></tr>
+<tr><td class="type">DamageCause</td><td><code>cause</code></td><td>A creature, a fall, drowning, hunger, burning, a trap, a falling spike.</td></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a>?</td><td><code>creature</code></td><td>The creature, if one did it.</td></tr>
+</table>
+<h3 id="playerfainted"><code>PlayerFainted</code></h3>
+<p>A player&#x27;s health reached nothing and they fainted.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who fainted.</td></tr>
+<tr><td class="type">DamageCause</td><td><code>cause</code></td><td>What did it.</td></tr>
+<tr><td class="type">bool</td><td><code>keep_inventory</code> <span class="need">changeable</span></td><td>Whether they keep what they carry.</td></tr>
+</table>
+<h3 id="playerrespawning"><code>PlayerRespawning</code></h3>
+<p>A fainted player is getting up again.</p><p><strong>Can be stopped:</strong> they stay down (as in Hardcore).</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who is getting up.</td></tr>
+<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>place</code> <span class="need">changeable</span></td><td>Where they will stand.</td></tr>
+</table>
+<h3 id="playermovedblock"><code>PlayerMovedBlock</code></h3>
+<p>A player&#x27;s feet moved into another block. Sent once a block, not every tick.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who moved.</td></tr>
+<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>from</code></td><td>The block they left.</td></tr>
+<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>to</code></td><td>The block they are in now.</td></tr>
+</table>
+<h3 id="playerenteredregion"><code>PlayerEnteredRegion</code></h3>
+<p>A player walked into a <a href="api-region.html">Region</a> a plugin made.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who entered.</td></tr>
+<tr><td class="type"><a href="api-region.html">Region</a></td><td><code>region</code></td><td>The region.</td></tr>
+</table>
+<h3 id="playerleftregion"><code>PlayerLeftRegion</code></h3>
+<p>A player walked out of a <a href="api-region.html">Region</a>.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who left.</td></tr>
+<tr><td class="type"><a href="api-region.html">Region</a></td><td><code>region</code></td><td>The region.</td></tr>
+</table>
+<h3 id="playerenteredtown"><code>PlayerEnteredTown</code></h3>
+<p>A player came into a town.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who entered.</td></tr>
+<tr><td class="type"><a href="api-town.html">Town</a></td><td><code>town</code></td><td>The town.</td></tr>
+</table>
+<h3 id="playerentereddungeon"><code>PlayerEnteredDungeon</code></h3>
+<p>A player went down into a dungeon (when its banner shows).</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who entered.</td></tr>
+<tr><td class="type"><a href="api-dungeon.html">Dungeon</a></td><td><code>dungeon</code></td><td>The dungeon.</td></tr>
+</table>
+<h3 id="playerate"><code>PlayerAte</code></h3>
+<p>A player ate or drank something.</p><p><strong>Can be stopped:</strong> it is not eaten and stays in their hand.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who ate.</td></tr>
+<tr><td class="type"><a href="api-itemstack.html">ItemStack</a></td><td><code>item</code></td><td>What they ate.</td></tr>
+<tr><td class="type">float</td><td><code>hunger</code> <span class="need">changeable</span></td><td>Hunger it restores.</td></tr>
+</table>
+<h3 id="playerrested"><code>PlayerRested</code></h3>
+<p>A player sitting by a campfire was healed a step.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who rested.</td></tr>
+<tr><td class="type">float</td><td><code>amount</code> <span class="need">changeable</span></td><td>Health restored.</td></tr>
+</table>
+<h3 id="blockbreaking"><code>BlockBreaking</code></h3>
+<p>A player is about to break a block.</p><p><strong>Can be stopped:</strong> the block stays.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who is breaking it.</td></tr>
+<tr><td class="type"><a href="api-block.html">Block</a></td><td><code>block</code></td><td>The block and where it is.</td></tr>
+<tr><td class="type"><a href="api-itemstack.html">ItemStack</a>?</td><td><code>tool</code></td><td>What they hold.</td></tr>
+<tr><td class="type">List[<a href="api-itemstack.html">ItemStack</a>]</td><td><code>drops</code> <span class="need">changeable</span></td><td>What it will drop.</td></tr>
+</table>
+<h3 id="blockbroken"><code>BlockBroken</code></h3>
+<p>A block was broken by a player.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who broke it.</td></tr>
+<tr><td class="type"><a href="api-block.html">Block</a></td><td><code>block</code></td><td>What it was.</td></tr>
+</table>
+<h3 id="blockplacing"><code>BlockPlacing</code></h3>
+<p>A player is about to place a block.</p><p><strong>Can be stopped:</strong> it is not placed and stays in their hand.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who is placing it.</td></tr>
+<tr><td class="type"><a href="api-block.html">Block</a></td><td><code>block</code></td><td>The block and where it would go.</td></tr>
+</table>
+<h3 id="blockplaced"><code>BlockPlaced</code></h3>
+<p>A player placed a block.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who placed it.</td></tr>
+<tr><td class="type"><a href="api-block.html">Block</a></td><td><code>block</code></td><td>The block.</td></tr>
+</table>
+<h3 id="blockchanged"><code>BlockChanged</code></h3>
+<p>Any block changed, by anyone or anything: a player, water or lava flowing, sand falling, a plugin.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>at</code></td><td>Where.</td></tr>
+<tr><td class="type"><a href="api-block.html#blocktype">BlockType</a></td><td><code>before</code></td><td>What it was.</td></tr>
+<tr><td class="type"><a href="api-block.html#blocktype">BlockType</a></td><td><code>after</code></td><td>What it is now.</td></tr>
+</table>
+<h3 id="objectplacing"><code>ObjectPlacing</code></h3>
+<p>A player is about to place an object: furniture, a station, a chest, a bed, a door.</p><p><strong>Can be stopped:</strong> it is not placed.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who is placing it.</td></tr>
+<tr><td class="type"><a href="api-itemstack.html#itemtype">ItemType</a></td><td><code>item</code></td><td>The object.</td></tr>
+<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>at</code></td><td>Where.</td></tr>
+</table>
+<h3 id="objectremoved"><code>ObjectRemoved</code></h3>
+<p>A placed object was taken down.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a>?</td><td><code>player</code></td><td>Who took it down, if a player did.</td></tr>
+<tr><td class="type"><a href="api-placedobject.html">PlacedObject</a></td><td><code>object</code></td><td>What it was.</td></tr>
+</table>
+<h3 id="containeropening"><code>ContainerOpening</code></h3>
+<p>A player is opening a chest, barrel or other container.</p><p><strong>Can be stopped:</strong> it stays shut.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who is opening it.</td></tr>
+<tr><td class="type"><a href="api-placedobject.html">PlacedObject</a></td><td><code>container</code></td><td>The container.</td></tr>
+</table>
+<h3 id="doorused"><code>DoorUsed</code></h3>
+<p>A player opened or shut a door or gate.</p><p><strong>Can be stopped:</strong> it stays as it was.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who used it.</td></tr>
+<tr><td class="type"><a href="api-placedobject.html">PlacedObject</a></td><td><code>door</code></td><td>The door.</td></tr>
+<tr><td class="type">bool</td><td><code>opening</code></td><td>True if opening.</td></tr>
+</table>
+<h3 id="itempickingup"><code>ItemPickingUp</code></h3>
+<p>A player is taking up a loose item.</p><p><strong>Can be stopped:</strong> it stays where it is.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who is taking it.</td></tr>
+<tr><td class="type"><a href="api-world.html#looseitem">LooseItem</a></td><td><code>item</code></td><td>The item on the ground.</td></tr>
+</table>
+<h3 id="itemdropped"><code>ItemDropped</code></h3>
+<p>A player let go of or threw an item.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who dropped it.</td></tr>
+<tr><td class="type"><a href="api-world.html#looseitem">LooseItem</a></td><td><code>item</code></td><td>The item, now loose.</td></tr>
+</table>
+<h3 id="itemcrafting"><code>ItemCrafting</code></h3>
+<p>A station is about to finish a piece: the last strike at a workbench, anvil or fletching bench, a forge&#x27;s smelting, a brew&#x27;s last stir, food cooked on a campfire.</p><p><strong>Can be stopped:</strong> the work stays unfinished.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a>?</td><td><code>player</code></td><td>Who finished it, if a player did.</td></tr>
+<tr><td class="type"><a href="api-placedobject.html#station">Station</a></td><td><code>station</code></td><td>Which kind of station.</td></tr>
+<tr><td class="type"><a href="api-itemstack.html">ItemStack</a></td><td><code>result</code> <span class="need">changeable</span></td><td>What it makes.</td></tr>
+</table>
+<h3 id="itemcrafted"><code>ItemCrafted</code></h3>
+<p>A station finished a piece.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a>?</td><td><code>player</code></td><td>Who finished it.</td></tr>
+<tr><td class="type"><a href="api-placedobject.html#station">Station</a></td><td><code>station</code></td><td>Which kind of station.</td></tr>
+<tr><td class="type"><a href="api-itemstack.html">ItemStack</a></td><td><code>result</code></td><td>What it made.</td></tr>
+</table>
+<h3 id="fishcaught"><code>FishCaught</code></h3>
+<p>A player landed a catch with a rod or a trident.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who caught it.</td></tr>
+<tr><td class="type"><a href="api-itemstack.html">ItemStack</a>?</td><td><code>item</code> <span class="need">changeable</span></td><td>The item caught, if not a Voxelmon.</td></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a>?</td><td><code>creature</code></td><td>The Voxelmon hooked, if one was.</td></tr>
+</table>
+<h3 id="lootrolled"><code>LootRolled</code></h3>
+<p>Loot was chosen for a chest, a beaten creature, a fishing catch or a reward.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type">LootSource</td><td><code>source</code></td><td>What it is for.</td></tr>
+<tr><td class="type"><a href="api-player.html">Player</a>?</td><td><code>player</code></td><td>Who it is for, if anyone.</td></tr>
+<tr><td class="type">List[<a href="api-itemstack.html">ItemStack</a>]</td><td><code>items</code> <span class="need">changeable</span></td><td>The loot.</td></tr>
+</table>
+<h3 id="creaturespawning"><code>CreatureSpawning</code></h3>
+<p>A wild Voxelmon is about to appear.</p><p><strong>Can be stopped:</strong> it does not appear.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-species.html">Species</a></td><td><code>species</code> <span class="need">changeable</span></td><td>Its species.</td></tr>
+<tr><td class="type">int</td><td><code>level</code> <span class="need">changeable</span></td><td>Its level.</td></tr>
+<tr><td class="type"><a href="api-types.html#place">Place</a></td><td><code>place</code></td><td>Where.</td></tr>
+<tr><td class="type">SpawnReason</td><td><code>reason</code></td><td>The wild, a dungeon, a den, a hive, a fishing hook, a plugin.</td></tr>
+</table>
+<h3 id="creaturespawned"><code>CreatureSpawned</code></h3>
+<p>A wild Voxelmon appeared.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>The creature.</td></tr>
+</table>
+<h3 id="creaturedamaging"><code>CreatureDamaging</code></h3>
+<p>A Voxelmon is about to be hurt, in the world or in a battle.</p><p><strong>Can be stopped:</strong> it takes no harm.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>Who is hurt.</td></tr>
+<tr><td class="type">float</td><td><code>amount</code> <span class="need">changeable</span></td><td>Health lost.</td></tr>
+<tr><td class="type"><a href="api-player.html">Player</a>?</td><td><code>player</code></td><td>The player whose blow or creature did it.</td></tr>
+</table>
+<h3 id="creaturebeaten"><code>CreatureBeaten</code></h3>
+<p>A wild Voxelmon was beaten.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>The creature, readable during this event.</td></tr>
+<tr><td class="type"><a href="api-player.html">Player</a>?</td><td><code>player</code></td><td>Who beat it.</td></tr>
+<tr><td class="type">int</td><td><code>experience</code> <span class="need">changeable</span></td><td>Experience given.</td></tr>
+</table>
+<h3 id="captureattempt"><code>CaptureAttempt</code></h3>
+<p>A thrown cube is about to try to catch a Voxelmon.</p><p><strong>Can be stopped:</strong> the cube bounces off.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who threw it.</td></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>The target.</td></tr>
+<tr><td class="type">float</td><td><code>chance</code> <span class="need">changeable</span></td><td>Its chance, 0 to 1.</td></tr>
+</table>
+<h3 id="creaturecaptured"><code>CreatureCaptured</code></h3>
+<p>A Voxelmon was caught.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who caught it.</td></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>The creature, now theirs.</td></tr>
+</table>
+<h3 id="creaturelevelledup"><code>CreatureLevelledUp</code></h3>
+<p>A player&#x27;s Voxelmon reached a new level.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>The creature.</td></tr>
+<tr><td class="type">int</td><td><code>level</code></td><td>Its new level.</td></tr>
+</table>
+<h3 id="creatureevolving"><code>CreatureEvolving</code></h3>
+<p>A player&#x27;s Voxelmon is about to evolve.</p><p><strong>Can be stopped:</strong> it does not evolve this time.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>The creature.</td></tr>
+<tr><td class="type"><a href="api-species.html">Species</a></td><td><code>into</code></td><td>What it will become.</td></tr>
+</table>
+<h3 id="creatureevolved"><code>CreatureEvolved</code></h3>
+<p>A player&#x27;s Voxelmon evolved.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>The creature, now its new species.</td></tr>
+<tr><td class="type"><a href="api-species.html">Species</a></td><td><code>from</code></td><td>What it was.</td></tr>
+</table>
+<h3 id="companionsentout"><code>CompanionSentOut</code></h3>
+<p>A player threw a cube and their Voxelmon came out.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Its owner.</td></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>The companion.</td></tr>
+</table>
+<h3 id="companionrecalled"><code>CompanionRecalled</code></h3>
+<p>A player&#x27;s companion went back into its cube.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Its owner.</td></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>The companion.</td></tr>
+</table>
+<h3 id="creaturepetted"><code>CreaturePetted</code></h3>
+<p>A player petted their companion.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who petted it.</td></tr>
+<tr><td class="type"><a href="api-creature.html">Creature</a></td><td><code>creature</code></td><td>The companion.</td></tr>
+</table>
+<h3 id="battlestarting"><code>BattleStarting</code></h3>
+<p>A turn-based battle is about to begin, against a wild Voxelmon or a trainer.</p><p><strong>Can be stopped:</strong> there is no battle.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who is battling.</td></tr>
+<tr><td class="type">BattleKind</td><td><code>kind</code></td><td>Wild, trainer or boss.</td></tr>
+<tr><td class="type">List[<a href="api-creature.html">Creature</a>]</td><td><code>opponents</code></td><td>What they face.</td></tr>
+</table>
+<h3 id="battlestarted"><code>BattleStarted</code></h3>
+<p>A battle began.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-battle.html">Battle</a></td><td><code>battle</code></td><td>The battle.</td></tr>
+</table>
+<h3 id="battleturn"><code>BattleTurn</code></h3>
+<p>A battle&#x27;s turn was decided.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-battle.html">Battle</a></td><td><code>battle</code></td><td>The battle.</td></tr>
+<tr><td class="type">List[TurnAction]</td><td><code>actions</code></td><td>What each side did.</td></tr>
+</table>
+<h3 id="battleended"><code>BattleEnded</code></h3>
+<p>A battle ended.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-battle.html">Battle</a></td><td><code>battle</code></td><td>The battle, readable during this event.</td></tr>
+<tr><td class="type">BattleResult</td><td><code>result</code></td><td>Won, lost, fled or caught.</td></tr>
+<tr><td class="type">int</td><td><code>coins</code> <span class="need">changeable</span></td><td>Coins paid by a beaten trainer.</td></tr>
+</table>
+<h3 id="professionlevelledup"><code>ProfessionLevelledUp</code></h3>
+<p>A player reached a new level in a profession.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>The player.</td></tr>
+<tr><td class="type">Profession</td><td><code>profession</code></td><td>Which profession.</td></tr>
+<tr><td class="type">int</td><td><code>level</code></td><td>The new level.</td></tr>
+</table>
+<h3 id="coinschanged"><code>CoinsChanged</code></h3>
+<p>A player&#x27;s coins changed.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>The player.</td></tr>
+<tr><td class="type">int</td><td><code>before</code></td><td>Coins before.</td></tr>
+<tr><td class="type">int</td><td><code>after</code></td><td>Coins now.</td></tr>
+</table>
+<h3 id="townfreed"><code>TownFreed</code></h3>
+<p>A town&#x27;s Voxelord was beaten and the town freed.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-town.html">Town</a></td><td><code>town</code></td><td>The town.</td></tr>
+<tr><td class="type">List[<a href="api-player.html">Player</a>]</td><td><code>players</code></td><td>Who took part.</td></tr>
+</table>
+<h3 id="dungeonbeaten"><code>DungeonBeaten</code></h3>
+<p>A dungeon&#x27;s guardian was beaten.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-dungeon.html">Dungeon</a></td><td><code>dungeon</code></td><td>The dungeon.</td></tr>
+<tr><td class="type">List[<a href="api-player.html">Player</a>]</td><td><code>players</code></td><td>Who took part.</td></tr>
+</table>
+<h3 id="dungeonreset"><code>DungeonReset</code></h3>
+<p>A beaten dungeon reset: its chests refilled and its guardian will return.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-dungeon.html">Dungeon</a></td><td><code>dungeon</code></td><td>The dungeon.</td></tr>
+</table>
+<h3 id="daystarted"><code>DayStarted</code></h3>
+<p>Dawn: a new day began.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type">int</td><td><code>day</code></td><td>The day&#x27;s number.</td></tr>
+</table>
+<h3 id="nightstarted"><code>NightStarted</code></h3>
+<p>Dusk: night began.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type">int</td><td><code>day</code></td><td>The day&#x27;s number.</td></tr>
+</table>
+<h3 id="weatherchanged"><code>WeatherChanged</code></h3>
+<p>The weather changed.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-types.html#weather">Weather</a></td><td><code>before</code></td><td>What it was.</td></tr>
+<tr><td class="type"><a href="api-types.html#weather">Weather</a></td><td><code>after</code></td><td>What it is now.</td></tr>
+</table>
+<h3 id="worldsaved"><code>WorldSaved</code></h3>
+<p>The world was saved.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type">bool</td><td><code>automatic</code></td><td>True for an autosave.</td></tr>
+</table>
+<h3 id="menupressed"><code>MenuPressed</code></h3>
+<p>A player pressed a button, tile or toggle on a plugin&#x27;s <a href="api-menu.html">Menu</a>.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who pressed it.</td></tr>
+<tr><td class="type"><a href="api-menu.html">Menu</a></td><td><code>menu</code></td><td>The menu.</td></tr>
+<tr><td class="type">String</td><td><code>id</code></td><td>The pressed element&#x27;s id.</td></tr>
+<tr><td class="type"><a href="api-types.html#value">Value</a>?</td><td><code>value</code></td><td>A toggle&#x27;s or slider&#x27;s new value.</td></tr>
+</table>
+<h3 id="menuclosed"><code>MenuClosed</code></h3>
+<p>A player closed a plugin&#x27;s menu, or walked away from it.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-player.html">Player</a></td><td><code>player</code></td><td>Who closed it.</td></tr>
+<tr><td class="type"><a href="api-menu.html">Menu</a></td><td><code>menu</code></td><td>The menu.</td></tr>
+</table>
+</main>
+<div class="pager"><a class="prev" href="api.html">← Overview</a><a class="next" href="api-server.html">Server →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

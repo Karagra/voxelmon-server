@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheduler · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li class="current"><a href="api-scheduler.html" aria-current="page">Scheduler</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#task">Task</a></li>
+</ul>
+</li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Scheduler</div></header>
+<main>
+<h1>Scheduler</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">From server.scheduler().</p>
+<p class="lead">Running code later, or again and again.</p>
+<h2 id="description">Description</h2>
+<p>Times are in ticks (60 a second) or seconds. Every task runs on the server&#x27;s tick. A Java plugin may also run work off the tick (<code>off_tick</code>), which must not touch the world; its result comes back with <code>then</code> on the tick.</p>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>next_tick(run: <a href="api-types.html#callback">Callback</a>)</code></td><td>Runs once, on the next tick.</td></tr>
+<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>after(ticks: int, run: <a href="api-types.html#callback">Callback</a>)</code></td><td>Runs once after a number of ticks.</td></tr>
+<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>after_seconds(seconds: float, run: <a href="api-types.html#callback">Callback</a>)</code></td><td>Runs once after some seconds.</td></tr>
+<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>every(ticks: int, run: <a href="api-types.html#callback">Callback</a>)</code></td><td>Runs again and again, a number of ticks apart.</td></tr>
+<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>every_seconds(seconds: float, run: <a href="api-types.html#callback">Callback</a>)</code></td><td>Runs again and again, some seconds apart.</td></tr>
+<tr><td class="type"><a href="api-scheduler.html#task">Task</a></td><td><code>off_tick(work: <a href="api-types.html#callback">Callback</a>)</code></td><td>Java only: runs work on another thread, never touching the world.</td></tr>
+<tr><td class="type">nothing</td><td><code>cancel_all()</code></td><td>Cancels every task this plugin made.</td></tr>
+</table>
+<h2 id="task">Task</h2>
+<p>A scheduled task.</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type">bool</td><td><code>running</code></td><td>Whether it is still to run.</td></tr>
+<tr><td class="type">nothing</td><td><code>cancel()</code></td><td>Stops it running.</td></tr>
+</table>
+</main>
+<div class="pager"><a class="prev" href="api-plugin.html">← Plugin</a><a class="next" href="api-permissions.html">Permissions →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

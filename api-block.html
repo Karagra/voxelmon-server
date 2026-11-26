@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Block · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li class="current"><a href="api-block.html" aria-current="page">Block</a>
+<ul>
+<li><a href="#properties">Properties</a></li>
+<li><a href="#methods">Methods</a></li>
+<li><a href="#blocktype">BlockType</a></li>
+<li><a href="#events">Events</a></li>
+</ul>
+</li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Block</div></header>
+<main>
+<h1>Block</h1>
+<div class="note"><strong>Planned.</strong> The plugin API is being built: nothing here can be used yet, and names may change until the first plugin release.</div>
+<p class="kind">From world.block(at), and events.</p>
+<p class="lead">One block in the world: what it is and where.</p>
+<h2 id="properties">Properties</h2>
+<table class="ref"><tr><th>Type</th><th>Name</th><th>Description</th></tr>
+<tr><td class="type"><a href="api-types.html#blockpos">BlockPos</a></td><td><code>at</code></td><td>Where it is.</td></tr>
+<tr><td class="type"><a href="api-block.html#blocktype">BlockType</a></td><td><code>type</code></td><td>What it is.</td></tr>
+<tr><td class="type">int</td><td><code>sky_light</code></td><td>Daylight reaching it, 0 to 15.</td></tr>
+<tr><td class="type">int</td><td><code>block_light</code></td><td>Light from torches, lava and lamps, 0 to 15.</td></tr>
+<tr><td class="type">bool</td><td><code>edited</code></td><td>Whether a player or plugin changed it from the world as made.</td></tr>
+</table>
+<h2 id="methods">Methods</h2>
+<table class="ref"><tr><th>Returns</th><th>Method</th><th>Description</th></tr>
+<tr><td class="type">nothing</td><td><code>set(type: <a href="api-block.html#blocktype">BlockType</a>)</code> <span class="need" title="Needs world_edit in the manifest">world_edit</span></td><td>Changes it.</td></tr>
+<tr><td class="type"><a href="api-block.html">Block</a>?</td><td><code>neighbour(side: Side)</code></td><td>The block beside it.</td></tr>
+</table>
+<h2 id="blocktype">BlockType</h2>
+<p>A kind of block, found by name (<code>BlockType.named(&quot;Oak Log&quot;)</code>).</p>
+<table class="ref"><tr><th>Type</th><th>Field</th><th>Description</th></tr>
+<tr><td class="type">int</td><td><code>id</code></td><td>Its lasting number.</td></tr>
+<tr><td class="type">String</td><td><code>name</code></td><td>Its name.</td></tr>
+<tr><td class="type">bool</td><td><code>solid</code></td><td>Whether bodies stand on it and cannot pass.</td></tr>
+<tr><td class="type">bool</td><td><code>liquid</code></td><td>Water or lava.</td></tr>
+<tr><td class="type">bool</td><td><code>plant</code></td><td>Grass, flowers and other plants.</td></tr>
+<tr><td class="type">int</td><td><code>light</code></td><td>Light it gives, 0 to 15.</td></tr>
+<tr><td class="type">float</td><td><code>hardness</code></td><td>How long it takes to break.</td></tr>
+<tr><td class="type"><a href="api-itemstack.html#itemtype">ItemType</a>?</td><td><code>item</code></td><td>The item it is as carried.</td></tr>
+<tr><td class="type">String?</td><td><code>pack</code></td><td>The content pack it comes from, if any.</td></tr>
+</table>
+<h2 id="events">Events</h2>
+<p>Related <a href="api-events.html">events</a>: <a href="api-events.html#blockbreaking"><code>BlockBreaking</code></a>, <a href="api-events.html#blockbroken"><code>BlockBroken</code></a>, <a href="api-events.html#blockplacing"><code>BlockPlacing</code></a>, <a href="api-events.html#blockplaced"><code>BlockPlaced</code></a>, <a href="api-events.html#blockchanged"><code>BlockChanged</code></a>.</p>
+</main>
+<div class="pager"><a class="prev" href="api-world.html">← World</a><a class="next" href="api-placedobject.html">PlacedObject →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js"></script>
+</body>
+</html>

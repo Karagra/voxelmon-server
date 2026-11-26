@@ -7,22 +7,19 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-<a class="brand" href="index.html">VoxelMon Server</a>
-<label class="menu-button" for="menu">Menu</label>
-</header>
 <input type="checkbox" id="menu" hidden>
-<div class="layout">
 <nav aria-label="Site">
-<p class="section">Server guide</p>
+<a class="brand" href="index.html">VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
 <ul>
 <li><a href="index.html">Overview</a></li>
-<li><a href="install.html">Getting started</a></li>
+<li><a href="install.html">Installing and running</a></li>
 <li><a href="settings.html">Settings</a></li>
-<li><a href="commands.html">Commands</a></li>
+<li><a href="commands.html">Console commands</a></li>
 <li><a href="network.html">Networking</a></li>
-<li><a href="docker.html" aria-current="page">Docker</a>
-<ul class="headings">
+<li class="current"><a href="docker.html" aria-current="page">Docker</a>
+<ul>
 <li><a href="#run-it">Run it</a></li>
 <li><a href="#docker-compose">Docker Compose</a></li>
 <li><a href="#settings">Settings</a></li>
@@ -31,11 +28,43 @@
 </ul>
 </li>
 </ul>
-<p class="section">Modding</p>
+<p class="caption">Plugins and packs</p>
 <ul>
-<li><a href="plugins.html">Plugins and content packs</a></li>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
 </ul>
 </nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » Getting started » Docker</div></header>
 <main>
 <h1>Docker</h1>
 <p class="lead">The official image runs the same server, with the world kept in a volume.</p>
@@ -85,8 +114,10 @@ docker run ...              # as above; the volume keeps the world</code></pre>
 
 <h2 id="what-is-in-the-image">What is in the image</h2>
 <p>A small Debian base, the Linux server and Epic's library. The server runs as its own limited user, <code>voxelmon</code>, which can write only to <code>/data</code>.</p>
-<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </main>
+<div class="pager"><a class="prev" href="network.html">← Networking</a><a class="next" href="plugins.html">Introduction →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
+<script src="search.js"></script>
 </body>
 </html>

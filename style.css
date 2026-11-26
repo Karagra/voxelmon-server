@@ -339,3 +339,16 @@ html[data-lang="java"] .rs, html:not([data-lang="java"]) .java { display: none; 
   color: #e3e7ed;
   padding: 14px 18px 16px;
 }
+
+/* Syntax colours inside the code windows (search.js `paint`): blues and greys, a warm number. */
+.codebox .tk-keyword { color: #7ea6ff; font-weight: 600; }
+.codebox .tk-type { color: #b9cdf7; }
+.codebox .tk-string { color: #94d3c9; }
+.codebox .tk-number { color: #e2bf7f; }
+.codebox .tk-comment { color: #6c7583; font-style: italic; }
+.codebox .tk-macro, .codebox .tk-attr { color: #9fb3d9; }
+.codebox .tk-call { color: #dfe6f2; }
+.codebox .tk-section { color: #b9cdf7; font-weight: 600; }
+.codebox .tk-key { color: #7ea6ff; }
+.codebox .tk-command { color: #7ea6ff; font-weight: 600; }
+.codebox .tk-flag { color: #9fb0c7; }

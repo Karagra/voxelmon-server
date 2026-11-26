@@ -82,6 +82,64 @@ const INDEX=[{"t":"VoxelMon Dedicated Server","u":"index.html","k":"page"},{"t":
       return done;
     }
   };
+  // Syntax colours: one pass of a language's token patterns over the block's text, each match
+  // wrapped in a span of its kind (style.css `.tk-*`); everything else stays as it was.
+  const escape = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const RUST_KEYWORDS = "as|async|await|break|const|continue|crate|dyn|else|enum|extern|false|fn|for|if|impl|in|let|loop|match|mod|move|mut|pub|ref|return|self|Self|static|struct|super|trait|true|type|unsafe|use|where|while";
+  const JAVA_KEYWORDS = "abstract|boolean|break|byte|case|catch|char|class|continue|default|do|double|else|enum|extends|final|finally|float|for|if|implements|import|instanceof|int|interface|long|new|null|package|private|protected|public|record|return|sealed|short|static|super|switch|this|throw|throws|true|false|try|var|void|while|permits";
+  const RULES = {
+    Rust: [
+      ["comment", /\/\/[^\n]*/],
+      ["string", /"(?:[^"\\]|\\.)*"/],
+      ["macro", /\b[a-z_][a-z0-9_]*!/],
+      ["attr", /#!?\[[^\]\n]*\]/],
+      ["keyword", new RegExp(`\\b(?:${RUST_KEYWORDS})\\b`)],
+      ["type", /\b[A-Z][A-Za-z0-9_]*\b/],
+      ["number", /\b\d[\d_.]*(?:[iuf](?:8|16|32|64|size))?\b/],
+      ["call", /\b[a-z_][a-z0-9_]*(?=\()/],
+    ],
+    Java: [
+      ["comment", /\/\/[^\n]*|\/\*[\s\S]*?\*\//],
+      ["string", /"(?:[^"\\]|\\.)*"/],
+      ["attr", /@[A-Za-z]+/],
+      ["keyword", new RegExp(`\\b(?:${JAVA_KEYWORDS})\\b`)],
+      ["type", /\b[A-Z][A-Za-z0-9_]*\b/],
+      ["number", /\b\d[\d_.]*[LlFfDd]?\b/],
+      ["call", /\b[a-z_][A-Za-z0-9_]*(?=\()/],
+    ],
+    TOML: [
+      ["comment", /#[^\n]*/],
+      ["section", /^\s*\[[^\]\n]+\]/m],
+      ["key", /^\s*[A-Za-z_][\w.-]*(?=\s*=)/m],
+      ["string", /"(?:[^"\\]|\\.)*"/],
+      ["keyword", /\b(?:true|false)\b/],
+      ["number", /\b\d[\d_.]*\b/],
+    ],
+    Terminal: [
+      ["comment", /#[^\n]*/],
+      ["string", /"(?:[^"\\]|\\.)*"|'[^'\n]*'/],
+      ["command", /^\s*[\w./-]+/m],
+      ["flag", /(?<=\s)--?[\w-]+/],
+    ],
+  };
+  const paint = (pre, kind) => {
+    const rules = RULES[kind];
+    if (!rules) return;
+    const text = pre.textContent;
+    const all = new RegExp(rules.map(([, re]) => `(${re.source})`).join("|"), "gm");
+    let out = "";
+    let at = 0;
+    for (const match of text.matchAll(all)) {
+      if (match[0] === "") continue;
+      const index = match.slice(1).findIndex((group) => group !== undefined);
+      out += escape(text.slice(at, match.index));
+      out += `<span class="tk-${rules[index][0]}">${escape(match[0])}</span>`;
+      at = match.index + match[0].length;
+    }
+    out += escape(text.slice(at));
+    const code = pre.querySelector("code") || pre;
+    code.innerHTML = out;
+  };
   for (const pre of document.querySelectorAll("main pre")) {
     const name = kind(pre);
     const box = document.createElement("div");
@@ -109,6 +167,7 @@ const INDEX=[{"t":"VoxelMon Dedicated Server","u":"index.html","k":"page"},{"t":
       }, 1600);
     });
     bar.append(label, button);
+    paint(pre, name);
     pre.replaceWith(box);
     box.append(bar, pre);
   }

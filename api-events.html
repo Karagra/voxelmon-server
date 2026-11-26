@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Events · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=82e0bc3ea1">
+<link rel="stylesheet" href="style.css?v=792bb58ae5">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -73,7 +73,7 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Events</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Events</h1>
-<div class="note"><strong>Being built.</strong> 15 of 55 events are sent by servers today; the rest are marked <span class="soon">not yet</span>.</div>
+<div class="note"><strong>Being built.</strong> 17 of 55 events are sent by servers today; the rest are marked <span class="soon">not yet</span>.</div>
 <p>Everything a plugin can react to. Some events come before something happens and can stop it; the rest say it has happened.</p>
 <p>A plugin listens by giving a handler for the event, usually in <code>enable</code>: in Rust <code>server.events().on_player_joined(|event| ...)</code>, in Java <code>server.events().onPlayerJoined(event -&gt; ...)</code>. Events come on the server&#x27;s tick, in the order the plugins loaded.</p>
 <p>An event that can be stopped is sent before the thing happens, and its name says so (for example <code>BlockBreaking</code>); calling <code>stop()</code> on it means it does not happen, and the player&#x27;s game puts back what it showed. Fields marked changeable can be changed by a listener before it happens (the damage taken, the loot dropped). The event after it (<code>BlockBroken</code>) says it did happen, and cannot be stopped.</p>
@@ -164,8 +164,8 @@
 </table>
 <h2 id="menus">Menus</h2>
 <table class="ref"><tr><th>Event</th><th>When</th><th>Can stop</th></tr>
-<tr><td><a href="#menupressed"><code>MenuPressed</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player pressed a button, tile or toggle on a plugin&#x27;s <a href="api-menu.html">Menu</a>.</td><td></td></tr>
-<tr><td><a href="#menuclosed"><code>MenuClosed</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player closed a plugin&#x27;s menu, or walked away from it.</td><td></td></tr>
+<tr><td><a href="#menupressed"><code>MenuPressed</code></a></td><td>A player pressed a button, tile or toggle on a plugin&#x27;s <a href="api-menu.html">Menu</a>.</td><td></td></tr>
+<tr><td><a href="#menuclosed"><code>MenuClosed</code></a></td><td>A player closed a plugin&#x27;s menu, or walked away from it.</td><td></td></tr>
 </table>
 <h2 id="each-event">Each event</h2>
 <h3 id="playerjoining"><code>PlayerJoining</code></h3>
@@ -572,7 +572,7 @@
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.automatic: bool</code><code class="java">boolean event.automatic()</code></td><td>True for an autosave.</td></tr>
 </table>
-<h3 id="menupressed"><code>MenuPressed</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
+<h3 id="menupressed"><code>MenuPressed</code></h3>
 <p><code class="rs">server.events().on_menu_pressed(|event: &amp; <a href="api-events.html#menupressed">MenuPressed</a>| ...)</code><code class="java">server.events().onMenuPressed((<a href="api-events.html#menupressed">MenuPressed</a> event) -&gt; ...)</code></p>
 <p>A player pressed a button, tile or toggle on a plugin&#x27;s <a href="api-menu.html">Menu</a>.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
@@ -581,7 +581,7 @@
 <tr><td class="sig"><code class="rs">event.id: String</code><code class="java">String event.id()</code></td><td>The pressed element&#x27;s id.</td></tr>
 <tr><td class="sig"><code class="rs">event.value: Option&lt;<a href="api-basics.html#values">Value</a>&gt;</code><code class="java">Optional&lt;<a href="api-basics.html#values">Value</a>&gt; event.value()</code></td><td>A toggle&#x27;s or slider&#x27;s new value.</td></tr>
 </table>
-<h3 id="menuclosed"><code>MenuClosed</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
+<h3 id="menuclosed"><code>MenuClosed</code></h3>
 <p><code class="rs">server.events().on_menu_closed(|event: &amp; <a href="api-events.html#menuclosed">MenuClosed</a>| ...)</code><code class="java">server.events().onMenuClosed((<a href="api-events.html#menuclosed">MenuClosed</a> event) -&gt; ...)</code></p>
 <p>A player closed a plugin&#x27;s menu, or walked away from it.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
@@ -592,6 +592,6 @@
 <div class="pager"><a class="prev" href="api.html">← Overview</a><a class="next" href="api-server.html">Server →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=82e0bc3ea1"></script>
+<script src="search.js?v=792bb58ae5"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Species · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=82e0bc3ea1">
+<link rel="stylesheet" href="style.css?v=792bb58ae5">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -71,7 +71,7 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Species</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Species</h1>
-<div class="note"><strong>Being built.</strong> 0 of 20 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<div class="note"><strong>Being built.</strong> 3 of 20 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
 <p>A kind of Voxelmon: its essences, its moves, where it lives and what it becomes.</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
@@ -86,9 +86,9 @@
 <tr id="species-evolutions"><td class="sig"><code class="rs">fn evolutions(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-species.html#evolution">Evolution</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-species.html#evolution">Evolution</a>&gt; evolutions()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>What it becomes.</td></tr>
 <tr id="species-base-stats"><td class="sig"><code class="rs">fn base_stats(&amp;self) -&gt; Result&lt;<a href="api-creature.html#stats">Stats</a>&gt;</code><code class="java"><a href="api-creature.html#stats">Stats</a> baseStats()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Its stats before levels.</td></tr>
 <tr id="species-learns"><td class="sig"><code class="rs">fn learns(&amp;self) -&gt; Result&lt;Vec&lt;<a href="api-species.html#learnedmove">LearnedMove</a>&gt;&gt;</code><code class="java">List&lt;<a href="api-species.html#learnedmove">LearnedMove</a>&gt; learns()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>The moves it learns, and at which levels.</td></tr>
-<tr id="species-named"><td class="sig"><code class="rs">fn named(name: &amp;str) -&gt; Result&lt;Option&lt;<a href="api-species.html">Species</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-species.html">Species</a>&gt; named(String name)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A species by name (any case).</td></tr>
-<tr id="species-by-id"><td class="sig"><code class="rs">fn by_id(id: i64) -&gt; Result&lt;Option&lt;<a href="api-species.html">Species</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-species.html">Species</a>&gt; byId(long id)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A species by number.</td></tr>
-<tr id="species-all"><td class="sig"><code class="rs">fn all() -&gt; Result&lt;Vec&lt;<a href="api-species.html">Species</a>&gt;&gt;</code><code class="java">static List&lt;<a href="api-species.html">Species</a>&gt; all()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Every species.</td></tr>
+<tr id="species-named"><td class="sig"><code class="rs">fn named(name: &amp;str) -&gt; Result&lt;Option&lt;<a href="api-species.html">Species</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-species.html">Species</a>&gt; named(String name)</code></td><td>A species by name (any case).</td></tr>
+<tr id="species-by-id"><td class="sig"><code class="rs">fn by_id(id: i64) -&gt; Result&lt;Option&lt;<a href="api-species.html">Species</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-species.html">Species</a>&gt; byId(long id)</code></td><td>A species by number.</td></tr>
+<tr id="species-all"><td class="sig"><code class="rs">fn all() -&gt; Result&lt;Vec&lt;<a href="api-species.html">Species</a>&gt;&gt;</code><code class="java">static List&lt;<a href="api-species.html">Species</a>&gt; all()</code></td><td>Every species.</td></tr>
 </table>
 <h2 id="move">Move</h2>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
@@ -189,6 +189,6 @@
 <div class="pager"><a class="prev" href="api-creature.html">← Creature</a><a class="next" href="api-team.html">Team →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=82e0bc3ea1"></script>
+<script src="search.js?v=792bb58ae5"></script>
 </body>
 </html>

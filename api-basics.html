@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Writing a plugin · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=82e0bc3ea1">
+<link rel="stylesheet" href="style.css?v=792bb58ae5">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -29,6 +29,7 @@
 <li><a href="#your-first-rust-plugin">Your first Rust plugin</a></li>
 <li><a href="#your-first-java-plugin">Your first Java plugin</a></li>
 <li><a href="#values">Values</a></li>
+<li><a href="#your-first-menu">Your first menu</a></li>
 <li><a href="#when-a-call-fails">When a call fails</a></li>
 <li><a href="#limits">Limits</a></li>
 <li><a href="#where-plugins-go">Where plugins go</a></li>
@@ -181,6 +182,39 @@ server.storage().set("joins", Value::Int(joins + 1))?;</code></pre>
         .map(v -&gt; v instanceof Value.Int n ? n.value() : 0L).orElse(0L);
 server.storage().set("joins", Value.of(joins + 1));</code></pre>
 
+<h2 id="your-first-menu">Your first menu</h2>
+<p>A <a href="api-menu.html">Menu</a> is a panel the player's game draws: tabs down its left side and, in each, rows of text, buttons, item tiles, toggles, sliders and Voxelmon portraits. Build it once, open it for a player, and listen for <code>MenuPressed</code>, which names the pressed element by the id you gave it. This one is from the Java example: the server's rules, shown to each player as they join.</p>
+<pre class="rs"><code>let rules = Menu::create("WELCOME, TRAINER")?;
+rules
+    .add_tab("rules", "RULES", None)?
+    .heading("title", "SERVER RULES")?
+    .row()?
+    .text("one", "1. Be kind to other trainers.")?
+    .row()?
+    .button("ok", "GOT IT")?;
+server.events().on_player_joined(move |event| {
+    let _ = event.player.open_menu(rules);
+})?;
+server.events().on_menu_pressed(move |event| {
+    if event.menu == rules &amp;&amp; event.id == "ok" {
+        let _ = event.player.close_menu();
+    }
+})?;</code></pre>
+<pre class="java"><code>Menu rules = Menu.create("WELCOME, TRAINER");
+rules.addTab("rules", "RULES", null)
+        .heading("title", "SERVER RULES")
+        .row()
+        .text("one", "1. Be kind to other trainers.")
+        .row()
+        .button("ok", "GOT IT");
+server.events().onPlayerJoined(event -&gt; event.player().openMenu(rules));
+server.events().onMenuPressed(event -&gt; {
+    if (event.menu().equals(rules) &amp;&amp; event.id().equals("ok")) {
+        event.player().closeMenu();
+    }
+});</code></pre>
+<p>Elements in one row sit side by side; <code>row()</code> starts the next. After <code>grid(4)</code> elements fill four columns and wrap, until the next <code>row()</code>: a shop's items. A toggle's or slider's new value arrives with the press, and the menu already shows it. Change a menu whenever you like: whoever has it open sees the change at the end of the tick. <code>set_anchor</code> stands a menu in the world (a notice board) that opens for anyone who walks up to it. The Rust example's <code>warps N</code> and <code>warp-board N</code> commands show a menu of three tabs with buttons, a toggle, a slider, item tiles and a portrait.</p>
+
 <h2 id="when-a-call-fails">When a call fails</h2>
 <p>In Rust every call returns <code>voxelmon_plugin_sdk::Result&lt;T&gt;</code>, whose error is an <code>Error</code>; in Java a call that fails throws <code>ApiException</code>, whose <code>kind()</code> says which:</p>
 <table>
@@ -264,6 +298,6 @@ main = "com.example.warps.Warps"  # Java plugins only: the main class</code></pr
 <div class="pager"><a class="prev" href="plugins.html">← Introduction</a><a class="next" href="content-packs.html">Content packs →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=82e0bc3ea1"></script>
+<script src="search.js?v=792bb58ae5"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Player · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=82e0bc3ea1">
+<link rel="stylesheet" href="style.css?v=792bb58ae5">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -69,7 +69,7 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Player</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Player</h1>
-<div class="note"><strong>Being built.</strong> 29 of 46 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
+<div class="note"><strong>Being built.</strong> 31 of 46 calls here work on servers today; the rest are marked <span class="soon">not yet</span> and answer that they are not available. Names may still change until the first plugin release.</div>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
 <p>A player in the world: their body, health, bag, gear, coins, progress and team.</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
@@ -101,7 +101,7 @@
 <tr id="player-team"><td class="sig"><code class="rs">fn team(&amp;self) -&gt; Result&lt;<a href="api-team.html">Team</a>&gt;</code><code class="java"><a href="api-team.html">Team</a> team()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Their Voxelmon.</td></tr>
 <tr id="player-companion"><td class="sig"><code class="rs">fn companion(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-creature.html">Creature</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-creature.html">Creature</a>&gt; companion()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Their Voxelmon out of its cube.</td></tr>
 <tr id="player-teleport"><td class="sig"><code class="rs">fn teleport(&amp;self, place: <a href="api-types.html#place">Place</a>) -&gt; Result&lt;()&gt;</code><code class="java">void teleport(<a href="api-types.html#place">Place</a> place)</code></td><td>Moves them there at once.</td></tr>
-<tr id="player-teleport-facing"><td class="sig"><code class="rs">fn teleport_facing(&amp;self, place: <a href="api-types.html#place">Place</a>, facing: f64) -&gt; Result&lt;()&gt;</code><code class="java">void teleportFacing(<a href="api-types.html#place">Place</a> place, double facing)</code></td><td>Moves them and turns their body.</td></tr>
+<tr id="player-teleport-facing"><td class="sig"><code class="rs">fn teleport_facing(&amp;self, place: <a href="api-types.html#place">Place</a>, facing: f64) -&gt; Result&lt;()&gt;</code><code class="java">void teleportFacing(<a href="api-types.html#place">Place</a> place, double facing)</code></td><td>Moves them and turns their body. A player&#x27;s own view on their headset keeps the way they were looking, for now.</td></tr>
 <tr id="player-heal"><td class="sig"><code class="rs">fn heal(&amp;self, amount: f64) -&gt; Result&lt;()&gt;</code><code class="java">void heal(double amount)</code></td><td>Gives back health, up to their most.</td></tr>
 <tr id="player-damage"><td class="sig"><code class="rs">fn damage(&amp;self, amount: f64) -&gt; Result&lt;()&gt;</code><code class="java">void damage(double amount)</code></td><td>Hurts them (<code>PlayerDamaging</code> comes with cause PLUGIN; not in creative).</td></tr>
 <tr id="player-set-hunger"><td class="sig"><code class="rs">fn set_hunger(&amp;self, value: f64) -&gt; Result&lt;()&gt;</code><code class="java">void setHunger(double value)</code></td><td>Sets how fed they are, 0 to 1.</td></tr>
@@ -115,8 +115,8 @@
 <tr id="player-notice"><td class="sig"><code class="rs">fn notice(&amp;self, text: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void notice(String text)</code></td><td>A short notice by their watch.</td></tr>
 <tr id="player-banner"><td class="sig"><code class="rs">fn banner(&amp;self, banner: <a href="api-messages.html#banner">Banner</a>) -&gt; Result&lt;()&gt;</code><code class="java">void banner(<a href="api-messages.html#banner">Banner</a> banner)</code></td><td>A large banner before them.</td></tr>
 <tr id="player-play-sound"><td class="sig"><code class="rs">fn play_sound(&amp;self, sound: <a href="api-messages.html#sound">Sound</a>) -&gt; Result&lt;()&gt;</code><code class="java">void playSound(<a href="api-messages.html#sound">Sound</a> sound)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A sound only they hear.</td></tr>
-<tr id="player-open-menu"><td class="sig"><code class="rs">fn open_menu(&amp;self, menu: <a href="api-menu.html">Menu</a>) -&gt; Result&lt;()&gt;</code><code class="java">void openMenu(<a href="api-menu.html">Menu</a> menu)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Shows them a menu (<a href="api-menu.html">Menu</a>).</td></tr>
-<tr id="player-close-menu"><td class="sig"><code class="rs">fn close_menu(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void closeMenu()</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Closes any plugin menu they have open.</td></tr>
+<tr id="player-open-menu"><td class="sig"><code class="rs">fn open_menu(&amp;self, menu: <a href="api-menu.html">Menu</a>) -&gt; Result&lt;()&gt;</code><code class="java">void openMenu(<a href="api-menu.html">Menu</a> menu)</code></td><td>Shows them a menu (<a href="api-menu.html">Menu</a>).</td></tr>
+<tr id="player-close-menu"><td class="sig"><code class="rs">fn close_menu(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void closeMenu()</code></td><td>Closes any plugin menu they have open.</td></tr>
 <tr id="player-kick"><td class="sig"><code class="rs">fn kick(&amp;self, reason: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void kick(String reason)</code></td><td>Puts them out with a reason. They may join again.</td></tr>
 <tr id="player-block"><td class="sig"><code class="rs">fn block(&amp;self, reason: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void block(String reason)</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Puts them out and keeps them out.</td></tr>
 </table>
@@ -166,6 +166,6 @@
 <div class="pager"><a class="prev" href="api-storage.html">← Storage</a><a class="next" href="api-bag.html">Bag →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=82e0bc3ea1"></script>
+<script src="search.js?v=792bb58ae5"></script>
 </body>
 </html>

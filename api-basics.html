@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Writing a plugin · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=474d77d415">
+<link rel="stylesheet" href="style.css?v=7978b8f65a">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -30,6 +30,7 @@
 <li><a href="#your-first-java-plugin">Your first Java plugin</a></li>
 <li><a href="#values">Values</a></li>
 <li><a href="#your-first-menu">Your first menu</a></li>
+<li><a href="#wrist-tabs-hud-and-boss-bars">Wrist tabs, HUD and boss bars</a></li>
 <li><a href="#when-a-call-fails">When a call fails</a></li>
 <li><a href="#limits">Limits</a></li>
 <li><a href="#where-plugins-go">Where plugins go</a></li>
@@ -58,9 +59,11 @@
 <li><a href="api-professions.html">Professions</a></li>
 <li><a href="api-messages.html">Messages</a></li>
 <li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-hud.html">Hud</a></li>
 <li><a href="api-world.html">World</a></li>
 <li><a href="api-block.html">Block</a></li>
 <li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-model.html">Model</a></li>
 <li><a href="api-region.html">Region</a></li>
 <li><a href="api-town.html">Town</a></li>
 <li><a href="api-dungeon.html">Dungeon</a></li>
@@ -215,6 +218,24 @@ server.events().onMenuPressed(event -&gt; {
 });</code></pre>
 <p>Elements in one row sit side by side; <code>row()</code> starts the next. After <code>grid(4)</code> elements fill four columns and wrap, until the next <code>row()</code>: a shop's items. A toggle's or slider's new value arrives with the press, and the menu already shows it. Change a menu whenever you like: whoever has it open sees the change at the end of the tick. <code>set_anchor</code> stands a menu in the world (a notice board) that opens for anyone who walks up to it. The Rust example's <code>warps N</code> and <code>warp-board N</code> commands show a menu of three tabs with buttons, a toggle, a slider, item tiles and a portrait.</p>
 
+<h2 id="wrist-tabs-hud-and-boss-bars">Wrist tabs, HUD and boss bars</h2>
+<p>A server has three places of its own in each player's view (<a href="api-hud.html">Hud</a>). <code>set_wrist_tab</code> puts a menu's first tab on the player's watch beside its own pages (two at most, its first 24 elements, pressed as on the menu). A <code>Hud</code> is a small scoreboard just below their watch face, read at a glance: a title and up to 12 lines, each text with a value at its right and an optional bar. A <code>BossBar</code> hangs above their view, a title over a bar, two at most. Each is sent only when it changes, so setting a line to what it already says costs nothing.</p>
+<pre class="rs"><code>server.events().on_player_joined(move |event| {
+    let _ = event.player.set_wrist_tab(0, Some(warps), "WARPS", ItemType::named("Torch").ok().flatten());
+    if let Ok(hud) = Hud::create("SPAWN GUARD") {
+        let _ = hud.set_line(0, "YOUR COINS", "1,250", Colour { r: 255, g: 210, b: 60 });
+        let _ = hud.set_bar(0, 0.4, Colour { r: 80, g: 220, b: 120 });
+        let _ = hud.show(event.player);
+    }
+})?;</code></pre>
+<pre class="java"><code>server.events().onPlayerJoined(event -&gt; {
+    var bar = BossBar.create("WELCOME", new Colour(255, 200, 40));
+    bar.show(event.player());
+    server.scheduler().afterSeconds(5.0, () -&gt; bar.setProgress(0.5));
+    server.scheduler().afterSeconds(10.0, bar::remove);
+});</code></pre>
+<p>A player sees one HUD at a time: showing them another takes the first away. Neither a watch tab nor a HUD shows in the demo or when playing alone. The Rust example puts its warps menu on every watch and keeps a HUD of the players online and each player's coins; the Java example shows a boss bar to each player who joins.</p>
+
 <h2 id="when-a-call-fails">When a call fails</h2>
 <p>In Rust every call returns <code>voxelmon_plugin_sdk::Result&lt;T&gt;</code>, whose error is an <code>Error</code>; in Java a call that fails throws <code>ApiException</code>, whose <code>kind()</code> says which:</p>
 <table>
@@ -298,6 +319,6 @@ main = "com.example.warps.Warps"  # Java plugins only: the main class</code></pr
 <div class="pager"><a class="prev" href="plugins.html">← Introduction</a><a class="next" href="content-packs.html">Content packs →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=474d77d415"></script>
+<script src="search.js?v=7978b8f65a"></script>
 </body>
 </html>

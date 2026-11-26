@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ItemStack · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=474d77d415">
+<link rel="stylesheet" href="style.css?v=7978b8f65a">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -49,9 +49,11 @@
 <li><a href="api-professions.html">Professions</a></li>
 <li><a href="api-messages.html">Messages</a></li>
 <li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-hud.html">Hud</a></li>
 <li><a href="api-world.html">World</a></li>
 <li><a href="api-block.html">Block</a></li>
 <li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-model.html">Model</a></li>
 <li><a href="api-region.html">Region</a></li>
 <li><a href="api-town.html">Town</a></li>
 <li><a href="api-dungeon.html">Dungeon</a></li>
@@ -77,17 +79,18 @@
 <h2 id="description">Description</h2><p>An item&#x27;s type is an <a href="api-itemstack.html#itemtype">ItemType</a>, found by name (<code>ItemType.named(&quot;Iron Ingot&quot;)</code>). A capture cube holding a Voxelmon is an item too, naming its creature.</p>
 <h2 id="itemtype">ItemType</h2>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
-<p>A kind of item: every block, tool, food, material, piece of gear, cube and station.</p>
+<p>A kind of item: every block, tool, food, material, piece of gear, cube and station, and a content pack&#x27;s own items (their numbers last the session; the world keeps them by key).</p>
 <table class="ref"><tr><th>Method</th><th>Description</th></tr>
-<tr id="itemtype-id"><td class="sig"><code class="rs">fn id(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long id()</code></td><td>Its lasting number.</td></tr>
+<tr id="itemtype-id"><td class="sig"><code class="rs">fn id(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long id()</code></td><td>Its lasting number (a content pack&#x27;s item: its number this session, 32768 and up).</td></tr>
 <tr id="itemtype-name"><td class="sig"><code class="rs">fn name(&amp;self) -&gt; Result&lt;String&gt;</code><code class="java">String name()</code></td><td>Its name as players see it, such as IRON INGOT.</td></tr>
 <tr id="itemtype-stack-limit"><td class="sig"><code class="rs">fn stack_limit(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long stackLimit()</code></td><td>How many fit in one slot.</td></tr>
 <tr id="itemtype-kind"><td class="sig"><code class="rs">fn kind(&amp;self) -&gt; Result&lt;<a href="api-itemstack.html#itemkind">ItemKind</a>&gt;</code><code class="java"><a href="api-itemstack.html#itemkind">ItemKind</a> kind()</code></td><td>What sort of item it is.</td></tr>
 <tr id="itemtype-value"><td class="sig"><code class="rs">fn value(&amp;self) -&gt; Result&lt;i64&gt;</code><code class="java">long value()</code></td><td>What it is worth in coins in shops.</td></tr>
 <tr id="itemtype-block"><td class="sig"><code class="rs">fn block(&amp;self) -&gt; Result&lt;Option&lt;<a href="api-block.html#blocktype">BlockType</a>&gt;&gt;</code><code class="java">Optional&lt;<a href="api-block.html#blocktype">BlockType</a>&gt; block()</code></td><td>The block it places, if any.</td></tr>
-<tr id="itemtype-named"><td class="sig"><code class="rs">fn named(name: &amp;str) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt; named(String name)</code></td><td>An item by its name (any case).</td></tr>
+<tr id="itemtype-key"><td class="sig"><code class="rs">fn key(&amp;self) -&gt; Result&lt;Option&lt;String&gt;&gt;</code><code class="java">Optional&lt;String&gt; key()</code></td><td>A content pack&#x27;s item&#x27;s key (<code>pack:name</code>); none for the game&#x27;s own.</td></tr>
+<tr id="itemtype-named"><td class="sig"><code class="rs">fn named(name: &amp;str) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt; named(String name)</code></td><td>An item by its name (any case), or a content pack&#x27;s item by its key (<code>pack:name</code>).</td></tr>
 <tr id="itemtype-by-id"><td class="sig"><code class="rs">fn by_id(id: i64) -&gt; Result&lt;Option&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt; byId(long id)</code></td><td>An item by its number.</td></tr>
-<tr id="itemtype-all"><td class="sig"><code class="rs">fn all() -&gt; Result&lt;Vec&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt;&gt;</code><code class="java">static List&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt; all()</code></td><td>Every item players can have.</td></tr>
+<tr id="itemtype-all"><td class="sig"><code class="rs">fn all() -&gt; Result&lt;Vec&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt;&gt;</code><code class="java">static List&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt; all()</code></td><td>Every item players can have, the content packs&#x27; own after the game&#x27;s.</td></tr>
 </table>
 <h2 id="itemkind">ItemKind</h2>
 <p class="kind">One of a fixed set of values.</p>
@@ -107,6 +110,6 @@
 <div class="pager"><a class="prev" href="api-bag.html">← Bag</a><a class="next" href="api-equipment.html">Equipment →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=474d77d415"></script>
+<script src="search.js?v=7978b8f65a"></script>
 </body>
 </html>

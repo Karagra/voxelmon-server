@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Content packs · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=474d77d415">
+<link rel="stylesheet" href="style.css?v=7978b8f65a">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -30,6 +30,13 @@
 <li><a href="#what-a-pack-is">What a pack is</a></li>
 <li><a href="#loot">Loot</a></li>
 <li><a href="#spawns">Spawns</a></li>
+<li><a href="#models">Models</a></li>
+<li><a href="#objects">Objects</a></li>
+<li><a href="#species">Species</a></li>
+<li><a href="#moves">Moves</a></li>
+<li><a href="#items">Items</a></li>
+<li><a href="#recipes">Recipes</a></li>
+<li><a href="#shops">Shops</a></li>
 <li><a href="#with-plugins">With plugins</a></li>
 <li><a href="#not-yet">Not yet</a></li>
 </ul>
@@ -51,9 +58,11 @@
 <li><a href="api-professions.html">Professions</a></li>
 <li><a href="api-messages.html">Messages</a></li>
 <li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-hud.html">Hud</a></li>
 <li><a href="api-world.html">World</a></li>
 <li><a href="api-block.html">Block</a></li>
 <li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-model.html">Model</a></li>
 <li><a href="api-region.html">Region</a></li>
 <li><a href="api-town.html">Town</a></li>
 <li><a href="api-dungeon.html">Dungeon</a></li>
@@ -68,8 +77,8 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » Plugins and packs » Content packs</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>Content packs</h1>
-<p class="lead">Changes to a server's world made of data alone: no code. A pack adds to the game's loot and to where its Voxelmon appear, using the game's own items and species.</p>
-<div class="note"><strong>Built: loot and spawns.</strong> New items, blocks, models, recipes and shop goods are not yet: each needs players' headsets to be told of them, and comes with a later game update.</div>
+<p class="lead">Changes to a server's world made of data alone: no code. A pack adds to the game's loot and to where its Voxelmon appear, brings its own models (furniture, props and statues every player sees, streamed to their headsets as they come near), its own Voxelmon species and battle moves, its own items, the recipes that make them at the game's stations, and goods for the towns' shops.</p>
+<div class="note"><strong>Built: loot, spawns, models, objects, species, moves, items, recipes and shop goods.</strong> Not yet: sounds and music, item behaviours of a pack's own, code run on headsets, world generation (see the end of this page).</div>
 
 <h2 id="what-a-pack-is">What a pack is</h2>
 <p>A pack is a folder in the server's <code>packs/</code> folder. It holds a <code>pack.toml</code> and its rule files:</p>
@@ -78,7 +87,14 @@
   more-iron/
     pack.toml
     loot/dungeons.toml
-    spawns/snow.toml</code></pre>
+    spawns/snow.toml
+    models/throne.bbmodel
+    objects/furniture.toml
+    species/glimmer.toml
+    moves/glimmer.toml
+    items/gems.toml
+    recipes/gems.toml
+    shops/gems.toml</code></pre>
 <pre><code># pack.toml
 id = "more-iron"             # letters, digits, - and _
 name = "More iron"
@@ -119,7 +135,7 @@ time = "night"
 chance = 10</code></pre>
 <table>
 <tr><th>Key</th><th>What it is</th></tr>
-<tr><td><code>species</code></td><td>A species' name, in any case</td></tr>
+<tr><td><code>species</code></td><td>A species' name, in any case, or a pack's species by its key (<code>pack:table</code>)</td></tr>
 <tr><td><code>biomes</code></td><td>Biome names as a plugin's <code>World.biome</code> gives them; leave it out for anywhere</td></tr>
 <tr><td><code>least_level</code>, <code>most_level</code></td><td>Its level, 1 to 100</td></tr>
 <tr><td><code>time</code></td><td><code>day</code>, <code>night</code> or <code>any</code></td></tr>
@@ -127,15 +143,221 @@ chance = 10</code></pre>
 </table>
 <p>A pack's spawns are wild spawns only: dungeons, dens, hives, fishing and guardians keep their own. A wild Voxelmon of any species can appear where a rule sends it, swimmers too, so keep sea species to sea biomes.</p>
 
+<h2 id="models">Models</h2>
+<p>Every Blockbench file in a pack's <code>models/</code> folder is a model, named <code>pack:file</code> (<code>more-iron:throne</code> for <code>models/throne.bbmodel</code>): cubes painted on the file's own textures, its groups as bones and its animations as clips (<code>idle</code>, <code>walk</code>, <code>run</code>, <code>sit</code>, <code>attack</code> and three of its own). The server converts them as it starts and sends each to a player's headset the first time something made from it comes near them, checked and kept by its SHA-256, so nothing is installed. A model is at most 512 cubes, 32 groups and 8 clips.</p>
+<p>A group or cube named with a <code>#</code> marks a place for the game and is not drawn:</p>
+<table>
+<tr><th>Name</th><th>What it marks</th></tr>
+<tr><td><code>#seat</code></td><td>Where a player sits: a cube's top face's middle, or a group's pivot</td></tr>
+<tr><td><code>#collision</code></td><td>A box players and creatures meet (up to 8: <code>#collision_back</code>, <code>#collision2</code>...); with none, the whole model is one box</td></tr>
+<tr><td><code>#grip</code></td><td>Where a hand closes on a held item (a tool, a weapon, a bow, a shield): the middle of the cube, the haft running along its longest side toward the <code>#head</code> (or toward the far end of the model), so a model authored lying along X or Z is held as one standing up its Y. A group's pivot and its own up (+Y) mark it too. A bow's must run up the model's Y (its string does)</td></tr>
+<tr><td><code>#head</code></td><td>A tool's or weapon's working end (an axe's head, a sword's blade): what a swing strikes with, as the game's own tools strike with theirs. With none, the half of the item past the middle of its grip along the haft</td></tr>
+<tr><td><code>#string</code></td><td>A bow's string, the line the arrow is drawn back along</td></tr>
+</table>
+<p>Held, lying on the ground, placed, or a Voxelmon pointed at, a model is outlined as the game's own are: along its own edges, in its own colours, found on the headset from its cubes and its texture's clear texels as it arrives.</p>
+
+<h2 id="objects">Objects</h2>
+<p>An object is something placed in the world made from a model: furniture, a prop, a statue, a body. It stands on the cells its model fills (its size rounded up to whole blocks, at most 16 a side), turned to a quarter turn, its model's front (Blockbench's north, -Z) toward where it faces. Players meet its collision boxes, sit on its seat, open it if it stores, and break it if it may be broken (once emptied, as a chest); a broken one is gone, as no item drops for it. Objects are saved with the world by their model's name: if a pack is taken away, its objects stay, as small grey cubes nobody can break, and come back as they were when it returns.</p>
+<p>Each table in an <code>objects/*.toml</code> file says how objects of one model are made. A model with no table can still be placed, with the defaults.</p>
+<pre><code># objects/furniture.toml
+[throne]
+model = "throne"           # a model of this pack, or pack:file of another
+name = "OAK THRONE"
+seat = true
+storage = 0
+breakable = true
+light = 0</code></pre>
+<table>
+<tr><th>Key</th><th>What it is</th></tr>
+<tr><td><code>model</code></td><td>Its model: a file of this pack's <code>models/</code> without <code>.bbmodel</code>, or another pack's as <code>pack:file</code></td></tr>
+<tr><td><code>name</code></td><td>What it is called, at most 32 letters (optional)</td></tr>
+<tr><td><code>seat</code></td><td><code>true</code>: players sit at its <code>#seat</code> (which it must have); <code>false</code>: never. Left out: where it marks one</td></tr>
+<tr><td><code>storage</code></td><td>Slots it stores in, 0 to 24 (default 0). A click opens it; its model's <code>open</code> clip plays while it stands open</td></tr>
+<tr><td><code>breakable</code></td><td>Whether players may break it (default <code>true</code>)</td></tr>
+<tr><td><code>light</code></td><td>The light it gives, 0 to 15 (default 0; a torch is 14)</td></tr>
+</table>
+<p>Players place objects from items a pack makes for them (an <a href="#items">item</a> of behaviour <code>object</code>, made at a station by its <a href="#recipes">recipe</a>); broken, such an object drops its item again. Plugins place them too (<a href="api-world.html">World.place_model</a>, <a href="api-placedobject.html">PlacedObject.play</a> for an animation, <a href="api-model.html">Model</a>) and so may the owner, at the console:</p>
+<pre><code>&gt; place more-iron:throne 12 64 -3 90
+Placed more-iron:throne (object 41).</code></pre>
+<p>An example pack (a chair with a seat, a lamp that lights, a chest of twelve slots whose lid opens; the chair also a CAMP CHAIR item struck at the workbench) is in the game's source as <code>plugins-examples/packs/furniture</code>; the example plugin Spawn Guard places its chair and lamp beside spawn.</p>
+
+<h2 id="species">Species</h2>
+<p>Each table in a <code>species/*.toml</code> file is a Voxelmon species of the server's own, keyed <code>pack:table</code> (<code>creatures:glimmerkit</code>). Players catch it, train it, battle with it and see it on the watch and in battles as any other: the server sends every player's headset the species (and its model, as it is first needed) as they join, so nothing is installed. Each player keeps the Voxelmon they own in their file on the server, by the species' key: if its pack is taken away, they keep it (stored, as a plain placeholder nobody can send out) and it is itself again when the pack returns.</p>
+<pre><code># species/glimmer.toml
+[glimmerkit]
+name = "GLIMMERKIT"
+model = "glimmerkit"
+span = 0.7
+health = 9
+walk_speed = 0.4
+essence = "lightning"
+attack = 8
+defense = 7
+speed = 9
+rarity = "uncommon"
+capture_difficulty = 40
+hours = "day"
+temperament = "friendly"
+night_temperament = "neutral"
+habitats = ["grass", "savanna"]
+moves = ["1 TACKLE", "1 spark_nip", "6 static_veil", "12 BITE"]
+loot = ["STRING"]
+cry = "LUNAPUP"
+cry_pitch = 130</code></pre>
+<table>
+<tr><th>Key</th><th>What it is</th></tr>
+<tr><td><code>name</code></td><td>Its name, the game's way: capitals, at most 16 letters, digits, spaces, <code>-</code>, <code>'</code> and <code>.</code>; never one of the game's own species' names. Make it your own: names of another game's creatures are not allowed on the stores</td></tr>
+<tr><td><code>model</code></td><td>Its model (a file of this pack's <code>models/</code>, or <code>pack:file</code>): animated, with at least an <code>idle</code> and a <code>walk</code> clip; <code>run</code>, <code>sit</code> and <code>attack</code> are shown where it has them. Its front faces Blockbench's north (-Z)</td></tr>
+<tr><td><code>span</code></td><td>Its longest side, 0.05 to 6 (the game's own are 0.4 to 1.5); the model's proportions give the rest. Default 0.6</td></tr>
+<tr><td><code>health</code></td><td>Its base health, 1 to 200 (the game's own are 6 to 16). Default 10</td></tr>
+<tr><td><code>walk_speed</code>, <code>hover</code></td><td>Walking pace and how high it floats, 0 to 4 (defaults 0.35 and 0)</td></tr>
+<tr><td><code>essence</code>, <code>second_essence</code></td><td>One of air, water, fire, earth, dragon, frost, insect, lightning, metal, shadow, plant, poison; the second optional</td></tr>
+<tr><td><code>attack</code>, <code>defense</code>, <code>speed</code></td><td>Base battle stats, 1 to 100 (the game's own are 4 to 14). Default 5</td></tr>
+<tr><td><code>rarity</code></td><td><code>common</code>, <code>uncommon</code> or <code>rare</code> (default common): how often it is rolled against the others where it lives</td></tr>
+<tr><td><code>capture_difficulty</code></td><td>0 to 100, higher harder (default 40)</td></tr>
+<tr><td><code>hours</code></td><td><code>always</code>, <code>day</code> or <code>night</code> (default always)</td></tr>
+<tr><td><code>temperament</code>, <code>night_temperament</code></td><td><code>friendly</code>, <code>neutral</code> (attacks when riled) or <code>aggressive</code> (hunts players); by night the day's if left out</td></tr>
+<tr><td><code>locomotion</code></td><td><code>walk</code>, <code>swim</code> or <code>amphibious</code> (default walk); <code>pounce</code> and <code>hop</code> true or false</td></tr>
+<tr><td><code>habitats</code></td><td>Where it spawns by itself: grass, savanna, mud, sand, snow, autumn, taiga, jungle, coast, rock, fungal, volcanic, moor, cave, lush_cave, flooded_cave, volcanic_cave, ice_cave, crystal_cave, dungeon, shallows, reef, open_sea, lake. None: only where a spawn rule or a plugin puts it</td></tr>
+<tr><td><code>moves</code></td><td>Up to 24, each <code>"LEVEL MOVE"</code> in level order: a move of this pack by its table, another pack's as <code>pack:table</code>, or one of the game's by its name. One or two at level 1</td></tr>
+<tr><td><code>evolves_into</code>, <code>evolves_at</code></td><td>The species it becomes (of this pack by its table, <code>pack:table</code>, or one of the game's by name) and at what level, 2 to 100</td></tr>
+<tr><td><code>loot</code></td><td>Up to two items it drops when beaten: the game's by name, a pack's by key (<code>gems:ruby</code>) or this pack's by its table; none for its essence's own. A pack's item it names must be there (approve its pack too), else the species is refused</td></tr>
+<tr><td><code>cry</code>, <code>cry_pitch</code></td><td>The game's species whose cry it calls with (default: the first of its essence) and that cry's pitch, 50 to 200 percent. No sound files travel</td></tr>
+</table>
+<p>Its picture on the watch and in battles is drawn on each headset from its model, from the front a little from above, in its idle pose. A server has at most 256 species of its own.</p>
+
+<h2 id="moves">Moves</h2>
+<p>Each table in a <code>moves/*.toml</code> file is a battle move of the server's own, keyed <code>pack:table</code>. Battles are worked out on the server; players' headsets show them.</p>
+<pre><code># moves/glimmer.toml
+[spark_nip]
+name = "SPARK NIP"
+description = "A QUICK NIP THAT CRACKLES. IT MAY LEAVE THE FOE NUMB."
+effect = "damage"
+essence = "lightning"
+power = 30
+accuracy = 100
+status = "paralysis"
+status_chance = 10
+vfx = "strike"
+
+[static_veil]
+name = "GLINT VEIL"
+description = "SPARKS HANG ROUND THE USER, RAISING ITS DEFENSE."
+effect = "stat"
+learn_level = 5
+stat = "defense"
+stat_target = "self"
+stat_stages = 1</code></pre>
+<table>
+<tr><th>Key</th><th>What it is</th></tr>
+<tr><td><code>name</code></td><td>Its name, as a species' (at most 16), never one of the game's own moves' or another of the server's</td></tr>
+<tr><td><code>description</code></td><td>Plain letters, at most 120</td></tr>
+<tr><td><code>effect</code></td><td><code>damage</code> (an attack: needs <code>power</code>), <code>guard</code> (halves damage for the turn, goes first), <code>recover</code> (needs <code>heal</code>), <code>status</code> (needs <code>status</code>) or <code>stat</code> (needs <code>stat</code>)</td></tr>
+<tr><td><code>essence</code></td><td>An essence, or <code>neutral</code> (left out) for a plain move</td></tr>
+<tr><td><code>power</code></td><td>1 to 100 for an attack, 0 for anything else</td></tr>
+<tr><td><code>accuracy</code></td><td>Percent, 1 to 100 (default 100)</td></tr>
+<tr><td><code>uses</code></td><td>Uses before a rest, 1 to 40; left out, the game's rule (by effect and power)</td></tr>
+<tr><td><code>priority</code></td><td>0 to 2, an attack only: higher goes first</td></tr>
+<tr><td><code>learn_level</code></td><td>The least level it is taught at, 1 to 100 (default 1)</td></tr>
+<tr><td><code>status</code>, <code>status_chance</code></td><td>burn, poison, frost, paralysis or sleep, and its chance for an attack (a status move's is always 100)</td></tr>
+<tr><td><code>stat</code>, <code>stat_target</code>, <code>stat_stages</code>, <code>stat_chance</code></td><td>attack, defense, speed or accuracy; <code>self</code> or <code>foe</code>; -2 to 2, not 0; its chance for an attack (a stat move's is 100)</td></tr>
+<tr><td><code>drain</code>, <code>recoil</code></td><td>An attack's percent of its damage healed, or taken back (0 to 100)</td></tr>
+<tr><td><code>explode</code></td><td>An attack after which its user faints</td></tr>
+<tr><td><code>heal</code>, <code>cure</code></td><td>A recovery's percent of health, and whether it clears a condition</td></tr>
+<tr><td><code>vfx</code></td><td>How it looks: projectile, beam, strike, ground_burst, storm or aura; left out, a shot for an attack and an aura for anything else</td></tr>
+</table>
+<p>A server has at most 512 moves of its own. Plugins find them as any other (<a href="api-species.html">Move.named</a> by name or key, <a href="api-creature.html">Creature.teach</a>), and species (<a href="api-species.html">Species.named</a>, <a href="api-world.html">World.spawn_creature</a>, <a href="api-team.html">Team.add</a>). Their numbers are this server's for as long as it runs: keep them by key.</p>
+<p>An example pack (the GLIMMERKIT with its two moves and a spawn rule) is in the game's source as <code>plugins-examples/packs/creatures</code>.</p>
+
+<h2 id="items">Items</h2>
+<p>Each table in an <code>items/*.toml</code> file is an item of the server's own, keyed <code>pack:table</code> (<code>gems:ruby_sword</code>). Players carry it in their bag, hold it, drop it, store it in chests, wear it and trade for it as any other: their headsets are sent the item with the server's content as they join and its model the first time they see it (in a hand, on the ground, in a bag, on the belt or a holster, in a shop), so nothing is installed. Each item behaves as one of the game's own kinds, by the game's own rules for that kind and its tier:</p>
+<pre><code># items/gems.toml
+[ruby]
+name = "RUBY"
+model = "ruby"
+behaviour = "material"
+size = 0.18
+worth = 12
+
+[ruby_sword]
+name = "RUBY SWORD"
+model = "ruby_sword"         # marks #grip and #head
+behaviour = "sword"
+tier = 2
+damage = 9
+size = 1.0
+worth = 140</code></pre>
+<table>
+<tr><th>Key</th><th>What it is</th></tr>
+<tr><td><code>name</code></td><td>Its name, as a species' (capitals, at most 16), never one of the game's own items' or another of the server's. Make it your own</td></tr>
+<tr><td><code>model</code></td><td>Its model (a file of this pack's <code>models/</code>, or <code>pack:file</code>). A held one (every tool, weapon, bow, rod and shield) marks its <code>#grip</code>; a bow its <code>#string</code>; a tool or weapon its <code>#head</code> (else the half of it past its grip strikes). Its <code>#collision</code> boxes are what lies on the ground and in a hand (else its whole box). A worn piece's model is stretched over its body part (below)</td></tr>
+<tr><td><code>behaviour</code></td><td><code>material</code> (does nothing of itself: crafted from, traded), <code>food</code> (eaten: <code>healing</code>), <code>sword</code>, <code>knife</code>, <code>axe</code>, <code>pickaxe</code>, <code>shovel</code>, <code>hoe</code>, <code>hammer</code>, <code>club</code> (swung and strike as the game's; pickaxes, axes and shovels dig as theirs of the tier), <code>bow</code> (drawn by its string, shooting the bag's arrows), <code>fishing_rod</code>, <code>shield</code> (raised, blocks), <code>helmet</code>, <code>chestplate</code>, <code>leggings</code>, <code>boots</code> (put on at the pack door's equipment page) or <code>object</code> (placed as an object of its model, by its pack's <a href="#objects">objects</a> rule)</td></tr>
+<tr><td><code>tier</code></td><td>0 (wood) to 5 (abyssal): copper 1, iron 2, cobalt 3, voxelium 4. A tool's blow and digging, a shield's block and armour's protection are the game's for its kind at that tier</td></tr>
+<tr><td><code>damage</code></td><td>A tool's or weapon's blow, or a bow's shot, 0 to 100; left out, its tier's (a sword: 4, then 2 more a tier)</td></tr>
+<tr><td><code>healing</code></td><td>What eating it restores, 0 to 40 (food)</td></tr>
+<tr><td><code>block</code>, <code>protection</code></td><td>A shield's share of a blow it stops, an armour piece's share of harm it takes, percent (0 to 90); left out, its tier's</td></tr>
+<tr><td><code>stack</code></td><td>The most in one slot: a material up to 64 (the default), food and objects up to 16, everything else 1</td></tr>
+<tr><td><code>worth</code></td><td>Its worth in coins, what a shop asks where its rule names no price (0, the default: never sold but where a rule names a price)</td></tr>
+<tr><td><code>size</code></td><td>Its longest side in metres, 0.03 to 3; left out, its model's own (a block is a metre)</td></tr>
+</table>
+<p>Worn armour of a pack protects as the game's does and is drawn on the body, its model stretched over the body part as the game's own armour is fitted, its front (Blockbench's north, -Z, as an object's) the way the wearer faces: a <code>helmet</code> over the head, a <code>chestplate</code> over the torso, <code>leggings</code> one leg's piece from hip to knee drawn on each thigh, <code>boots</code> one foot's with its ankle drawn on each foot, each moving with its bone. Every other player sees it, and the wearer in a mirror; the wearer's own first-person body leaves off the helmet and the chestplate, which would stand at the eyes looking down. A Voxelmon may hold a pack's item as it holds the game's. A server has at most 512 items of its own. Each player's bag, the world's chests, stations and the ground keep them by key: if a pack is taken away, its items stay where they were, as grey boxes nobody can use, and are themselves again when it returns. Plugins find them as any other (<a href="api-itemstack.html">ItemType.named</a> by name or key, <code>ItemType.key</code>, <code>ItemType.all</code>), put them in bags (<a href="api-bag.html">Bag.add</a>) and loot, and loot rules name them by key or name.</p>
+
+<h2 id="recipes">Recipes</h2>
+<p>Each table in a <code>recipes/*.toml</code> file is a recipe made at one of the game's stations, as players make the game's own there: laid out and struck (the workbench, anvil and fletching bench), fed to a forge's mouth, dropped into a cauldron or pot, set on a campfire's rim. Its items are this pack's by their tables, another pack's as <code>pack:item</code>, or the game's own by their names. The station's browser lists it after the game's own.</p>
+<pre><code># recipes/gems.toml
+[ruby_sword]
+at = "anvil"
+output = "ruby_sword"
+rows = [" R ", " R ", " S "]
+R = "ruby"
+S = "STICK"
+
+[ruby_from_crystal]
+at = "forge"
+output = "ruby"
+count = 2
+inputs = ["1 RESONANCE CRYSTAL"]
+seconds = 12</code></pre>
+<table>
+<tr><th>Key</th><th>What it is</th></tr>
+<tr><td><code>at</code></td><td><code>workbench</code>, <code>anvil</code> (a heated one, by a forge), <code>fletching</code> (the fletching bench), <code>forge</code> (its mouth: one input, a log burnt as its fuel), <code>cauldron</code> (with its water, stirred), <code>campfire</code> (its rim: one input) or <code>pot</code> (a cooking pot over a campfire: one to three ingredients, stirred)</td></tr>
+<tr><td><code>output</code>, <code>count</code></td><td>What it makes and how many, 1 to 64 (default 1; a pot meal's servings, at most 8)</td></tr>
+<tr><td><code>inputs</code></td><td>Shapeless: each <code>"COUNT ITEM"</code>, nine items in all at most</td></tr>
+<tr><td><code>rows</code></td><td>Shaped (workbench, anvil, fletching bench): up to three rows of up to three letters, each letter a key of its own in the table naming its item (<code>R = "ruby"</code>), a space for nothing. Laid anywhere on the grid</td></tr>
+<tr><td><code>mirror</code></td><td>A shaped recipe also made mirrored (default false)</td></tr>
+<tr><td><code>seconds</code></td><td>How long the forge smelts it (default 10) or the rim cooks it (default 8)</td></tr>
+<tr><td><code>exp</code></td><td>The profession EXP a make pays, 0 to 500: Carpentry at the workbench and fletching bench, Blacksmithing at the anvil and forge, Alchemy at the cauldron, Cooking at the campfire and pot. Left out, what the game's comparable recipes there pay: 6 at the workbench, 24 at the anvil, 16 at the fletching bench, 6 at the forge, 12 at the cauldron, 4 on the rim, 12 in the pot</td></tr>
+</table>
+<p>An anvil's or fletching bench's guide lays a pack's recipe out on its grid as it does the game's own, once a player chooses it in the browser.</p>
+<p>A recipe whose items one of the game's own already takes at the same station is never made (the game's come first): the server says so when it reads the pack. A server has at most 512 recipes of its own.</p>
+
+<h2 id="shops">Shops</h2>
+<p>Each table in a <code>shops/*.toml</code> file adds goods to what a townsperson of one trade sells, with their prices. Their shop page shows a rule's goods first, then the trade's own as room allows (four rows), or the rules' goods alone where one replaces them.</p>
+<pre><code># shops/gems.toml
+[blacksmith_rubies]
+job = "blacksmith"
+town = "any"
+sell = ["15 ruby", "160 ruby_sword"]
+replace = false</code></pre>
+<table>
+<tr><th>Key</th><th>What it is</th></tr>
+<tr><td><code>job</code></td><td>The trade: blacksmith, carpenter, merchant, cook, farmer, innkeeper, baker, librarian, miller, lookout, woodcutter, fisher, herder, orchardist, florist, guard, stargazer, aquarist, petkeeper or miner (the clinic's healer sells nothing)</td></tr>
+<tr><td><code>town</code></td><td><code>any</code> (default), <code>threatened</code> (its Voxelord still there) or <code>freed</code></td></tr>
+<tr><td><code>sell</code></td><td>Up to four, each <code>"PRICE ITEM"</code>, a price of 1 to 1,000,000 coins</td></tr>
+<tr><td><code>replace</code></td><td><code>true</code>: none of the trade's own goods</td></tr>
+</table>
+<p>Plugins read and set a trade's goods too (<a href="api-world.html">World.shop_goods</a>, <code>World.set_shop_goods</code>): a plugin's goods stand for the session in place of a pack's rule for the same trade and towns.</p>
+<p>An example pack (a RUBY, a RUBY SWORD authored lying along Z and a RUBY HELMET, the sword and helmet forged on the anvil, rubies smelted from a resonance crystal, and a blacksmith selling the ruby and the sword) is in the game's source as <code>plugins-examples/packs/gems</code>; the creatures pack's GLIMMERKIT drops its rubies.</p>
+
 <h2 id="with-plugins">With plugins</h2>
 <p>Packs are applied first, then plugins hear of it: a plugin's <code>LootRolled</code> sees a pack's items among the loot, and its <code>CreatureSpawning</code> sees the pack's species, and either may change them again.</p>
 
 <h2 id="not-yet">Not yet</h2>
-<p>New items, blocks, furniture and their models; recipes; shop goods; new Voxelmon species, sounds and music. A recipe or a shop's goods must be known to every player's headset as well as the server, and a model or texture must be downloaded to it; each comes with a later game update, and this page will say when.</p>
+<p>Sounds and music of a pack's own (no recorded audio travels: a species calls with one of the game's cries); item behaviours of a pack's own beyond the game's kinds (an item does what one of the game's does, never something new: that is a plugin's work); code run on players' headsets; world generation (new blocks, ores, biomes or structures). Each would come with a later game update, and this page will say when.</p>
 </main>
 <div class="pager"><a class="prev" href="api-basics.html">← Writing a plugin</a><a class="next" href="api.html">Overview →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=474d77d415"></script>
+<script src="search.js?v=7978b8f65a"></script>
 </body>
 </html>

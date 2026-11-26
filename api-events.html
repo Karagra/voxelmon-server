@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Events · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=474d77d415">
+<link rel="stylesheet" href="style.css?v=7978b8f65a">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -56,9 +56,11 @@
 <li><a href="api-professions.html">Professions</a></li>
 <li><a href="api-messages.html">Messages</a></li>
 <li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-hud.html">Hud</a></li>
 <li><a href="api-world.html">World</a></li>
 <li><a href="api-block.html">Block</a></li>
 <li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-model.html">Model</a></li>
 <li><a href="api-region.html">Region</a></li>
 <li><a href="api-town.html">Town</a></li>
 <li><a href="api-dungeon.html">Dungeon</a></li>
@@ -112,7 +114,7 @@
 <tr><td><a href="#blockplaced"><code>BlockPlaced</code></a></td><td>A player placed a block.</td><td></td></tr>
 <tr><td><a href="#blockchanged"><code>BlockChanged</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>Any block changed that the world keeps, by anyone or anything: a player, water or lava flowing, sand falling, a plant growing, a plugin. Changes the world does not keep (a trap&#x27;s spikes, falling snow, a boss room&#x27;s lights) are not told.</td><td></td></tr>
 <tr><td><a href="#objectplacing"><code>ObjectPlacing</code></a></td><td>A player is about to place an object: furniture, a station, a chest, a bed, a door.</td><td>Yes</td></tr>
-<tr><td><a href="#objectremoved"><code>ObjectRemoved</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A placed object was taken down whole and dropped as an item: broken by a player, or fallen with what held it up. One a plugin takes away without a drop is not told.</td><td></td></tr>
+<tr><td><a href="#objectremoved"><code>ObjectRemoved</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A placed object was taken down whole and dropped as an item (a server object made from a content pack&#x27;s model drops nothing): broken by a player, or fallen with what held it up. One a plugin takes away without a drop is not told.</td><td></td></tr>
 <tr><td><a href="#containeropening"><code>ContainerOpening</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player is opening a chest, barrel or other container.</td><td>Yes</td></tr>
 <tr><td><a href="#doorused"><code>DoorUsed</code></a> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></td><td>A player opened or shut a door or gate.</td><td>Yes</td></tr>
 </table>
@@ -319,7 +321,7 @@
 </table>
 <h3 id="objectremoved"><code>ObjectRemoved</code> <span class="soon" title="Defined, not carried out by servers yet: it answers that it is not available">not yet</span></h3>
 <p><code class="rs">server.events().on_object_removed(|event: &amp; <a href="api-events.html#objectremoved">ObjectRemoved</a>| ...)</code><code class="java">server.events().onObjectRemoved((<a href="api-events.html#objectremoved">ObjectRemoved</a> event) -&gt; ...)</code></p>
-<p>A placed object was taken down whole and dropped as an item: broken by a player, or fallen with what held it up. One a plugin takes away without a drop is not told.</p>
+<p>A placed object was taken down whole and dropped as an item (a server object made from a content pack&#x27;s model drops nothing): broken by a player, or fallen with what held it up. One a plugin takes away without a drop is not told.</p>
 <table class="ref"><tr><th>Field</th><th>Description</th></tr>
 <tr><td class="sig"><code class="rs">event.player: Option&lt;<a href="api-player.html">Player</a>&gt;</code><code class="java">Optional&lt;<a href="api-player.html">Player</a>&gt; event.player()</code></td><td>Who took it down, if a player did.</td></tr>
 <tr><td class="sig"><code class="rs">event.object: <a href="api-placedobject.html">PlacedObject</a></code><code class="java"><a href="api-placedobject.html">PlacedObject</a> event.object()</code></td><td>What it was (gone now: its handle reads nothing).</td></tr>
@@ -592,6 +594,6 @@
 <div class="pager"><a class="prev" href="api.html">← Overview</a><a class="next" href="api-server.html">Server →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=474d77d415"></script>
+<script src="search.js?v=7978b8f65a"></script>
 </body>
 </html>

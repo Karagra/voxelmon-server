@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Block · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=474d77d415">
+<link rel="stylesheet" href="style.css?v=7978b8f65a">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -43,14 +43,17 @@
 <li><a href="api-professions.html">Professions</a></li>
 <li><a href="api-messages.html">Messages</a></li>
 <li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-hud.html">Hud</a></li>
 <li><a href="api-world.html">World</a></li>
 <li class="current"><a href="api-block.html" aria-current="page">Block</a>
 <ul>
 <li><a href="#blocktype">BlockType</a></li>
+<li><a href="#paint">Paint</a></li>
 <li><a href="#events">Events</a></li>
 </ul>
 </li>
 <li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-model.html">Model</a></li>
 <li><a href="api-region.html">Region</a></li>
 <li><a href="api-town.html">Town</a></li>
 <li><a href="api-dungeon.html">Dungeon</a></li>
@@ -73,6 +76,7 @@
 <tr><td class="sig"><code class="rs">r#type: <a href="api-block.html#blocktype">BlockType</a></code><code class="java"><a href="api-block.html#blocktype">BlockType</a> type()</code></td><td>What it is.</td></tr>
 <tr><td class="sig"><code class="rs">sky_light: i64</code><code class="java">long skyLight()</code></td><td>Daylight reaching it, 0 to 15.</td></tr>
 <tr><td class="sig"><code class="rs">block_light: i64</code><code class="java">long blockLight()</code></td><td>Light from torches, lava and lamps, 0 to 15.</td></tr>
+<tr><td class="sig"><code class="rs">paint: Option&lt;<a href="api-block.html#paint">Paint</a>&gt;</code><code class="java">Optional&lt;<a href="api-block.html#paint">Paint</a>&gt; paint()</code></td><td>A blank block&#x27;s paint, if it is painted ([World.paint_block]).</td></tr>
 </table>
 <h2 id="blocktype">BlockType</h2>
 <p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
@@ -89,11 +93,18 @@
 <tr id="blocktype-by-id"><td class="sig"><code class="rs">fn by_id(id: i64) -&gt; Result&lt;Option&lt;<a href="api-block.html#blocktype">BlockType</a>&gt;&gt;</code><code class="java">static Optional&lt;<a href="api-block.html#blocktype">BlockType</a>&gt; byId(long id)</code></td><td>A block by its number.</td></tr>
 <tr id="blocktype-air"><td class="sig"><code class="rs">fn air() -&gt; Result&lt;<a href="api-block.html#blocktype">BlockType</a>&gt;</code><code class="java">static <a href="api-block.html#blocktype">BlockType</a> air()</code></td><td>Air: nothing.</td></tr>
 </table>
+<h2 id="paint">Paint</h2>
+<p class="kind">Plain data, copied: fields in both directions.</p>
+<p>A blank block&#x27;s paint (BLANK BLOCK, BLANK SLAB, BLANK STAIRS): a colour, and the block whose texture it shows. Painted blocks cost nothing more to draw than any block.</p>
+<table class="ref"><tr><th>Field</th><th>Description</th></tr>
+<tr><td class="sig"><code class="rs">colour: <a href="api-types.html#colour">Colour</a></code><code class="java"><a href="api-types.html#colour">Colour</a> colour()</code></td><td>Its colour, kept to 32 steps a part (each part&#x27;s three lowest bits are dropped).</td></tr>
+<tr><td class="sig"><code class="rs">surface: Option&lt;<a href="api-block.html#blocktype">BlockType</a>&gt;</code><code class="java">Optional&lt;<a href="api-block.html#blocktype">BlockType</a>&gt; surface()</code></td><td>The block whose texture it shows (a plain opaque full block: not an ore, log, leaves, glass, ice, a slab or a stair); none for the blank&#x27;s own plain surface. Blank slabs and stairs show planks, stone bricks or bricks as they are, and every other surface plain.</td></tr>
+</table>
 <h2 id="events">Events</h2><p>Related <a href="api-events.html">events</a>: <a href="api-events.html#blockbreaking"><code>BlockBreaking</code></a>, <a href="api-events.html#blockbroken"><code>BlockBroken</code></a>, <a href="api-events.html#blockplacing"><code>BlockPlacing</code></a>, <a href="api-events.html#blockplaced"><code>BlockPlaced</code></a>, <a href="api-events.html#blockchanged"><code>BlockChanged</code></a>.</p>
 </main>
 <div class="pager"><a class="prev" href="api-world.html">← World</a><a class="next" href="api-placedobject.html">PlacedObject →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=474d77d415"></script>
+<script src="search.js?v=7978b8f65a"></script>
 </body>
 </html>

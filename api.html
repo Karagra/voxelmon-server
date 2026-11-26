@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>API reference · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=474d77d415">
+<link rel="stylesheet" href="style.css?v=7978b8f65a">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -44,9 +44,11 @@
 <li><a href="api-professions.html">Professions</a></li>
 <li><a href="api-messages.html">Messages</a></li>
 <li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-hud.html">Hud</a></li>
 <li><a href="api-world.html">World</a></li>
 <li><a href="api-block.html">Block</a></li>
 <li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-model.html">Model</a></li>
 <li><a href="api-region.html">Region</a></li>
 <li><a href="api-town.html">Town</a></li>
 <li><a href="api-dungeon.html">Dungeon</a></li>
@@ -61,7 +63,7 @@
 <header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » API reference</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
 <main>
 <h1>API reference</h1>
-<div class="note"><strong>Being built.</strong> 289 of 295 calls and 19 of 55 events work on servers today; every page marks the rest <span class="soon">not yet</span>.</div>
+<div class="note"><strong>Being built.</strong> 317 of 323 calls and 19 of 55 events work on servers today; every page marks the rest <span class="soon">not yet</span>.</div>
 <p class="lead">Every type a plugin uses, the same in Rust and Java: pick the language at the top of the page and every signature follows. The <a href="api-events.html">Events</a> page lists everything a plugin can react to.</p>
 <p>In Rust a call returns <code>voxelmon::Result&lt;T&gt;</code>; in Java it throws <code>ApiException</code>, and a value that may be missing is an <code>Optional</code>. A <span class="need">need</span> beside a method names what the plugin's manifest must ask for (<a href="api-basics.html#needs">needs</a>); everything else only reads.</p>
 <table class="ref"><tr><th>Page</th><th>What it is</th></tr>
@@ -78,14 +80,16 @@
 <tr><td><a href="api-professions.html">Professions</a></td><td>A player&#x27;s twelve professions: experience and levels.</td></tr>
 <tr><td><a href="api-messages.html">Messages</a></td><td>Telling players things: notices by the watch, large banners, floating labels in the world and sounds.</td></tr>
 <tr><td><a href="api-menu.html">Menu</a></td><td>A panel a plugin shows: tabs down its left side, and in each tab text, buttons, item tiles, toggles, sliders and Voxelmon.</td></tr>
+<tr><td><a href="api-hud.html">Hud</a></td><td>A small scoreboard by the player&#x27;s watch: a title and up to 12 lines, each with a value at its right and a bar under it; with boss bars and server tabs on the watch.</td></tr>
 <tr><td><a href="api-world.html">World</a></td><td>The world: blocks, placed objects, loose items, Voxelmon, time, weather, towns and dungeons.</td></tr>
 <tr><td><a href="api-block.html">Block</a></td><td>One block in the world: what it is and where.</td></tr>
-<tr><td><a href="api-placedobject.html">PlacedObject</a></td><td>Something placed that is more than a block: furniture, stations, chests, beds, doors, crops.</td></tr>
+<tr><td><a href="api-placedobject.html">PlacedObject</a></td><td>Something placed that is more than a block: furniture, stations, chests, beds, doors, crops, and server objects made from content packs&#x27; models.</td></tr>
+<tr><td><a href="api-model.html">Model</a></td><td>A content pack&#x27;s model: what server objects (furniture, props, statues) are made from.</td></tr>
 <tr><td><a href="api-region.html">Region</a></td><td>A named box of the world a plugin watches: players entering and leaving it are told to the plugin.</td></tr>
 <tr><td><a href="api-town.html">Town</a></td><td>A town: its place, its clinic, and the Voxelord threatening it.</td></tr>
 <tr><td><a href="api-dungeon.html">Dungeon</a></td><td>A dungeon: its tier, its levels, its guardian and its reset.</td></tr>
 <tr><td><a href="api-creature.html">Creature</a></td><td>One Voxelmon: wild, a player&#x27;s companion, or kept in a player&#x27;s team.</td></tr>
-<tr><td><a href="api-species.html">Species</a></td><td>A kind of Voxelmon: its essences, its moves, where it lives and what it becomes.</td></tr>
+<tr><td><a href="api-species.html">Species</a></td><td>A kind of Voxelmon: its essences, its moves, where it lives and what it becomes. The game&#x27;s own and the server&#x27;s (content packs&#x27; species/*.toml) alike.</td></tr>
 <tr><td><a href="api-team.html">Team</a></td><td>A player&#x27;s Voxelmon: the four cubes on their belt, and those stored.</td></tr>
 <tr><td><a href="api-battle.html">Battle</a></td><td>A turn-based battle between a player&#x27;s Voxelmon and a wild one, a trainer&#x27;s or a guardian.</td></tr>
 <tr><td><a href="api-types.html">Types</a></td><td>The small values every page uses: places, block positions, IDs, colours, times and settings.</td></tr>
@@ -94,6 +98,6 @@
 <div class="pager"><a class="prev" href="content-packs.html">← Content packs</a><a class="next" href="api-events.html">Events →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=474d77d415"></script>
+<script src="search.js?v=7978b8f65a"></script>
 </body>
 </html>

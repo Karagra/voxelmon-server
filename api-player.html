@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Player · VoxelMon Server</title>
-<link rel="stylesheet" href="style.css?v=474d77d415">
+<link rel="stylesheet" href="style.css?v=7978b8f65a">
 <script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
 </head>
 <body>
@@ -52,9 +52,11 @@
 <li><a href="api-professions.html">Professions</a></li>
 <li><a href="api-messages.html">Messages</a></li>
 <li><a href="api-menu.html">Menu</a></li>
+<li><a href="api-hud.html">Hud</a></li>
 <li><a href="api-world.html">World</a></li>
 <li><a href="api-block.html">Block</a></li>
 <li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-model.html">Model</a></li>
 <li><a href="api-region.html">Region</a></li>
 <li><a href="api-town.html">Town</a></li>
 <li><a href="api-dungeon.html">Dungeon</a></li>
@@ -117,6 +119,7 @@
 <tr id="player-play-sound"><td class="sig"><code class="rs">fn play_sound(&amp;self, sound: <a href="api-messages.html#sound">Sound</a>) -&gt; Result&lt;()&gt;</code><code class="java">void playSound(<a href="api-messages.html#sound">Sound</a> sound)</code></td><td>A sound only they hear.</td></tr>
 <tr id="player-open-menu"><td class="sig"><code class="rs">fn open_menu(&amp;self, menu: <a href="api-menu.html">Menu</a>) -&gt; Result&lt;()&gt;</code><code class="java">void openMenu(<a href="api-menu.html">Menu</a> menu)</code></td><td>Shows them a menu (<a href="api-menu.html">Menu</a>).</td></tr>
 <tr id="player-close-menu"><td class="sig"><code class="rs">fn close_menu(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void closeMenu()</code></td><td>Closes any plugin menu they have open.</td></tr>
+<tr id="player-set-wrist-tab"><td class="sig"><code class="rs">fn set_wrist_tab(&amp;self, slot: i64, menu: Option&lt;<a href="api-menu.html">Menu</a>&gt;, title: &amp;str, icon: Option&lt;<a href="api-itemstack.html#itemtype">ItemType</a>&gt;) -&gt; Result&lt;()&gt;</code><code class="java">void setWristTab(long slot, <a href="api-menu.html">Menu</a> menu, String title, <a href="api-itemstack.html#itemtype">ItemType</a> icon)</code></td><td>Puts a server tab on their watch (slot 0 or 1): the menu&#x27;s first tab, under this title (at most 16 letters) and icon. None takes the slot&#x27;s tab away. See <a href="api-hud.html">Hud</a>.</td></tr>
 <tr id="player-kick"><td class="sig"><code class="rs">fn kick(&amp;self, reason: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void kick(String reason)</code></td><td>Puts them out with a reason. They may join again.</td></tr>
 <tr id="player-block"><td class="sig"><code class="rs">fn block(&amp;self, reason: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void block(String reason)</code></td><td>Puts them out and keeps them out.</td></tr>
 </table>
@@ -166,6 +169,6 @@
 <div class="pager"><a class="prev" href="api-storage.html">← Storage</a><a class="next" href="api-bag.html">Bag →</a></div>
 <footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
 </div>
-<script src="search.js?v=474d77d415"></script>
+<script src="search.js?v=7978b8f65a"></script>
 </body>
 </html>

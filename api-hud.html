@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hud · VoxelMon Server</title>
+<link rel="stylesheet" href="style.css?v=7978b8f65a">
+<script>try{document.documentElement.dataset.lang=localStorage.getItem("voxelmon-lang")||"rs"}catch(e){document.documentElement.dataset.lang="rs"}</script>
+</head>
+<body>
+<input type="checkbox" id="menu" hidden>
+<nav aria-label="Site">
+<a class="brand" href="index.html"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 21 7.5 12 12.5 3 7.5Z" fill="#7ea6f5"/><path d="M3 7.5 12 12.5V22L3 17Z" fill="#1d3f8f"/><path d="M21 7.5 12 12.5V22L21 17Z" fill="#2d5fcf"/></svg>VoxelMon Server</a>
+<div class="search"><input type="search" id="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><div id="results"></div></div>
+<p class="caption">Getting started</p>
+<ul>
+<li><a href="index.html">Overview</a></li>
+<li><a href="install.html">Installing and running</a></li>
+<li><a href="settings.html">Settings</a></li>
+<li><a href="commands.html">Console commands</a></li>
+<li><a href="network.html">Networking</a></li>
+<li><a href="docker.html">Docker</a></li>
+</ul>
+<p class="caption">Plugins and packs</p>
+<ul>
+<li><a href="plugins.html">Introduction</a></li>
+<li><a href="api-basics.html">Writing a plugin</a></li>
+<li><a href="content-packs.html">Content packs</a></li>
+</ul>
+<p class="caption">API reference</p>
+<ul>
+<li><a href="api.html">Overview</a></li>
+<li><a href="api-events.html">Events</a></li>
+<li><a href="api-server.html">Server</a></li>
+<li><a href="api-plugin.html">Plugin</a></li>
+<li><a href="api-scheduler.html">Scheduler</a></li>
+<li><a href="api-permissions.html">Permissions</a></li>
+<li><a href="api-storage.html">Storage</a></li>
+<li><a href="api-player.html">Player</a></li>
+<li><a href="api-bag.html">Bag</a></li>
+<li><a href="api-itemstack.html">ItemStack</a></li>
+<li><a href="api-equipment.html">Equipment</a></li>
+<li><a href="api-professions.html">Professions</a></li>
+<li><a href="api-messages.html">Messages</a></li>
+<li><a href="api-menu.html">Menu</a></li>
+<li class="current"><a href="api-hud.html" aria-current="page">Hud</a>
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#bossbar">BossBar</a></li>
+</ul>
+</li>
+<li><a href="api-world.html">World</a></li>
+<li><a href="api-block.html">Block</a></li>
+<li><a href="api-placedobject.html">PlacedObject</a></li>
+<li><a href="api-model.html">Model</a></li>
+<li><a href="api-region.html">Region</a></li>
+<li><a href="api-town.html">Town</a></li>
+<li><a href="api-dungeon.html">Dungeon</a></li>
+<li><a href="api-creature.html">Creature</a></li>
+<li><a href="api-species.html">Species</a></li>
+<li><a href="api-team.html">Team</a></li>
+<li><a href="api-battle.html">Battle</a></li>
+<li><a href="api-types.html">Types</a></li>
+</ul>
+</nav>
+<div class="page">
+<header><label class="menu-button" for="menu" aria-label="Menu">☰</label><div class="crumbs"><a href="index.html">Docs</a> » API reference » Hud</div><div class="lang" role="group" aria-label="Language"><button type="button" data-set="rs">Rust</button><button type="button" data-set="java">Java</button></div></header>
+<main>
+<h1>Hud</h1>
+<div class="note ok"><strong>Available.</strong> Every call here works on servers today.</div>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>A small scoreboard by the player&#x27;s watch: a title and up to 12 lines, each with a value at its right and a bar under it; with boss bars and server tabs on the watch.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="hud-create"><td class="sig"><code class="rs">fn create(title: &amp;str) -&gt; Result&lt;<a href="api-hud.html">Hud</a>&gt;</code><code class="java">static <a href="api-hud.html">Hud</a> create(String title)</code></td><td>An empty HUD (a title of at most 24 letters).</td></tr>
+<tr id="hud-set-title"><td class="sig"><code class="rs">fn set_title(&amp;self, title: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void setTitle(String title)</code></td><td>Changes its title.</td></tr>
+<tr id="hud-set-line"><td class="sig"><code class="rs">fn set_line(&amp;self, index: i64, text: &amp;str, value: &amp;str, colour: <a href="api-types.html#colour">Colour</a>) -&gt; Result&lt;()&gt;</code><code class="java">void setLine(long index, String text, String value, <a href="api-types.html#colour">Colour</a> colour)</code></td><td>Sets line <code>index</code> (0 to 11): its text, the value at its right (may be empty) and their colour. A bar it has stays.</td></tr>
+<tr id="hud-set-bar"><td class="sig"><code class="rs">fn set_bar(&amp;self, index: i64, fraction: f64, colour: <a href="api-types.html#colour">Colour</a>) -&gt; Result&lt;()&gt;</code><code class="java">void setBar(long index, double fraction, <a href="api-types.html#colour">Colour</a> colour)</code></td><td>Gives line <code>index</code> a bar under its text, <code>fraction</code> (0 to 1) full.</td></tr>
+<tr id="hud-clear-line"><td class="sig"><code class="rs">fn clear_line(&amp;self, index: i64) -&gt; Result&lt;()&gt;</code><code class="java">void clearLine(long index)</code></td><td>Empties line <code>index</code>, its bar too.</td></tr>
+<tr id="hud-show"><td class="sig"><code class="rs">fn show(&amp;self, player: <a href="api-player.html">Player</a>) -&gt; Result&lt;()&gt;</code><code class="java">void show(<a href="api-player.html">Player</a> player)</code></td><td>Shows it to a player, in place of any HUD they had.</td></tr>
+<tr id="hud-hide"><td class="sig"><code class="rs">fn hide(&amp;self, player: <a href="api-player.html">Player</a>) -&gt; Result&lt;()&gt;</code><code class="java">void hide(<a href="api-player.html">Player</a> player)</code></td><td>Takes it away from a player.</td></tr>
+<tr id="hud-remove"><td class="sig"><code class="rs">fn remove(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void remove()</code></td><td>Takes it away from everyone and forgets it.</td></tr>
+</table>
+<h2 id="description">Description</h2><p>A server has three places of its own in each player&#x27;s view, all drawn by their game from what the plugin says, so they cost the server nothing a frame and are sent only when they change.</p>
+<p>A HUD stands just below the player&#x27;s watch face, where they glance as at a watch, rather than fixed in their eyes (which is tiring in a headset): a title and up to 12 lines, numbered 0 to 11. Each line is text (at most 24 letters) with a value at its right (at most 12) in one colour, and may have a bar under it (<code>set_bar</code>, its fraction 0 to 1). A player is shown one HUD at a time: showing them another takes the first away.</p>
+<p>A <a href="api-hud.html#bossbar">BossBar</a> hangs above the player&#x27;s line of sight, in front of them, turning with them a moment behind: a title over a bar, for a boss&#x27;s health or an event&#x27;s countdown. A player is shown at most two.</p>
+<p>A server tab (<a href="api-player.html">Player</a> <code>set_wrist_tab</code>) puts a <a href="api-menu.html">Menu</a>&#x27;s first tab on the player&#x27;s watch beside its own pages, at most two a player: its first 24 elements, pressed as on the menu (the same <code>MenuPressed</code>, with tab 0). Changes to the menu show there at the end of the tick. Neither shows in a demo or when playing alone.</p>
+<p>Letters outside plain ASCII show as <code>?</code>.</p>
+<h2 id="bossbar">BossBar</h2>
+<p class="kind">Handle: stands for something in the game; its calls fail with <code>Gone</code> once it is gone.</p>
+<p>A bar above the player&#x27;s view: a title over a bar, at most two a player.</p>
+<table class="ref"><tr><th>Method</th><th>Description</th></tr>
+<tr id="bossbar-create"><td class="sig"><code class="rs">fn create(title: &amp;str, colour: <a href="api-types.html#colour">Colour</a>) -&gt; Result&lt;<a href="api-hud.html#bossbar">BossBar</a>&gt;</code><code class="java">static <a href="api-hud.html#bossbar">BossBar</a> create(String title, <a href="api-types.html#colour">Colour</a> colour)</code></td><td>A full bar (a title of at most 32 letters).</td></tr>
+<tr id="bossbar-set-title"><td class="sig"><code class="rs">fn set_title(&amp;self, title: &amp;str) -&gt; Result&lt;()&gt;</code><code class="java">void setTitle(String title)</code></td><td>Changes its title.</td></tr>
+<tr id="bossbar-set-colour"><td class="sig"><code class="rs">fn set_colour(&amp;self, colour: <a href="api-types.html#colour">Colour</a>) -&gt; Result&lt;()&gt;</code><code class="java">void setColour(<a href="api-types.html#colour">Colour</a> colour)</code></td><td>Changes its bar&#x27;s colour.</td></tr>
+<tr id="bossbar-set-progress"><td class="sig"><code class="rs">fn set_progress(&amp;self, fraction: f64) -&gt; Result&lt;()&gt;</code><code class="java">void setProgress(double fraction)</code></td><td>How full it is, 0 to 1.</td></tr>
+<tr id="bossbar-show"><td class="sig"><code class="rs">fn show(&amp;self, player: <a href="api-player.html">Player</a>) -&gt; Result&lt;()&gt;</code><code class="java">void show(<a href="api-player.html">Player</a> player)</code></td><td>Shows it to a player (refused with <code>Limit</code> if they see two already).</td></tr>
+<tr id="bossbar-hide"><td class="sig"><code class="rs">fn hide(&amp;self, player: <a href="api-player.html">Player</a>) -&gt; Result&lt;()&gt;</code><code class="java">void hide(<a href="api-player.html">Player</a> player)</code></td><td>Takes it away from a player.</td></tr>
+<tr id="bossbar-remove"><td class="sig"><code class="rs">fn remove(&amp;self) -&gt; Result&lt;()&gt;</code><code class="java">void remove()</code></td><td>Takes it away from everyone and forgets it.</td></tr>
+</table>
+</main>
+<div class="pager"><a class="prev" href="api-menu.html">← Menu</a><a class="next" href="api-world.html">World →</a></div>
+<footer>VoxelMon is made by K-Gaming Network. <a href="https://github.com/Karagra/voxelmon-server/releases">Downloads</a> · <a href="https://karagra.github.io/voxelmon-legal/">Privacy policy</a> · <a href="https://karagra.github.io/voxelmon-legal/terms-of-service.html">Terms of service</a></footer>
+</div>
+<script src="search.js?v=7978b8f65a"></script>
+</body>
+</html>

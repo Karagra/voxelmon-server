@@ -294,3 +294,48 @@ html[data-lang="rs"] .lang [data-set="rs"], html[data-lang="java"] .lang [data-s
   color: var(--surface);
 }
 html[data-lang="java"] .rs, html:not([data-lang="java"]) .java { display: none; }
+
+/* Code blocks as small terminal-style windows (search.js wraps each one): dark in both modes. */
+.codebox {
+  margin: 14px 0;
+  border: 1px solid #222832;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #0e1116;
+  box-shadow: var(--shadow);
+}
+.codebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 8px 6px 16px;
+  background: #161b22;
+  border-bottom: 1px solid #222832;
+  font-size: 0.76em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a93a1;
+}
+.codebar button {
+  font: inherit;
+  letter-spacing: 0.04em;
+  padding: 4px 12px;
+  border: 1px solid #2a323d;
+  border-radius: 999px;
+  background: #1d232c;
+  color: #c7cfdb;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.codebar button:hover { background: #2456c9; border-color: #2456c9; color: #fff; }
+.codebar button.done { background: #1d3a73; border-color: #2c58b0; color: #cfe0ff; }
+.codebox pre {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #e3e7ed;
+  padding: 14px 18px 16px;
+}

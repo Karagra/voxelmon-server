@@ -50,3 +50,66 @@ const INDEX=[{"t":"VoxelMon Dedicated Server","u":"index.html","k":"page"},{"t":
     });
   }
 })();
+
+// Code blocks as small terminal-style windows: a title bar naming what is in them and a Copy
+// button. A Rust or Java block's class moves to its window, so the language switch hides both.
+(() => {
+  const kind = (pre) => {
+    if (pre.classList.contains("rs")) return "Rust";
+    if (pre.classList.contains("java")) return "Java";
+    const text = pre.textContent.trim();
+    const first = text.split("\n")[0];
+    if (/^(cargo|rustup|javac|jar|java|cp|mv|mkdir|docker|unzip|tar|sudo|chmod|\.\/|scripts\/)\b/.test(first)) return "Terminal";
+    if (/^[\w.-]+\/$/.test(first)) return "Files";
+    if (/^(package |import |public |@Override)/m.test(text) && !/^use /m.test(text)) return "Java";
+    if (/^(use |fn |impl |struct |let |#\[)/m.test(text)) return "Rust";
+    if (/^(\[|[A-Za-z_][\w.-]* = )/m.test(text)) return "TOML";
+    return "Code";
+  };
+  const copy = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      const area = document.createElement("textarea");
+      area.value = text;
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      const done = document.execCommand("copy");
+      area.remove();
+      return done;
+    }
+  };
+  for (const pre of document.querySelectorAll("main pre")) {
+    const name = kind(pre);
+    const box = document.createElement("div");
+    box.className = "codebox";
+    for (const lang of ["rs", "java"]) {
+      if (pre.classList.contains(lang)) {
+        pre.classList.remove(lang);
+        box.classList.add(lang);
+      }
+    }
+    const bar = document.createElement("div");
+    bar.className = "codebar";
+    const label = document.createElement("span");
+    label.textContent = name;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "Copy";
+    button.addEventListener("click", async () => {
+      const ok = await copy(pre.textContent);
+      button.textContent = ok ? "Copied" : "Press Ctrl+C";
+      button.classList.toggle("done", ok);
+      setTimeout(() => {
+        button.textContent = "Copy";
+        button.classList.remove("done");
+      }, 1600);
+    });
+    bar.append(label, button);
+    pre.replaceWith(box);
+    box.append(bar, pre);
+  }
+})();
